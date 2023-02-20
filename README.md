@@ -7,6 +7,8 @@ This is an official npm starter turborepo.
 This turborepo uses [npm](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
 
 
+# Installations
+
 ## Install Node Package Manager
 Node 18.14.1
 ````bash
@@ -29,6 +31,11 @@ npm install turbo --global
 ## Install Vercel CLI
 ````bash
 npm i -g vercel
+````
+
+## Nest.js CLI
+````bash
+npm i -g @nestjs/cli
 ````
 
 ### Apps and Packages
