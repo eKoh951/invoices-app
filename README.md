@@ -29,6 +29,12 @@ nvm install 18.14.1
 nvm use 18.14.1
 ```
 
+## Install dependencies
+
+```bash
+npm i
+```
+
 ## Install Turbo CLI
 
 ```bash
