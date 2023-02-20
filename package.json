@@ -18,8 +18,9 @@
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": "18.14.1"
   },
+  "engineStrict": true,
   "dependencies": {},
   "packageManager": "npm@9.3.1"
 }
