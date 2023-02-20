@@ -19,14 +19,14 @@ This project has been bootstrapped with [Turborepo](https://turbo.build/repo/doc
 For [MacOS/Linux](https://github.com/nvm-sh/nvm)
 For [Windows](https://github.com/coreybutler/nvm-windows)
 
-Node version `18.14.1`
+Node version `16.16.0`
 
 ```bash
-nvm install 18.14.1
+nvm install 16.16.0
 ```
 
 ```bash
-nvm use 18.14.1
+nvm use 16.16.0
 ```
 
 ## Install dependencies
