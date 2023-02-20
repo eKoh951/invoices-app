@@ -99,7 +99,7 @@ turbo link
 
 ### Apps and Packages
 
-- `docs`: a [Next.js](https://nextjs.org/) app
+- `docs`: a [Storybook](https://nextjs.org/) React documentation
 - `web`: another [Next.js](https://nextjs.org/) app
 - `api`: a [Nest.js](https://nestjs.com/) api
 - `ui`: a stub React component library shared by both `web` and `docs` applications
