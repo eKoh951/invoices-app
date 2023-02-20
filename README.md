@@ -1,11 +1,16 @@
-# Turborepo starter
+# Invoices App
 
-This is an official npm starter turborepo.
+This project has been bootstrapped with [Turborepo](https://turbo.build/repo/docs).
 
-## What's inside?
+## Design file
 
-This turborepo uses [npm](https://www.npmjs.com/) as a package manager. It includes the following packages/apps:
+[Figma link](https://www.figma.com/file/mkIpkIjPBTNHOKSxyDz84K/invoice-app?t=fln7hbL3Pzkmuf5F-0)
 
+# Software
+
+- `VSCode` as text editor.
+- MongoDB (?) as database @iAsure, document this later
+-
 
 # Installations
 
@@ -16,43 +21,48 @@ For [Windows](https://github.com/coreybutler/nvm-windows)
 
 Node version `18.14.1`
 
-````bash
+```bash
 nvm install 18.14.1
-````
+```
 
-````bash
+```bash
 nvm use 18.14.1
-````
+```
 
 ## Install Turbo CLI
-````bash
+
+```bash
 npm install turbo --global
-````
+```
 
 ## Install Vercel CLI
-````bash
+
+```bash
 npm i -g vercel
-````
+```
 
 ## Nest.js CLI
-````bash
-npm i -g @nestjs/cli
-````
 
+```bash
+npm i -g @nestjs/cli
+```
 
 ### Run the whole project
-````bash
-turbo dev
-````
 
-Web runs on port `localhost:3000`
-Docs runs on port `localhost:3001`
-API runs on port `localhost:8000`
+```bash
+turbo dev
+```
+
+Web runs on `localhost:3000`
+Docs runs on `localhost:3001`
+API runs on `localhost:8000`
 
 ### Run individual projects
-````bash
+
+```bash
 turbo dev --filter=web
-````
+```
+
 Web project will run only.
 
 ### Build
@@ -62,23 +72,24 @@ To build all apps and packages, run the following command:
 ```
 turbo build
 ```
+
 ### Remote Caching
 
 Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
 
 By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
-````bash
+```bash
 turbo login
-````
+```
 
 This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
 
 Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your turborepo:
 
-````bash
+```bash
 turbo link
-````
+```
 
 ### Apps and Packages
 
