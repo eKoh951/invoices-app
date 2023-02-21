@@ -5,9 +5,9 @@ interface Props {
 }
 
 export const Button = ({
-  primary = false,
-  label = "Boop",
-  size = "small",
+  primary = true,
+  label = "Víctor",
+  size = "large",
 }: Props) => {
   return (
     <button
