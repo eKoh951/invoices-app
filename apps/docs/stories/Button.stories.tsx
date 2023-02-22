@@ -87,7 +87,7 @@ export const primaryButton = Template.bind({});
 primaryButton.args = {
   text: "Safe as Draft",
   backgroundColor: "primary",
-  textColor: "white",
+  textColor: "default",
   shadow: true,
 };
 export const secondaryButton = Template.bind({});
