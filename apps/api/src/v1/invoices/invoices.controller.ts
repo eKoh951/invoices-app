@@ -1,6 +1,6 @@
 import { Controller } from "@nestjs/common";
 import { InvoicesServiceV1 } from "./invoices.service";
-import { InvoiceDto } from "./dto/invoice.dto";
+import { InvoiceDto } from "./dto/invoices.dto";
 import { ApiTags } from "@nestjs/swagger";
 
 @ApiTags("Invoices")
