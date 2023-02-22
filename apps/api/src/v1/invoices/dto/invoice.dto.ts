@@ -1,4 +1,4 @@
-import { } from "class-validator";
+import {} from "class-validator";
 
 export class InvoiceDto {
   id: string;

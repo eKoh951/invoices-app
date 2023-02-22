@@ -6,6 +6,9 @@ export class Users {
   id: string;
 
   @Prop()
+  status: string;
+
+  @Prop()
   description: string;
 
   @Prop()

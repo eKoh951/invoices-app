@@ -2,4 +2,4 @@ import { Injectable } from "@nestjs/common";
 import { InvoiceDto } from "./dto/invoice.dto";
 
 @Injectable()
-export class InvoicesService {}
+export class InvoicesServiceV1 {}
