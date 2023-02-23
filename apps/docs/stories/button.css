@@ -49,12 +49,10 @@
   color: #9e9e9e;
 }
 
-.icon-start {
+.icon-plus {
   margin-right: 0.5rem;
 }
-.icon-end {
-  margin-left: 0.5rem;
-}
+
 .small {
   font-size: 12px;
   padding: 4px 6px;
@@ -75,13 +73,16 @@
 }
 
 .text-primary {
-  color: #3d5afe;
+  color: #7e88c3;
 }
 .text-default {
   color: #888eb0;
 }
 .text-white {
   color: #fff;
+}
+.text-white2 {
+  color: #dfe3fa;
 }
 
 .bg-default {
@@ -103,9 +104,21 @@
 .bg-secondary:hover {
   background-color: #1e2139;
 }
+.bg-gray-light {
+  background-color: #f9fafe;
+}
+.bg-gray-light:hover {
+  background-color: #dfe3fa;
+}
 .bg-danger {
   background-color: #ec5757;
 }
 .bg-danger:hover {
   background-color: #ff9797;
+}
+.bg-dark-blue {
+  background-color: #252945;
+}
+.bg-dark-blue:hover {
+  background-color: #ffffff;
 }

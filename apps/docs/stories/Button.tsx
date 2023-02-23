@@ -1,6 +1,7 @@
 import React from "react";
 import "./button.css";
 import PropTypes from "prop-types";
+//import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 import { buttonTypes, buttonVariants, buttonSizes } from "./constants";
 
@@ -14,8 +15,8 @@ const Button = (props) => {
     textColor,
     onClick,
     shadow,
-    startIcon,
-    endIcon,
+    plusIcon,
+    AddCircleIcon,
   } = props;
 
   const shadows = shadow ? "shadow" : "";
@@ -36,13 +37,8 @@ const Button = (props) => {
       disabled={isDisabled}
       {...props}
     >
-      {startIcon && (
-        <span className="material-icons icon-start">local_grocery_store</span>
-      )}
+      {<AddCircleIcon /> && <span className="material-icons icon-plus"></span>}
       {text}
-      {endIcon && (
-        <span className="material-icons icon-end">local_grocery_store</span>
-      )}
     </button>
   );
 };

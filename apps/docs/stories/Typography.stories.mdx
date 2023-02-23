@@ -1,0 +1,221 @@
+import { Meta, Typeset } from "@storybook/addon-docs/blocks";
+
+<Meta title="Typography" />
+
+<style>
+  {`
+    .subheading {
+      --mediumdark: '#999999';
+      font-weight: 500;
+      font-size: 11px;
+      color: #7E88C3;
+      letter-spacing: -0.229167px;
+      line-height: 18px;
+      margin-bottom: 12px;
+      margin-top: 40px;
+    }
+
+    .H1 {
+      font-weight: 700;
+      font-size: 32px;
+      color: #0C0E16;
+      letter-spacing: -1px;
+      line-height: 36px;
+      margin-bottom: 12px;
+      margin-top: 16px; 
+    }
+
+    .H2 {
+      font-weight: 700;
+      font-size: 20px;
+      color: #0C0E16;
+      letter-spacing: -0.625px;
+      line-height: 22.4px;
+      margin-bottom: 12px;
+      margin-top: 16px; 
+    }
+
+    .H3 {
+      font-weight: 700;
+      font-size: 16px;
+      color: #0C0E16;
+      letter-spacing: -0.8px;
+      line-height: 24px;
+      margin-bottom: 12px;
+      margin-top: 16px; 
+    }
+
+    .H4 {
+      font-weight: 700;
+      font-size: 12px;
+      color: #0C0E16;
+      letter-spacing: -0.25px;
+      line-height: 15px;
+      margin-bottom: 12px;
+      margin-top: 16px; 
+    }
+
+    .abc {
+      font-weight: 700;
+      font-size: 20px;
+      color: #888EB0;
+      letter-spacing: 8px;
+      line-height: 39px;
+      margin-bottom: 12px;
+      margin-top: 40px;
+    }
+
+    .body_1 {
+      font-weight: 500;
+      font-size: 12px;
+      color: #0C0E16;
+      letter-spacing: -0.25px;
+      line-height: 15px;
+      margin-bottom: 12px;
+      margin-top: 16px; 
+    }
+
+    .body_2 {
+      font-weight: 500;
+      font-size: 11px;
+      color: #0C0E16;
+      letter-spacing: -0.23px;
+      line-height: 18px;
+      margin-bottom: 12px;
+      margin-top: 16px; 
+    }
+
+
+    .container {
+      display: flex;
+    }
+   /* .row {
+      display: flex;
+    }*/
+
+    @media (min-width: 620px) {
+      .container {
+        row-gap: 20px;
+        column-gap: 20px;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media all and (-ms-high-contrast:none) {
+    .container {
+        display: -ms-grid;
+        -ms-grid-columns: 1fr 1fr;
+        -ms-grid-rows: 1fr 1fr;
+      }
+    }
+    .col {
+      width: 100%;
+    }
+
+    .link-item {
+      flex-direction: column;
+      padding: 20px 30px 20px 15px;
+      border: 1px solid #00000010;
+      border-radius: 5px;
+    }
+
+    .link-item:hover {
+      border-color: #1EA7FD50;
+      transform: translate3d(0, -3px, 0);
+      box-shadow: rgba(0, 0, 0, 0.08) 0 3px 10px 0;
+    }
+  `}
+</style>
+
+export const typography = {
+  type: {
+    primary: '"League Spartan", sans-serif',
+  },
+  weight: {
+    medium: "500",
+    bold: "700",
+    extrabold: "800",
+    black: "900",
+  },
+  size: {
+    s1: 12,
+    s2: 14,
+    s3: 16,
+    m1: 20,
+    m2: 24,
+    m3: 28,
+    l1: 32,
+    l2: 40,
+    l3: 48,
+  },
+};
+
+export const SampleText =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
+
+# Typography
+
+**Font:** Spartan
+
+**Weights:** 500(medium), 700(bold)
+
+<Typeset
+  fontSizes={[
+    Number(typography.size.s1),
+    Number(typography.size.s2),
+    Number(typography.size.s3),
+    Number(typography.size.m1),
+    Number(typography.size.m2),
+    Number(typography.size.m3),
+    Number(typography.size.l1),
+    Number(typography.size.l2),
+    Number(typography.size.l3),
+  ]}
+  fontWeight={typography.weight.black}
+  sampleText={SampleText}
+  fontFamily={typography.type.primary}
+/>
+
+<div className="container">
+<div className="row">
+<div className="col link-item">
+  <div className="subheading">
+    H1 | Spartan Bold | 32px | 36px Line | -1 Spacing
+  </div>
+  <p className="H1">Aliquam porttitor mauris sit amet orci Aenean</p>
+  <div className="subheading">
+    H2 | Spartan Bold | 20px | 22px Line | -0.63 Spacing
+  </div>
+  <p className="H2">Aliquam porttitor mauris sit amet orci Aenean</p>
+  <div className="subheading">
+    H3 | Spartan Bold | 16px | 24px Line | -0.8 Spacing
+  </div>
+  <p className="H3">Aliquam porttitor mauris sit amet orci Aenean</p>
+  <div className="subheading">
+    H4 | Spartan Bold | 12px | 15px Line | -0.25 Spacing
+  </div>
+  <p className="H4">Aliquam porttitor mauris sit amet orci Aenean</p>
+</div>
+
+<div className="col link-item">
+<div className="abc">
+  ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()
+</div>
+
+<div className="subheading">
+  Body 1 | Spartan Medium | 12px | 15px Line | -0,25 Spacing
+</div>
+<p className="body_1">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
+
+Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.</p>
+
+<div className="subheading">
+  Body 2  |  Spartan Medium  |  11px  |  18px Line  |  -0,23 Spacing
+</div>
+<p className="body_2">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.
+
+Sed egestas, ante et vulputate volutpat, eros pede semper est, vitae luctus metus libero eu augue. Morbi purus libero, faucibus adipiscing, commodo quis, gravida id, est. Sed lectus. Praesent elementum hendrerit tortor. Sed semper lorem at felis. Vestibulum volutpat, lacus a ultrices sagittis, mi neque euismod dui, eu pulvinar nunc sapien ornare nisl. Phasellus pede arcu, dapibus eu, fermentum et, dapibus sed, urna.</p>
+
+</div>
+</div>
+</div>
