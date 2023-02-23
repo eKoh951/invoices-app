@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 @Schema()
-export class Users {
+export class Invoices {
   @Prop()
   id: string;
 
@@ -45,4 +45,4 @@ export class Users {
   itemList: Record<string, any>[];
 }
 
-export const UsersSchema = SchemaFactory.createForClass(Users);
+export const InvoicesSchema = SchemaFactory.createForClass(Invoices);
