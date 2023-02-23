@@ -24,9 +24,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("docs", app, document, {
-    explorer: true,
-  });
+  SwaggerModule.setup("docs", app, document);
 
   app.useStaticAssets(join(__dirname, "../swagger"), { prefix: "docs" })
 
