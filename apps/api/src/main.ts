@@ -1,16 +1,18 @@
 import { NestFactory } from "@nestjs/core";
-import { NestExpressApplication } from '@nestjs/platform-express';
+import { NestExpressApplication } from "@nestjs/platform-express";
 import { AppModule } from "./app.module";
 
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { ValidationPipe, VersioningType } from "@nestjs/common";
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { ConfigService } from "@nestjs/config";
 
-import { join } from 'path';
+import { join } from "path";
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const configService = app.get(ConfigService);
 
-  app.setGlobalPrefix('api')
+  app.setGlobalPrefix("api");
   app.enableVersioning({
     type: VersioningType.URI,
   });
@@ -27,8 +29,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("docs", app, document);
 
-  app.useStaticAssets(join(__dirname, "../swagger"), { prefix: "docs" })
+  app.useStaticAssets(join(__dirname, "../swagger"), { prefix: "docs" });
 
-  await app.listen(process.env.API_PORT);
+  const port = configService.get<number>("port");
+  await app.listen(port);
 }
 bootstrap();
