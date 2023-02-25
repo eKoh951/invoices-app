@@ -1,4 +1,4 @@
-import { EnvConfig } from "src/interfaces/env.config.interface";
+import { EnvConfig } from 'src/interfaces/env.config.interface';
 
 export default (): EnvConfig => ({
   port: parseInt(process.env.API_PORT, 10) || 8000,
