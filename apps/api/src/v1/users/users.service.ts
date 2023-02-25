@@ -1,25 +1,25 @@
-import { Injectable } from "@nestjs/common";
-import { UserDto } from "./dto/users.dto";
+import { Injectable } from '@nestjs/common';
+import { UserDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersServiceV1 {
-
   createUser() {
-    return {}
+    return {};
   }
 
   getAllUsers() {
-    return {}
+    return {};
   }
 
   getUser(username: string) {
-    return {}
+    return {};
   }
 
   updateUser(username: string) {
-    return {}
+    return {};
   }
 
   deleteUser(username: string) {
-    return {}
-  }}
+    return {};
+  }
+}

@@ -1,10 +1,10 @@
-import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
-import { ConfigModule } from "@nestjs/config";
-import { UsersModuleV1 } from "./v1/users/users.module";
-import { InvoicesModuleV1 } from "./v1/invoices/invoices.module";
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { UsersModuleV1 } from './v1/users/users.module';
+import { InvoicesModuleV1 } from './v1/invoices/invoices.module';
 
-import { ValidateAccessToken } from "./middlewares/auth.middleware";
-import envConfig from "./config/env.config";
+import { ValidateAccessToken } from './middlewares/auth.middleware';
+import envConfig from './config/env.config';
 
 @Module({
   imports: [
@@ -17,6 +17,6 @@ import envConfig from "./config/env.config";
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ValidateAccessToken).forRoutes("*");
+    consumer.apply(ValidateAccessToken).forRoutes('*');
   }
 }
