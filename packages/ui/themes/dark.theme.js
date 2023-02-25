@@ -9,6 +9,7 @@ export const darkTheme = createTheme({
     },
     secondary: {
       main: cyan["A400"],
+      
     },
     background: {
       default: blueGrey["800"],

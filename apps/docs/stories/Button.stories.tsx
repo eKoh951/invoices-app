@@ -6,10 +6,11 @@ export default {
   component: Button,
 } 
 
-const Template = (args) => <Button {...args} />;
+const Template = (args) => <Button {...args} />
 
 export const Playground = Template.bind({});
 Playground.args = {
   label: "Click me!",
+  color: "primary" ,
+  size: "lg"
 };
-
