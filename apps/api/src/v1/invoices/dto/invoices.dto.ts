@@ -1,8 +1,7 @@
-import {} from "class-validator";
-import { ApiProperty } from "@nestjs/swagger";
+import {} from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class InvoiceDto {
-
   @ApiProperty()
   id: string;
 

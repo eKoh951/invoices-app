@@ -1,26 +1,25 @@
-import { Injectable } from "@nestjs/common";
-import { InvoiceDto } from "./dto/invoices.dto";
+import { Injectable } from '@nestjs/common';
+import { InvoiceDto } from './dto/invoices.dto';
 
 @Injectable()
 export class InvoicesServiceV1 {
-
   createUserInvoice(username: string) {
-    return {}
+    return {};
   }
 
   getAllUserInvoices(username: string) {
-    return {}
+    return {};
   }
 
   getUserInvoice(username: string, invoiceId: string) {
-    return {}
+    return {};
   }
 
   updateInvoice(username: string, invoiceId: string) {
-    return {}
+    return {};
   }
 
   deleteInvoice(username: string, invoiceId: string) {
-    return {}
+    return {};
   }
 }
