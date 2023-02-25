@@ -1,22 +1,25 @@
-interface Props {
-  primary?: boolean;
-  size?: "small" | "large";
-  label?: string;
+import React from "react";
+import {
+  Button as MuiButton,
+  ButtonProps as MuiButtonProps,
+} from "@mui/material";
+
+// Only include variant, size, color from MuiButtonProps
+type ButtonBaseProps = Pick<MuiButtonProps, "variant" | "size" | "color">;
+
+// Include everything from MuiButtonProps except disableRipple
+// type ButtonBaseProps = Omit<MuiButtonProps, "disableRipple">;
+
+export interface ButtonProps extends ButtonBaseProps {
+  label: string;
 }
 
-export const Button = ({
-  primary = false,
-  label = "Boop",
-  size = "small",
-}: Props) => {
-  return (
-    <button
-      style={{
-        backgroundColor: primary ? "red" : "blue",
-        fontSize: size === "large" ? "24px" : "14px",
-      }}
-    >
-      {label}
-    </button>
-  );
+export const Button = ({ label, ...rest }: ButtonProps) => (
+  <MuiButton {...rest}>{label}</MuiButton>
+);
+
+Button.defaultProps = {
+  variant: "contained",
+  size: "medium",
+  color: "primary",
 };
