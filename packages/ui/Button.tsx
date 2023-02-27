@@ -5,7 +5,10 @@ import {
 } from "@mui/material";
 
 // Only include variant, size, color from MuiButtonProps
-type ButtonBaseProps = Pick<MuiButtonProps, "variant" | "size" | "color">;
+type ButtonBaseProps = Pick<
+  MuiButtonProps,
+  "variant" | "size" | "color" | "sx" | "children" | "endIcon" | "startIcon"
+>;
 
 // Include everything from MuiButtonProps except disableRipple
 // type ButtonBaseProps = Omit<MuiButtonProps, "disableRipple">;
@@ -20,6 +23,7 @@ export const Button = ({ label, ...rest }: ButtonProps) => (
 
 Button.defaultProps = {
   variant: "contained",
-  size: "medium",
-  color: "primary",
+  size: "large",
+  color: "softBlue",
+  sx: { borderRadius: "42px" },
 };
