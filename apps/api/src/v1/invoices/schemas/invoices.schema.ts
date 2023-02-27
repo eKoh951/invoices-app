@@ -1,47 +1,48 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 
-@Schema()
+@Schema({ timestamps: { createdAt: true, updatedAt: true }})
 export class Invoices {
-  @Prop()
+  @Prop({ required: true, unique: true })
   id: string;
 
-  @Prop()
+  @Prop({ required: true })
   status: string;
 
-  @Prop()
+  @Prop({ required: true })
   description: string;
 
-  @Prop()
-  billFrom: {
-    street: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
+  @Prop(
+    raw({
+      street: { type: String },
+      city: { type: String },
+      postCode: { type: String },
+      country: { type: String },
+    })
+  )
+  billFrom: Record<string, string>;
 
-  @Prop()
-  billTo: {
-    clientName: string;
-    clientEmail: string;
-    street: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
-
-  @Prop()
-  date: string;
+  @Prop(
+    raw({
+      clientName: { type: String },
+      clientEmail: { type: String },
+      street: { type: String },
+      city: { type: String },
+      postCode: { type: String },
+      country: { type: String },
+    })
+  )
+  billTo: Record<string, string>;
 
   @Prop()
   paymentTerms: string;
 
-  @Prop([
-    {
-      name: String,
-      quantity: Number,
-      price: Number,
-    },
-  ])
+  @Prop(
+    raw({
+      name: { type: String },
+      quantity: { type: Number },
+      price: { type: Number },
+    })
+  )
   itemList: Record<string, any>[];
 }
 
