@@ -1,19 +1,14 @@
 import { createTheme } from "@mui/material";
-import { green, red, blue } from "@mui/material/colors";
 
 export const lightTheme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: green["A200"],
+      main: "#9277FF",
     },
     secondary: {
-      main: red["A400"],
+      main: "#7C5DFA",
       
     },
-    // background: {
-    //   default: blue["800"],
-    //   paper: blue["700"],
-    // },
   },
 });

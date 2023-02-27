@@ -12,5 +12,5 @@ export const Playground = Template.bind({});
 Playground.args = {
   label: "Click me!",
   color: "primary" ,
-  size: "lg"
+  borderColor: "secondary"
 };
