@@ -1,13 +1,15 @@
-import {} from 'class-validator';
+import { IsString, IsNotEmptyObject, IsArray, IsDate } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class InvoiceDto {
   @ApiProperty()
   id: string;
 
+  @IsString()
   @ApiProperty()
   description: string;
 
+  @IsNotEmptyObject()
   @ApiProperty()
   billFrom: {
     street: string;
@@ -16,6 +18,7 @@ export class InvoiceDto {
     country: string;
   };
 
+  @IsNotEmptyObject()
   @ApiProperty()
   billTo: {
     clientName: string;
@@ -26,16 +29,23 @@ export class InvoiceDto {
     country: string;
   };
 
-  @ApiProperty()
-  date: string;
-
+  @IsString()
   @ApiProperty()
   paymentTerms: string;
 
+  @IsArray()
   @ApiProperty()
   itemList: {
     name: string;
     quantity: number;
     price: number;
   }[];
+
+  @IsDate()
+  @ApiProperty()
+  createdAt: Date;
+
+  @IsDate()
+  @ApiProperty()
+  updatedAt: Date;
 }
