@@ -1,44 +1,37 @@
-import React from 'react'
+  import React from "react";
 import { useMemo } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
+import { themes } from "../../../packages/ui/themes";
 
-import { themes } from '../../../packages/ui/themes';
 
 export const withMuiTheme = (Story, context) => {
-    const { theme: themeKey } = context.globals;
+  const { theme: themeKey } = context.globals;
 
-    // only recompute the theme if the themeKey changes
-    const theme = useMemo(() => themes[themeKey] || themes['light'], [themeKey])
-  
-    return (
+
+  const theme = useMemo(() => themes[themeKey] || themes["light"], [themeKey]);
+
+  return (
     <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <Story/>
+      <CssBaseline />
+      <Story />
     </ThemeProvider>
-    );
-  };
+  );
+};
 
-
-export const decorators = [withMuiTheme]
-
-
+export const decorators = [withMuiTheme];
 
 export const globalTypes = {
   theme: {
-    name: 'Theme',
-    description: 'Global theme for components',
-    defaultValue: 'light',
+    name: "Theme",
+    description: "Global theme for components",
+    defaultValue: "light",
     toolbar: {
-      // The icon for the toolbar item
-      icon: 'circlehollow',
-      // Array of options
+      icon: "circlehollow",
       items: [
-        { value: 'light', icon: 'circlehollow', title: 'light' },
-        { value: 'dark', icon: 'circle', title: 'dark' },
+        { value: "light", icon: "circlehollow", title: "light" },
+        { value: "dark", icon: "circle", title: "dark" },
       ],
-      // Property that specifies if the name of the item will be displayed
       showName: true,
     },
   },
 }
-

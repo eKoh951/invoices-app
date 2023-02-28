@@ -4,15 +4,109 @@ import { blueGrey, cyan, pink } from "@mui/material/colors";
 export const darkTheme = createTheme({
   palette: {
     mode: "dark",
-    primary: {
-      main: "#252945",
+    softBlue: {
+      main: "#7C5DFA",
     },
     secondary: {
       main: cyan["A400"],
-      
+    },
+    softRed: {
+      main: "#EC5757",
+    },
+    veryLightRed: {
+      main: "#FF9797",
+    },
+    lightGrayishBlue: {
+      main: "#252945",
+    },
+    lightGreyishBlueHover: {
+      main: "#DFE3FA",
+    },
+    veryDarkGrayishBlue: {
+      main: "#373B53",
+    },
+    white: {
+      main: "white",
+    },
+    mostlyBlack: {
+      main: "#0C0E16",
+    },
+    desaturatedBlue: {
+      main: "#1E2139",
+    },
+    slightlyDesaturatedBlue: {
+      main: "#7E88C3",
+    },
+    darkGreyishBlue: {
+      main: "#888EB0",
+    },
+    pureOrange: {
+      main: "#FF8F00",
+    },
+    limeGreen: {
+      main: "#33D69F",
     },
     background: {
       default: "#141625",
     },
+  },
+  typography: {
+    h1: {
+      fontSize: "32px",
+      fontWeight: "700",
+      lineHeight: "36px",
+      letterSpacing: "-1px",
+    },
+    h2: {
+      fontSize: "20px",
+      fontWeight: "700",
+      lineHeight: "22px",
+      letterSpacing: "-0.63px",
+    },
+    h3: {
+      fontSize: "16px",
+      fontWeight: "700",
+      lineHeight: "24px",
+      letterSpacing: "-0.8px",
+    },
+    h4: {
+      fontSize: "12px",
+      fontWeight: "700",
+      lineHeight: "15px",
+      letterSpacing: "-0.25px",
+    },
+    body1: {
+      fontSize: "12px",
+      fontWeight: "500",
+      lineHeight: "15px",
+      letterSpacing: "-0.25px",
+    },
+    body2: {
+      fontSize: "11px",
+      fontWeight: "500",
+      lineHeight: "18px",
+      letterSpacing: "-0.23px",
+    },
+    subtitle1: {
+      fontSize: "11px",
+      fontWeight: "500",
+      lineHeight: "18px",
+      letterSpacing: "-0.23px",
+      color: "#7E88C3",
+    },
+    button: {
+      fontSize: "12px",
+      fontWeight: "700",
+      lineHeight: "15px",
+      letterSpacing: "-0.25px",
+      textTransform: "none",
+    },
+    poster: {
+      color: "white",
+    },
+    fontFamily: "League Spartan",
+    fontWeightMedium: "500",
+    fontWeightBold: "700",
+    textTransform: "none",
   },
 });
