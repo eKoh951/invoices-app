@@ -1,7 +1,7 @@
 enum InvoiceStatus {
-  Draft = 'draft',
-  Pending = 'pending',
-  Paid = 'paid',
+  DRAFT = 'draft',
+  PENDING = 'pending',
+  PAID = 'paid',
 }
 
 export interface Invoice {
