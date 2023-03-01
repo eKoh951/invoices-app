@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material";
-import { blueGrey, cyan, pink } from "@mui/material/colors";
 
 export const darkTheme = createTheme({
   palette: {
@@ -8,7 +7,7 @@ export const darkTheme = createTheme({
       main: "#7C5DFA",
     },
     secondary: {
-      main: cyan["A400"],
+      main: "#9277FF",
     },
     softRed: {
       main: "#EC5757",
@@ -93,6 +92,19 @@ export const darkTheme = createTheme({
       lineHeight: "18px",
       letterSpacing: "-0.23px",
       color: "#7E88C3",
+    },
+    overline: {
+      fontSize: "120px",
+      fontWeight: "700",
+      lineHeight: "137px",
+      letterSpacing: "-3.75px",
+    },
+    caption: {
+      fontSize: "20px",
+      fontWeight: "700",
+      lineHeight: "39px",
+      letterSpacing: "8px",
+      color: "#888EB0",
     },
     button: {
       fontSize: "12px",

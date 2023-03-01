@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material";
-import { green, red, blue } from "@mui/material/colors";
 
 export const lightTheme = createTheme({
   palette: {
