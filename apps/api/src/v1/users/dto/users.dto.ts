@@ -1,9 +1,17 @@
-import { IsString, IsBoolean, IsEmail, IsDate, MaxLength, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsBoolean,
+  IsEmail,
+  IsDate,
+  MaxLength,
+  MinLength,
+  IsNotEmpty,
+} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
   @ApiProperty()
-  id: string;
+  id?: string;
 
   @IsBoolean()
   @ApiProperty()
@@ -24,9 +32,28 @@ export class UserDto {
 
   @IsDate()
   @ApiProperty()
-  createdAt: Date;
+  createdAt?: Date;
 
   @IsDate()
   @ApiProperty()
-  updatedAt: Date;
+  updatedAt?: Date;
 }
+
+export class CreateUserDto {
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+}
+
+export class UpdateUserDto {
+  @IsString()
+  username?: string;
+  @IsString()
+  avatar?: string;
+}
+
+export class GetUserParams {
+  @IsString()
+  username: string;
+}
+

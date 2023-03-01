@@ -9,7 +9,12 @@ import {
 } from '@nestjs/common';
 
 import { UsersServiceV1 } from './users.service';
-import { UserDto } from './dto/users.dto';
+import {
+  CreateUserDto,
+  GetUserParams,
+  UpdateUserDto,
+  UserDto,
+} from './dto/users.dto';
 
 import { InvoicesServiceV1 } from '../invoices/invoices.service';
 import { InvoiceDto } from '../invoices/dto/invoices.dto';
@@ -30,8 +35,8 @@ export class UsersControllerV1 {
   @ApiBody({ type: UserDto })
   @ApiOperation({ summary: 'Create a user in the database' })
   @ApiOkResponse({ description: 'User successfully registered', type: UserDto })
-  createUser() {
-    return this.usersService.createUser();
+  createUser(@Body() body: CreateUserDto): Promise<UserDto> {
+    return this.usersService.createOrGetUser(body.email);
   }
 
   ////////////// api/v1/users
@@ -56,8 +61,8 @@ export class UsersControllerV1 {
   })
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
-  getUser(@Param('username') username: string) {
-    return this.usersService.getUser(username);
+  getUser(@Param() params: GetUserParams) {
+    return this.usersService.getUser(params.username);
   }
 
   ////////////// api/v1/users/:username
@@ -71,8 +76,8 @@ export class UsersControllerV1 {
   })
   @ApiOperation({ summary: 'Update the username or avatar of the user' })
   @ApiOkResponse({ description: 'Successfully updated user', type: UserDto })
-  updateUser(@Param('username') username: string) {
-    return this.usersService.updateUser(username);
+  updateUser(@Param() params: GetUserParams, @Body() body: UpdateUserDto) {
+    return this.usersService.updateUser(params.username, body);
   }
 
   ////////////// api/v1/users/:username

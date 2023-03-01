@@ -7,6 +7,7 @@ export default (): EnvConfig => ({
     clientId: process.env.AUTH0_CLIENT_ID,
     domain: process.env.AUTH0_DOMAIN,
     audience: process.env.AUTH0_API,
+    adminToken: process.env.AUTH0_ADMIN_TOKEN,
   },
   aws: {
     client: {

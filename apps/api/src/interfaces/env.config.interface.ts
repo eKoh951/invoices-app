@@ -9,6 +9,7 @@ export interface Auth0 {
   clientId: string;
   domain: string;
   audience: string;
+  adminToken: string;
 }
 
 export interface AWS {

@@ -3,7 +3,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 @Schema({ timestamps: { createdAt: true, updatedAt: true } })
 export class Users {
 
-  @Prop({ required: true, default: false })
+  @Prop({ required: true, unique: false, default: false })
   admin: boolean;
 
   @Prop({ required: true, unique: true })
