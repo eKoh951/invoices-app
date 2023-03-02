@@ -21,6 +21,10 @@
     "node": ">=14.0.0"
   },
   "engineStrict": true,
-  "dependencies": {},
+  "dependencies": {
+    "@auth0/auth0-react": "^2.0.1",
+    "react-router-dom": "^6.8.2",
+    "styled-components": "^5.3.8"
+  },
   "packageManager": "npm@9.3.1"
 }

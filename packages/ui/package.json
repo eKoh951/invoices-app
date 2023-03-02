@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.22",
+    "@types/styled-components": "^5.1.26",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "react": "^18.2.0",
