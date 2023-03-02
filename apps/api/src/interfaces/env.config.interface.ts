@@ -2,7 +2,7 @@ export interface EnvConfig {
   port: number;
   mongoUri: string;
   auth0: Auth0;
-  aws: AWS;
+  aws: AwsConfig;
 }
 
 export interface Auth0 {
@@ -11,7 +11,7 @@ export interface Auth0 {
   audience: string;
 }
 
-export interface AWS {
+export interface AwsConfig {
   client: AwsClient;
   s3Bucket: string;
 }
