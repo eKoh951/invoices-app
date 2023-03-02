@@ -1,29 +1,24 @@
 import { EnvConfig } from 'src/interfaces/env.config.interface';
 
-const {
-  API_PORT,
-  MONGO_URI,
-  AUTH0_CLIENT_ID,
-  AUTH0_DOMAIN,
-  AUTH0_API,
-  AWS_ACCESS_KEY,
-  AWS_SECRET_KEY,
-  AWS_S3_BUCKET,
-} = process.env;
-
 export default (): EnvConfig => ({
-  port: parseInt(API_PORT, 10) || 8000,
-  mongoUri: MONGO_URI,
+  port: parseInt(process.env.API_PORT, 10) || 8000,
+  mongoUri: process.env.MONGO_URI,
   auth0: {
-    clientId: AUTH0_CLIENT_ID,
-    domain: AUTH0_DOMAIN,
-    audience: AUTH0_API,
+    app: {
+      domain: process.env.AUTH0_APP_DOMAIN,
+      audience: process.env.AUTH0_APP_AUDIENCE,
+    },
+    api: {
+      clientId: process.env.AUTH0_API_CLIENT_ID,
+      clientSecret: process.env.AUTH0_API_CLIENT_SECRET,
+      audience: process.env.AUTH0_API_AUDIENCE,
+    },
   },
   aws: {
     client: {
-      accessKey: AWS_ACCESS_KEY,
-      secretKey: AWS_SECRET_KEY,
+      accessKey: process.env.AWS_ACCESS_KEY,
+      secretKey: process.env.AWS_SECRET_KEY,
     },
-    s3Bucket: AWS_S3_BUCKET,
+    s3Bucket: process.env.AWS_S3_BUCKET,
   },
 });

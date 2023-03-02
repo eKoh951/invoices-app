@@ -6,8 +6,18 @@ export interface EnvConfig {
 }
 
 export interface Auth0 {
-  clientId: string;
+  app: Auth0App;
+  api: Auth0Api;
+}
+
+export interface Auth0App {
   domain: string;
+  audience: string;
+}
+
+export interface Auth0Api {
+  clientId: string;
+  clientSecret: string;
   audience: string;
 }
 
