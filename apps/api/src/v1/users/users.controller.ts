@@ -6,6 +6,8 @@ import {
   Get,
   Patch,
   Delete,
+  UseInterceptors,
+  CacheInterceptor,
 } from '@nestjs/common';
 
 import { UsersServiceV1 } from './users.service';
@@ -23,6 +25,7 @@ import { ApiTags, ApiBody, ApiOperation, ApiParam } from '@nestjs/swagger';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller({ path: 'users', version: '1' })
+@UseInterceptors(CacheInterceptor)
 export class UsersControllerV1 {
   constructor(
     private readonly usersService: UsersServiceV1,
