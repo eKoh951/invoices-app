@@ -54,12 +54,15 @@ export class UsersServiceV1 {
   async getAllUsers(): Promise<UserDto[]> {
     const allUsers = await this.usersModel.find();
     
-    return allUsers.map((user) => ({
-      admin: user.admin,
-      username: user.username,
-      email: user.email,
-      avatar: user.avatar,
-    }));
+    return allUsers.map((user) => {
+      const { admin, username, email, avatar } = user;
+      return {
+        admin,
+        username,
+        email,
+        avatar,
+      }
+    });
   }
 
   async getUser(username: string): Promise<UserDto> {
