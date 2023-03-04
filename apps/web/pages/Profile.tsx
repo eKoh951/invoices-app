@@ -1,12 +1,9 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import { useEffect, useState } from "react";
 
 import Navbar from "../components/Navbar";
 
 function Profile() {
-  const {
-    user: { nickname, email },
-  } = useAuth0();
+  const { user } = useAuth0();
 
   return (
     <div>
@@ -15,8 +12,8 @@ function Profile() {
         <h1>Profile Panel</h1>
         <div>
           <div>
-            <h6>{nickname}</h6>
-            <p>{email}</p>
+            <h6>{user?.nickname}</h6>
+            <p>{user?.email}</p>
           </div>
         </div>
       </div>

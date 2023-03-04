@@ -1,5 +1,5 @@
 import { withAuthenticationRequired } from "@auth0/auth0-react";
-import Loading from "../../pages/utils/Loading";
+import Loading from "../../src/utils/Loading";
 
 function AuthGuard({ component }) {
   const Component = withAuthenticationRequired(component, {

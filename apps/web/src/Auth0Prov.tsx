@@ -1,12 +1,14 @@
-import { Auth0Provider } from "@auth0/auth0-react";
+import { AppState, Auth0Provider } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
 function Auth0ProviderWithNavigate({ children }) {
   const navigate = useNavigate();
 
-  const onRedirectCallback = (appState) => {
+  const onRedirectCallback = (appState: AppState | undefined) => {
     navigate(appState?.returnTo || window.location.pathname);
   };
+
+  // .env will be used later, for now it is left like this to make it easier for you to test this (For Erick)
 
   return (
     <Auth0Provider
