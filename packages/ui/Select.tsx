@@ -11,7 +11,11 @@ export interface SelectProps extends SelectBaseProps {
 }
 
 export const OptionSelect = ({ label, ...rest }: SelectProps) => (
-  <MuiSelect placeholder={label} {...rest}>
+  <MuiSelect placeholder={label} 
+  sx={{
+    minWidth: "120px"
+  }}
+  >
    <MenuItem value={1}>Next 1 Day</MenuItem>
    <MenuItem value={2}>Next 7 Days</MenuItem>
    <MenuItem value={3}>Next 14 Days</MenuItem>

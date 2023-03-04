@@ -1,5 +1,5 @@
 import React from "react";
-import {InputDate} from 'ui/InputDate'
+import {InputDate} from '../../../packages/ui/InputDate'
 
 export default {
   title: "Example",

@@ -4,7 +4,7 @@ import { TextFieldProps as MuiTextFieldProps } from "@mui/material";
 
 
 
-export const TextInput = ({ ...rest } : MuiTextFieldProps) =>
+export const TextInput = () =>
 (
-  <MuiTextfield {...rest} ></MuiTextfield>
+  <MuiTextfield  ></MuiTextfield>
 )
