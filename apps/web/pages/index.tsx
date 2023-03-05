@@ -1,10 +1,17 @@
-import { Button } from "ui";
+import Navbar from "../components/Navbar";
+import { useAuth0 } from "@auth0/auth0-react";
 
-export default function Web() {
+export default function Home() {
+  const { error } = useAuth0();
+
+  if (error) {
+    console.log(error);
+    return <div>Error... {error.message}</div>;
+  }
+
   return (
     <div>
-      <h1>Web</h1>
-      <Button />
+      <Navbar />
     </div>
   );
 }
