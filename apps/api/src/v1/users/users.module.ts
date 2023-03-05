@@ -35,6 +35,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 })
 export class UsersModuleV1 implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+    consumer.apply(CurrentUserMiddleware).forRoutes('dev');
   }
 }

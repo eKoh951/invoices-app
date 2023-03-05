@@ -39,7 +39,7 @@ export class UsersControllerV1 {
   @ApiOperation({ summary: 'Create a user in the database' })
   @ApiOkResponse({ description: 'User successfully registered', type: UserDto })
   createUser(@Body() body: CreateUserDto): Promise<UserDto> {
-    return this.usersService.createOrGetUser(body.email);
+    return this.usersService.createOrGetUserByEmail(body.email);
   }
 
   ////////////// api/v1/users
@@ -65,7 +65,7 @@ export class UsersControllerV1 {
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
   getUser(@Param() params: GetUserParams) {
-    return this.usersService.getUser(params.username);
+    return this.usersService.getUserByUsername(params.username);
   }
 
   ////////////// api/v1/users/:username
@@ -111,7 +111,7 @@ export class UsersControllerV1 {
     description: 'Successfully created invoice',
     type: InvoiceDto,
   })
-  createUserInvoice(@Param('username') username: string) {
+  createUserInvoice(@Param(':username') username: string) {
     return this.invoicesService.createUserInvoice(username);
   }
 

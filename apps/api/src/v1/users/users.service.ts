@@ -15,7 +15,7 @@ export class UsersServiceV1 {
     private auth0Utils: Auth0Utils
   ) {}
 
-  async createOrGetUser(email: string): Promise<UserDto> {
+  async createOrGetUserByEmail(email: string): Promise<UserDto> {
     let userData: UserDto;
     userData = await this.usersModel.findOne({ email });
 
@@ -29,18 +29,28 @@ export class UsersServiceV1 {
     return userData;
   }
 
+  async getUserByUsername(username: string): Promise<UserDto> {
+    const userData = await this.usersModel.findOne({ username });
+
+    if (!userData) {
+      throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
+    }
+
+    return userData;
+  }
+
   async getUserByAuthId(userId: string): Promise<UserDto> {
     const token = await this.auth0Utils.getAuthToken();
-    
+
     const axiosOptions: AxiosRequestConfig = {
       method: 'GET',
       url: `https://asure.us.auth0.com/api/v2/users/${userId}`,
-      headers: { 'Authorization': `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token}` },
     };
 
     try {
       const { data } = await axios(axiosOptions);
-      const userData = await this.createOrGetUser(data.email);
+      const userData = await this.createOrGetUserByEmail(data.email);
 
       return userData;
     } catch (error) {
@@ -53,7 +63,7 @@ export class UsersServiceV1 {
 
   async getAllUsers(): Promise<UserDto[]> {
     const allUsers = await this.usersModel.find();
-    
+
     return allUsers.map((user) => {
       const { admin, username, email, avatar } = user;
       return {
@@ -61,25 +71,66 @@ export class UsersServiceV1 {
         username,
         email,
         avatar,
-      }
+      };
     });
   }
 
-  async getUser(username: string): Promise<UserDto> {
-    const userData = await this.usersModel.findOne({ username });
+  async updateUser(username: string, body: UpdateUserDto): Promise<UserDto> {
+    const { username: usernameBody, avatar } = body;
+    const updates: Partial<UserDto> = {};
 
-    if (!userData) {
-      throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
+    if (usernameBody !== undefined) {
+      updates.username = usernameBody;
     }
 
-    return userData;
+    if (avatar !== undefined) {
+      updates.avatar = avatar;
+    }
+
+    if (!updates.username && !updates.avatar) {
+      throw new HttpException(
+        'At least one property must be provided',
+        HttpStatus.BAD_REQUEST
+      );
+    }
+
+    const updatedUser = await this.usersModel.findOneAndUpdate(
+      { username },
+      updates,
+      { new: true, upsert: true }
+    );
+
+    if (!updatedUser) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const { _id, admin, email } = updatedUser;
+
+    return {
+      _id,
+      admin,
+      username: usernameBody,
+      email,
+    };
   }
 
-  updateUser(username: string, body: UpdateUserDto) {
-    return {};
-  }
+  async deleteUser(username: string) {
+    const userData = await this.usersModel.findOneAndDelete({ username });
 
-  deleteUser(email: string) {
-    return {};
+    if (!userData) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
+    const { _id, admin, email } = userData;
+
+    return {
+      message: 'User successfully deleted',
+      userData: {
+        id: _id,
+        admin,
+        username,
+        email,
+      },
+    };
   }
 }

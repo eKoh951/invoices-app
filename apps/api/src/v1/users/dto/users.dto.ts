@@ -6,12 +6,13 @@ import {
   MaxLength,
   MinLength,
   IsNotEmpty,
+  IsOptional,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UserDto {
   @ApiProperty()
-  id?: string;
+  _id?: string;
 
   @IsBoolean()
   @ApiProperty()
@@ -28,7 +29,7 @@ export class UserDto {
 
   @IsString()
   @ApiProperty()
-  avatar: string;
+  avatar?: string;
 
   @IsDate()
   @ApiProperty()
@@ -47,8 +48,12 @@ export class CreateUserDto {
 
 export class UpdateUserDto {
   @IsString()
+  @MinLength(5)
+  @MaxLength(15)
+  @IsOptional()
   username?: string;
   @IsString()
+  @IsOptional()
   avatar?: string;
 }
 
