@@ -16,28 +16,28 @@ export class UsersServiceV1 {
   ) {}
 
   async createOrGetUserByEmail(email: string): Promise<UserDto> {
-    const userData = await this.usersModel.findOne({ email });
+    const userInMongo = await this.usersModel.findOne({ email });
 
-    if (!userData) {
+    if (!userInMongo) {
       const username = email.split('@')[0];
-      const userData = await this.usersModel.create({
+      const userInMongo = await this.usersModel.create({
         username,
         email,
       });
-      return userData.toObject({ versionKey: false });
+      return userInMongo.toObject({ versionKey: false });
     }
 
-    return userData.toObject({ versionKey: false });
+    return userInMongo.toObject({ versionKey: false });
   }
 
   async getUserByUsername(username: string): Promise<UserDto> {
-    const userData = await this.usersModel.findOne({ username });
+    const userInMongo = await this.usersModel.findOne({ username });
 
-    if (!userData) {
+    if (!userInMongo) {
       throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
     }
 
-    return userData.toObject({ versionKey: false });
+    return userInMongo.toObject({ versionKey: false });
   }
 
   async getUserByAuthId(userId: string): Promise<UserDto> {
@@ -51,9 +51,9 @@ export class UsersServiceV1 {
 
     try {
       const { data } = await axios(axiosOptions);
-      const userData = await this.createOrGetUserByEmail(data.email);
+      const userInMongo = await this.createOrGetUserByEmail(data.email);
 
-      return userData;
+      return userInMongo;
     } catch (error) {
       throw new HttpException(
         `An error occurred while getting the current user`,
@@ -101,12 +101,12 @@ export class UsersServiceV1 {
   }
 
   async deleteUser(username: string) {
-    const userData = await this.usersModel.findOneAndDelete({ username });
+    const userInMongo = await this.usersModel.findOneAndDelete({ username });
 
-    if (!userData) {
+    if (!userInMongo) {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    return userData.toObject({ versionKey: false });
+    return userInMongo.toObject({ versionKey: false });
   }
 }
