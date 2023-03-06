@@ -16,17 +16,18 @@ export class UsersServiceV1 {
   ) {}
 
   async createOrGetUserByEmail(email: string): Promise<UserDto> {
-    let userData: UserDto;
-    userData = await this.usersModel.findOne({ email });
+    const userData = await this.usersModel.findOne({ email });
 
     if (!userData) {
       const username = email.split('@')[0];
-      userData = await this.usersModel.create({
+      const userData = await this.usersModel.create({
         username,
         email,
       });
+      return userData.toObject({ versionKey: false });
     }
-    return userData;
+
+    return userData.toObject({ versionKey: false });
   }
 
   async getUserByUsername(username: string): Promise<UserDto> {
@@ -36,7 +37,7 @@ export class UsersServiceV1 {
       throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
     }
 
-    return userData;
+    return userData.toObject({ versionKey: false });
   }
 
   async getUserByAuthId(userId: string): Promise<UserDto> {
@@ -64,15 +65,7 @@ export class UsersServiceV1 {
   async getAllUsers(): Promise<UserDto[]> {
     const allUsers = await this.usersModel.find();
 
-    return allUsers.map((user) => {
-      const { admin, username, email, avatar } = user;
-      return {
-        admin,
-        username,
-        email,
-        avatar,
-      };
-    });
+    return allUsers.map((user) => user.toObject({ versionKey: false }));
   }
 
   async updateUser(username: string, body: UpdateUserDto): Promise<UserDto> {
@@ -104,14 +97,7 @@ export class UsersServiceV1 {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const { _id, admin, email } = updatedUser;
-
-    return {
-      _id,
-      admin,
-      username: usernameBody,
-      email,
-    };
+    return updatedUser.toObject({ versionKey: false });
   }
 
   async deleteUser(username: string) {
@@ -121,16 +107,6 @@ export class UsersServiceV1 {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    const { _id, admin, email } = userData;
-
-    return {
-      message: 'User successfully deleted',
-      userData: {
-        id: _id,
-        admin,
-        username,
-        email,
-      },
-    };
+    return userData.toObject({ versionKey: false });
   }
 }
