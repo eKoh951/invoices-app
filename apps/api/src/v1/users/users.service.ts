@@ -90,7 +90,7 @@ export class UsersServiceV1 {
     const updatedUser = await this.usersModel.findOneAndUpdate(
       { username },
       updates,
-      { new: true, upsert: true }
+      { new: true }
     );
 
     if (!updatedUser) {

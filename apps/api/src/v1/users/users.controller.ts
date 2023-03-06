@@ -21,7 +21,14 @@ import {
 import { InvoicesServiceV1 } from '../invoices/invoices.service';
 import { InvoiceDto } from '../invoices/dto/invoices.dto';
 
-import { ApiTags, ApiBody, ApiOperation, ApiParam } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiBody,
+  ApiOperation,
+  ApiParam,
+  ApiNotFoundResponse,
+  ApiBadRequestResponse,
+} from '@nestjs/swagger';
 import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller({ path: 'users', version: '1' })
@@ -35,7 +42,6 @@ export class UsersControllerV1 {
   ////////////// api/v1/users
   @Post()
   @ApiTags('Users')
-  @ApiBody({ type: UserDto })
   @ApiOperation({ summary: 'Create a user in the database' })
   @ApiOkResponse({ description: 'User successfully registered', type: UserDto })
   createUser(@Body() body: CreateUserDto): Promise<UserDto> {
@@ -64,13 +70,13 @@ export class UsersControllerV1 {
   })
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
+  @ApiNotFoundResponse({ description: 'User not found' })
   getUser(@Param() params: GetUserParams) {
     return this.usersService.getUserByUsername(params.username);
   }
 
   ////////////// api/v1/users/:username
   @Patch(':username')
-  @ApiBody({ type: UserDto })
   @ApiTags('Users')
   @ApiParam({
     name: 'username',
@@ -79,6 +85,10 @@ export class UsersControllerV1 {
   })
   @ApiOperation({ summary: 'Update the username or avatar of the user' })
   @ApiOkResponse({ description: 'Successfully updated user', type: UserDto })
+  @ApiNotFoundResponse({ description: 'User not found' })
+  @ApiBadRequestResponse({
+    description: 'At least one property must be provided',
+  })
   updateUser(@Param() params: GetUserParams, @Body() body: UpdateUserDto) {
     return this.usersService.updateUser(params.username, body);
   }

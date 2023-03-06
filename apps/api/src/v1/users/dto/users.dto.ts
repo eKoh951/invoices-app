@@ -51,9 +51,11 @@ export class UpdateUserDto {
   @MinLength(5)
   @MaxLength(15)
   @IsOptional()
+  @ApiProperty({ required: false })
   username?: string;
   @IsString()
   @IsOptional()
+  @ApiProperty({ required: false })
   avatar?: string;
 }
 
