@@ -10,7 +10,7 @@ import { PaletteMode } from "@mui/material";
 
 const BootstrapInput = styled(InputBase)(({ theme }) => ({
   "label + &": {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(2),
   },
   "& .MuiInputBase-input": {
     borderRadius: 4,
@@ -42,7 +42,7 @@ export default function OptionSelect() {
           value={days}
           onChange={handleChange}
           input={<BootstrapInput />}
-          sx={{ minWidth: "120px" }}
+          sx={{ minWidth: "240px", minHeight: "48px" }}
         >
           <MenuItem value="">
             <em>None</em>

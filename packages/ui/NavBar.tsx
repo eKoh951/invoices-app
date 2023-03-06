@@ -76,7 +76,7 @@ export default function PermanentDrawerLeft({ ...rest }) {
         <Grid2
           container
           justifyContent={"space-between"}
-          height={750}
+          height={"100vh"}
           sx={{
             flexDirection: "column",
             alignItems: "center",
