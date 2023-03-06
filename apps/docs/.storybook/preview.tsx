@@ -1,15 +1,11 @@
-  import React from "react";
+import React from "react";
 import { useMemo } from "react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { themes } from "../../../packages/ui/themes";
 
-
 export const withMuiTheme = (Story, context) => {
   const { theme: themeKey } = context.globals;
-
-
   const theme = useMemo(() => themes[themeKey] || themes["light"], [themeKey]);
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -19,7 +15,6 @@ export const withMuiTheme = (Story, context) => {
 };
 
 export const decorators = [withMuiTheme];
-
 export const globalTypes = {
   theme: {
     name: "Theme",
@@ -34,4 +29,4 @@ export const globalTypes = {
       showName: true,
     },
   },
-}
+};

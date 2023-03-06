@@ -10,6 +10,9 @@ export const lightTheme = createTheme({
     secondary: {
       main: "#9277FF",
     },
+    action: {
+      main: "#fff",
+    },
     softRed: {
       main: "#EC5757",
       contrastText: "white",
@@ -35,7 +38,7 @@ export const lightTheme = createTheme({
       main: "#0C0E16",
     },
     desaturatedBlue: {
-      main: "#1E2139",
+      main: "#ffff",
     },
     slightlyDesaturatedBlue: {
       main: "#7E88C3",
@@ -124,5 +127,8 @@ export const lightTheme = createTheme({
     fontWeightMedium: "500",
     fontWeightBold: "700",
     textTransform: "none",
+  },
+  drawer: {
+    background: "red",
   },
 });
