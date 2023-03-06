@@ -3,7 +3,10 @@ import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 @Schema({ timestamps: { createdAt: true, updatedAt: true }})
 export class Invoices {
   @Prop({ required: true, unique: true })
-  id: string;
+  invoiceId: string;
+
+  @Prop({ required: true, unique: true })
+  ownerId: string;
 
   @Prop({ required: true })
   status: string;
