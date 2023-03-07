@@ -10,10 +10,11 @@ type ButtonBaseProps = Pick<
 >;
 
 export interface ButtonProps extends ButtonBaseProps {
-  label: string;
+  children: React.ReactNode;
 }
-export const Button = ({ label, ...rest }: ButtonProps) => (
-  <MuiButton {...rest}>{label}</MuiButton>
+
+export const Button = ({ children, ...rest }: ButtonProps) => (
+  <MuiButton {...rest}>{children}</MuiButton>
 );
 
 Button.defaultProps = {

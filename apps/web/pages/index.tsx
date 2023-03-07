@@ -5,7 +5,7 @@ export default function Web() {
   return (
     <div>
       <h1>Web</h1>
-      <Button label={""} />
+      <Button>a</Button>
       <Types />
     </div>
   );
