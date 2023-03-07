@@ -3,6 +3,37 @@ import { createTheme } from "@mui/material";
 export const lightTheme = createTheme({
   palette: {
     mode: "light",
+    // changes begin here, with custom names, feel free to change them if they don't work
+    background: {
+      default: "#F8F8FB",
+    },
+    //statics color for both themes
+    purple: {
+      main: "#7C5DFA",
+      hover: "#9277FF",
+    },
+    danger: {
+      softRed: "#EC5757",
+      veryLightRed: "#FF9797",
+      contrastText: "white",
+    },
+    status: {
+      paid: "#33D69F",
+      pending: "#FF8F00",
+      draft: "#DFE3FA",
+    },
+    // mutable colors for themes
+    saveDraft: {
+      main: "#373B53",
+      hover: "#0C0E16",
+      contrastText: "#888EB0",
+    },
+    edit: {
+      main: "#F9FAFE",
+      hover: "#DFE3FA",
+      contrastText: "#7E88C3",
+    },
+    // changes finish here
     softBlue: {
       main: "#7C5DFA",
       contrastText: "white",
@@ -51,9 +82,6 @@ export const lightTheme = createTheme({
     },
     limeGreen: {
       main: "#33D69F",
-    },
-    background: {
-      default: "#F8F8FB",
     },
   },
   typography: {
