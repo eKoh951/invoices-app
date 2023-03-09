@@ -1,10 +1,13 @@
 import { TextField as MuiTextfield } from "@mui/material";
-import InputLabel from "@mui/material/InputLabel";
 import { TextFieldProps as MuiTextFieldProps } from "@mui/material";
 
-export const TextInput = () => (
-  <>
-    <InputLabel>Hello World</InputLabel>
-    <MuiTextfield></MuiTextfield>
-  </>
+
+type TextFieldProps = Pick<
+  MuiTextFieldProps,
+  "variant" | "size" | "color" | "sx" | "placeholder" | "required" | "label" |  "children"
+>
+
+export const TextInput = ({children, ...rest }: TextFieldProps) => (
+  <MuiTextfield {...rest }  />
+  
 );

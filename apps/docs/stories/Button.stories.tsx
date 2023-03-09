@@ -1,11 +1,13 @@
 import React from "react";
 import { Button } from "ui";
+import AddIcon from '@mui/icons-material/Add';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 export default {
   title: "Example/Button",
   component: Button,
   argTypes: {
-    label: { control: "text" },
+    children: { control: "text" },
     size: {
       control: { type: "select", options: ["small", "medium", "large"] },
     },
@@ -20,11 +22,8 @@ export default {
           "white",
           "darkGreyishBlue",
           "lightGreyishBlueHover",
-        ],
+        ],    
       },
-    },
-    children: {
-      control: { type: "select", options: ["white", "mostlyBlack"] },
     },
   },
 };
@@ -43,42 +42,44 @@ Playground.args = {
 
 export const newInvoiceButton = Template.bind({});
 newInvoiceButton.args = {
-  label: "New Invoice",
+  children: "New Invoice",
   color: "softBlue",
   size: "large",
+  startIcon: <AddCircleIcon />
 };
 
 export const paidButton = Template.bind({});
 paidButton.args = {
-  label: "Mark as Paid",
+  children: "Mark as Paid",
   color: "softBlue",
   size: "large",
 };
 
 export const deleteButton = Template.bind({});
 deleteButton.args = {
-  label: "Delete",
+  children: "Delete",
   color: "softRed",
   size: "large",
 };
 
 export const editButton = Template.bind({});
 editButton.args = {
-  label: "Edit",
+  children: "Edit",
   color: "lightGrayishBlue",
   size: "large",
 };
 
 export const draftButton = Template.bind({});
 draftButton.args = {
-  label: "Safe as Draft",
+  children: "Safe as Draft",
   color: "veryDarkGrayishBlue",
   size: "large",
 };
 
 export const newItemButton = Template.bind({});
 newItemButton.args = {
-  label: "Add New Item",
+  children: "Add New Item",
   color: "lightGrayishBlue",
   size: "large",
+  startIcon: <AddIcon />
 };
