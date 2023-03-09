@@ -1,45 +1,118 @@
-import { IsString, IsNotEmptyObject, IsArray, IsDate } from 'class-validator';
+import {
+  IsString,
+  IsNotEmptyObject,
+  IsArray,
+  IsDate,
+  ArrayMinSize,
+  IsNumberString,
+  IsEmail,
+  IsEnum,
+  ValidateNested,
+} from 'class-validator';
+import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/mapped-types';
+
+import {
+  PaymentTermsOptions,
+  InvoiceStatus,
+} from 'src/interfaces/invoices.interface';
+
+export class BillFromDto {
+  @IsString()
+  @ApiProperty()
+  street: string;
+
+  @IsString()
+  @ApiProperty()
+  city: string;
+
+  @IsString()
+  @ApiProperty()
+  postCode: string;
+
+  @IsString()
+  @ApiProperty()
+  country: string;
+}
+
+export class BillToDto {
+  @IsString()
+  @ApiProperty()
+  clientName: string;
+
+  @IsEmail()
+  @ApiProperty()
+  clientEmail: string;
+
+  @IsString()
+  @ApiProperty()
+  street: string;
+
+  @IsString()
+  @ApiProperty()
+  city: string;
+
+  @IsString()
+  @ApiProperty()
+  postCode: string;
+
+  @IsString()
+  @ApiProperty()
+  country: string;
+}
+
+export class ItemListDto {
+  @IsString()
+  @ApiProperty()
+  name: string;
+
+  @IsNumberString()
+  @ApiProperty()
+  quantity: number;
+
+  @IsNumberString()
+  @ApiProperty()
+  price: number;
+}
 
 export class InvoiceDto {
   @ApiProperty()
-  id: string;
+  invoiceId: string;
+
+  @IsString()
+  @ApiProperty()
+  ownerId: string;
+
+  @IsString()
+  @IsEnum(InvoiceStatus)
+  @ApiProperty()
+  status: string;
 
   @IsString()
   @ApiProperty()
   description: string;
 
   @IsNotEmptyObject()
+  @Type(() => BillFromDto)
   @ApiProperty()
-  billFrom: {
-    street: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
+  billFrom: BillFromDto;
 
   @IsNotEmptyObject()
+  @Type(() => BillToDto)
   @ApiProperty()
-  billTo: {
-    clientName: string;
-    clientEmail: string;
-    street: string;
-    city: string;
-    postCode: string;
-    country: string;
-  };
+  billTo: BillToDto;
 
-  @IsString()
+  @IsNumberString()
+  @IsEnum(PaymentTermsOptions)
   @ApiProperty()
-  paymentTerms: string;
+  paymentTerms: PaymentTermsOptions;
 
   @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => ItemListDto)
   @ApiProperty()
-  itemList: {
-    name: string;
-    quantity: number;
-    price: number;
-  }[];
+  itemList: ItemListDto[];
 
   @IsDate()
   @ApiProperty()
@@ -48,4 +121,43 @@ export class InvoiceDto {
   @IsDate()
   @ApiProperty()
   updatedAt: Date;
+}
+
+export class CreateInvoiceDto {
+  @IsString()
+  @IsEnum(InvoiceStatus)
+  @ApiProperty()
+  status: string;
+
+  @IsString()
+  @ApiProperty()
+  description: string;
+
+  @IsNotEmptyObject()
+  @Type(() => BillFromDto)
+  @ApiProperty()
+  billFrom: BillFromDto;
+
+  @IsNotEmptyObject()
+  @Type(() => BillToDto)
+  @ApiProperty()
+  billTo: BillToDto;
+
+  @IsNumberString()
+  @IsEnum(PaymentTermsOptions)
+  @ApiProperty()
+  paymentTerms: PaymentTermsOptions;
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @ArrayMinSize(1)
+  @Type(() => ItemListDto)
+  @ApiProperty()
+  itemList: ItemListDto[];
+}
+
+export class UpdateInvoiceDto extends PartialType(CreateInvoiceDto) {}
+
+export class CreateInvoiceParams {
+  username: string;
 }

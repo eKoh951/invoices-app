@@ -19,7 +19,7 @@ import {
 } from './dto/users.dto';
 
 import { InvoicesServiceV1 } from '../invoices/invoices.service';
-import { InvoiceDto } from '../invoices/dto/invoices.dto';
+import { InvoiceDto, CreateInvoiceDto, CreateInvoiceParams } from '../invoices/dto/invoices.dto';
 
 import {
   ApiTags,
@@ -109,7 +109,7 @@ export class UsersControllerV1 {
 
   ////////////// api/v1/users/:username/invoices
   @Post(':username/invoices')
-  @ApiBody({ type: InvoiceDto })
+  @ApiBody({ type: CreateInvoiceDto })
   @ApiTags('Invoices')
   @ApiParam({
     name: 'username',
@@ -121,8 +121,8 @@ export class UsersControllerV1 {
     description: 'Successfully created invoice',
     type: InvoiceDto,
   })
-  createUserInvoice(@Param(':username') username: string) {
-    return this.invoicesService.createUserInvoice(username);
+  createUserInvoice(@Param() params: CreateInvoiceParams, @Body() invoiceData: CreateInvoiceDto) {
+    return this.invoicesService.createUserInvoice(params.username, invoiceData);
   }
 
   ////////////// api/v1/users/:username/invoices
@@ -136,7 +136,7 @@ export class UsersControllerV1 {
   @ApiOperation({ summary: 'Gets all the invoices of a User' })
   @ApiOkResponse({
     description: 'Successfully obtained invoices',
-    type: [InvoiceDto],
+    type: [CreateInvoiceDto],
   })
   getAllUserInvoices(@Param('username') username: string) {
     return this.invoicesService.getAllUserInvoices(username);
@@ -158,7 +158,7 @@ export class UsersControllerV1 {
   @ApiOperation({ summary: 'Obtain a specific invoice from the user' })
   @ApiOkResponse({
     description: 'Successfully obtained invoice',
-    type: InvoiceDto,
+    type: CreateInvoiceDto,
   })
   getUserInvoice(
     @Param('username') username: string,
@@ -183,7 +183,7 @@ export class UsersControllerV1 {
   @ApiOperation({ summary: 'Edit an invoice data' })
   @ApiOkResponse({
     description: 'Successfully updated invoice',
-    type: InvoiceDto,
+    type: CreateInvoiceDto,
   })
   updateInvoice(
     @Param('username') username: string,
@@ -208,7 +208,7 @@ export class UsersControllerV1 {
   @ApiOperation({ summary: 'Delete an invoice' })
   @ApiOkResponse({
     description: 'Successfully deleted invoice',
-    type: InvoiceDto,
+    type: CreateInvoiceDto,
   })
   deleteInvoice(
     @Param('username') username: string,
