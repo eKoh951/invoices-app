@@ -10,21 +10,21 @@ import {
   CacheInterceptor,
 } from '@nestjs/common';
 
-import { UsersServiceV1 } from './users.service';
+import { UsersServiceV1 } from './users/users.service';
 import {
   CreateUserDto,
   GetUserParams,
   UpdateUserDto,
   UserDto,
-} from './dto/users.dto';
+} from './users/dto/users.dto';
 
-import { InvoicesServiceV1 } from '../invoices/invoices.service';
+import { InvoicesServiceV1 } from './invoices/invoices.service';
 import {
   InvoiceDto,
   CreateInvoiceDto,
   CreateInvoiceParams,
   UpdateInvoiceDto,
-} from '../invoices/dto/invoices.dto';
+} from './invoices/dto/invoices.dto';
 
 import {
   ApiTags,
@@ -38,7 +38,7 @@ import { ApiOkResponse } from '@nestjs/swagger';
 
 @Controller({ path: 'users', version: '1' })
 @UseInterceptors(CacheInterceptor)
-export class UsersControllerV1 {
+export class V1Controller {
   constructor(
     private readonly usersService: UsersServiceV1,
     private readonly invoicesService: InvoicesServiceV1

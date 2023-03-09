@@ -6,8 +6,8 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { UsersServiceV1 } from '../v1/users/users.service';
-import { UserDto } from '../v1/users/dto/users.dto';
+import { UsersServiceV1 } from '../users.service';
+import { UserDto } from '../dto/users.dto';
 import { Cache } from 'cache-manager';
 
 declare global {
@@ -30,7 +30,7 @@ export class CurrentUserMiddleware implements NestMiddleware {
     const userId = req.auth?.payload?.sub.replace(/\|/g, '%7C');
 
     const cachedUser = await this.cacheManager.get<UserDto>(userId);
-    
+
     if (cachedUser) {
       req.user = cachedUser;
       return next();

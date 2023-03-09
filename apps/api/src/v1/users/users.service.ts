@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { ConfigService } from '@nestjs/config';
+// import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
 import { UpdateUserDto, UserDto } from './dto/users.dto';
 
@@ -11,7 +11,7 @@ import { Auth0Utils } from 'src/utils/auth0.utils';
 export class UsersServiceV1 {
   constructor(
     @InjectModel('Users') private usersModel: Model<UserDto>,
-    private configService: ConfigService,
+    // private configService: ConfigService,
     private auth0Utils: Auth0Utils
   ) {}
 

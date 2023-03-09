@@ -6,16 +6,14 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UsersModuleV1 } from './v1/users/users.module';
-import { InvoicesModuleV1 } from './v1/invoices/invoices.module';
-
 import { ValidateAccessToken } from './middlewares/auth.middleware';
 import envConfig from './config/env.config';
 
+import { V1Module } from './v1/v1.module';
+
 @Module({
   imports: [
-    UsersModuleV1,
-    InvoicesModuleV1,
+    V1Module,
     CacheModule.register({ isGlobal: true, ttl: 0 }),
     ConfigModule.forRoot({ isGlobal: true, load: [envConfig] }),
     MongooseModule.forRootAsync({
@@ -26,8 +24,6 @@ import envConfig from './config/env.config';
       inject: [ConfigService],
     }),
   ],
-  controllers: [],
-  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
