@@ -1,7 +1,11 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { InvoiceDto, CreateInvoiceDto } from './dto/invoices.dto';
+import {
+  InvoiceDto,
+  CreateInvoiceDto,
+  UpdateInvoiceDto,
+} from './dto/invoices.dto';
 import { InvoicesUtils } from './invoices.utils';
 
 @Injectable()
@@ -42,7 +46,10 @@ export class InvoicesServiceV1 {
     return allInvoices;
   }
 
-  async getUserInvoice(username: string, invoiceId: string): Promise<InvoiceDto> {
+  async getUserInvoice(
+    username: string,
+    invoiceId: string
+  ): Promise<InvoiceDto> {
     const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
 
     const invoiceInMongo = await this.invoicesModel.findOne({
@@ -57,14 +64,42 @@ export class InvoicesServiceV1 {
     return invoiceInMongo.toObject({ versionKey: false });
   }
 
-  updateInvoice(username: string, invoiceId: string) {
-    return {};
-  }
-
-  async deleteInvoice(username: string, invoiceId: string): Promise<InvoiceDto> {
+  async updateInvoice(
+    username: string,
+    invoiceId: string,
+    invoiceData: UpdateInvoiceDto
+  ) {
+    if (!Object.keys(invoiceData).length) {
+      throw new HttpException(
+        'At least one property must be added when updating the invoice',
+        HttpStatus.BAD_REQUEST
+      );
+    }
     const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
 
-    const invoiceInMongo = await this.invoicesModel.findOneAndDelete({ ownerId, invoiceId })
+    const invoiceInMongo = await this.invoicesModel.findOneAndUpdate(
+      { ownerId, invoiceId },
+      { $set: { invoiceData } },
+      { new: true }
+    );
+
+    if (!invoiceInMongo) {
+      throw new HttpException('Invoice not found', HttpStatus.NOT_FOUND);
+    }
+
+    return invoiceInMongo.toObject({ versionKey: false });
+  }
+
+  async deleteInvoice(
+    username: string,
+    invoiceId: string
+  ): Promise<InvoiceDto> {
+    const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
+
+    const invoiceInMongo = await this.invoicesModel.findOneAndDelete({
+      ownerId,
+      invoiceId,
+    });
 
     if (!invoiceInMongo) {
       throw new HttpException('Invoice not found', HttpStatus.NOT_FOUND);

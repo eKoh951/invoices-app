@@ -11,8 +11,12 @@ import {
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { PartialType } from '@nestjs/mapped-types';
 
-import { PaymentTermsOptions, InvoiceStatus } from 'src/interfaces/invoices.interface';
+import {
+  PaymentTermsOptions,
+  InvoiceStatus,
+} from 'src/interfaces/invoices.interface';
 
 export class BillFromDto {
   @IsString()
@@ -151,6 +155,8 @@ export class CreateInvoiceDto {
   @ApiProperty()
   itemList: ItemListDto[];
 }
+
+export class UpdateInvoiceDto extends PartialType(CreateInvoiceDto) {}
 
 export class CreateInvoiceParams {
   username: string;
