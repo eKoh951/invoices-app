@@ -19,7 +19,12 @@ import {
 } from './dto/users.dto';
 
 import { InvoicesServiceV1 } from '../invoices/invoices.service';
-import { InvoiceDto, CreateInvoiceDto, CreateInvoiceParams } from '../invoices/dto/invoices.dto';
+import {
+  InvoiceDto,
+  CreateInvoiceDto,
+  CreateInvoiceParams,
+  UpdateInvoiceDto,
+} from '../invoices/dto/invoices.dto';
 
 import {
   ApiTags,
@@ -121,7 +126,10 @@ export class UsersControllerV1 {
     description: 'Successfully created invoice',
     type: InvoiceDto,
   })
-  createUserInvoice(@Param() params: CreateInvoiceParams, @Body() invoiceData: CreateInvoiceDto) {
+  createUserInvoice(
+    @Param() params: CreateInvoiceParams,
+    @Body() invoiceData: CreateInvoiceDto
+  ) {
     return this.invoicesService.createUserInvoice(params.username, invoiceData);
   }
 
@@ -187,9 +195,10 @@ export class UsersControllerV1 {
   })
   updateInvoice(
     @Param('username') username: string,
-    @Param('invoiceId') invoiceId: string
+    @Param('invoiceId') invoiceId: string,
+    @Body() invoiceData: UpdateInvoiceDto
   ) {
-    return this.invoicesService.updateInvoice(username, invoiceId);
+    return this.invoicesService.updateInvoice(username, invoiceId, invoiceData);
   }
 
   ////////////// api/v1/users/:username/invoices/:invoiceId
