@@ -1,16 +1,12 @@
 import { Button } from "ui";
+import LoginLogout from "../../../packages/ui/LoginLogout";
 
 export default function Web() {
   return (
     <div>
       <h1>Web</h1>
       <Button />
-      <div>
-        <a href="/api/auth/login">Login</a>
-      </div>
-      <div>
-        <a href="/api/auth/logout">Logout</a>
-      </div>
+      <LoginLogout />
     </div>
   );
 }
