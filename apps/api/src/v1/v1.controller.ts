@@ -8,6 +8,7 @@ import {
   Delete,
   UseInterceptors,
   CacheInterceptor,
+  UploadedFile,
 } from '@nestjs/common';
 
 import { UsersServiceV1 } from './users/users.service';
@@ -35,6 +36,7 @@ import {
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { ApiOkResponse } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller({ path: 'users', version: '1' })
 @UseInterceptors(CacheInterceptor)
@@ -61,7 +63,7 @@ export class V1Controller {
     description: 'Successfully obtained users',
     type: [UserDto],
   })
-  getAllUsers() {
+  getAllUsers(): Promise<UserDto[]> {
     return this.usersService.getAllUsers();
   }
 
@@ -76,7 +78,7 @@ export class V1Controller {
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
-  getUser(@Param() params: GetUserParams) {
+  getUser(@Param() params: GetUserParams): Promise<UserDto> {
     return this.usersService.getUserByUsername(params.username);
   }
 
@@ -94,8 +96,13 @@ export class V1Controller {
   @ApiBadRequestResponse({
     description: 'At least one property must be provided',
   })
-  updateUser(@Param() params: GetUserParams, @Body() body: UpdateUserDto) {
-    return this.usersService.updateUser(params.username, body);
+  @UseInterceptors(FileInterceptor('avatar'))
+  updateUser(
+    @Param() params: GetUserParams,
+    @Body() body: UpdateUserDto,
+    @UploadedFile() avatar: Express.Multer.File
+  ): Promise<UserDto> {
+    return this.usersService.updateUser(params.username, body, avatar);
   }
 
   ////////////// api/v1/users/:username
@@ -108,7 +115,7 @@ export class V1Controller {
   })
   @ApiOperation({ summary: 'Permanently deletes the user' })
   @ApiOkResponse({ description: 'Successfully deleted user', type: UserDto })
-  deleteUser(@Param('username') username: string) {
+  deleteUser(@Param('username') username: string): Promise<UserDto> {
     return this.usersService.deleteUser(username);
   }
 

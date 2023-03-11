@@ -15,7 +15,7 @@ import { V1Module } from './v1/v1.module';
   imports: [
     V1Module,
     CacheModule.register({ isGlobal: true, ttl: 0 }),
-    ConfigModule.forRoot({ isGlobal: true, load: [envConfig] }),
+    ConfigModule.forRoot({ isGlobal: true, cache: true, load: [envConfig] }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({

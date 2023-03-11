@@ -6,12 +6,13 @@ import { UpdateUserDto, UserDto } from './dto/users.dto';
 
 import axios, { AxiosRequestConfig } from 'axios';
 import { Auth0Utils } from 'src/utils/auth0.utils';
+import { UsersUtilsV1 } from './users.utils';
 
 @Injectable()
 export class UsersServiceV1 {
   constructor(
     @InjectModel('Users') private usersModel: Model<UserDto>,
-    // private configService: ConfigService,
+    private usersUtils: UsersUtilsV1,
     private auth0Utils: Auth0Utils
   ) {}
 
@@ -68,8 +69,14 @@ export class UsersServiceV1 {
     return allUsers.map((user) => user.toObject({ versionKey: false }));
   }
 
-  async updateUser(username: string, body: UpdateUserDto): Promise<UserDto> {
-    const { username: usernameBody, avatar } = body;
+  async updateUser(username: string, body: UpdateUserDto, avatar: Express.Multer.File): Promise<UserDto> {
+    const userInMongo = await this.usersModel.findOne({ username });
+
+    if (!userInMongo) {
+      throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
+    }
+
+    const { username: usernameBody } = body;
     const updates: Partial<UserDto> = {};
 
     if (usernameBody !== undefined) {
@@ -77,7 +84,8 @@ export class UsersServiceV1 {
     }
 
     if (avatar !== undefined) {
-      updates.avatar = avatar;
+      const avatarUrl = await this.usersUtils.uploadImageToAws(userInMongo.id, avatar);
+      updates.avatar = avatarUrl;
     }
 
     if (!updates.username && !updates.avatar) {
@@ -100,7 +108,7 @@ export class UsersServiceV1 {
     return updatedUser.toObject({ versionKey: false });
   }
 
-  async deleteUser(username: string) {
+  async deleteUser(username: string): Promise<UserDto> {
     const userInMongo = await this.usersModel.findOneAndDelete({ username });
 
     if (!userInMongo) {
