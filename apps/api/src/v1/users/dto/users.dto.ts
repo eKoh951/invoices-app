@@ -53,10 +53,6 @@ export class UpdateUserDto {
   @IsOptional()
   @ApiProperty({ required: false })
   username?: string;
-  @IsString()
-  @IsOptional()
-  @ApiProperty({ required: false })
-  avatar?: string;
 }
 
 export class GetUserParams {

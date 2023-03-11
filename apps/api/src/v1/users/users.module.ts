@@ -6,15 +6,15 @@ import {
   NestModule,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ConfigModule } from '@nestjs/config';
 import { UsersServiceV1 } from './users.service';
 import { UsersControllerV1 } from './users.controller';
 
 import { InvoicesModuleV1 } from '../invoices/invoices.module';
 import { UsersSchema } from './schemas/users.schema';
 
-import envConfig from '../../config/env.config';
 import { Auth0Utils } from 'src/utils/auth0.utils';
+import { UsersUtilsV1 } from './users.utils';
+
 import { CurrentUserMiddleware } from 'src/middlewares/current-user.middleware';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
@@ -27,6 +27,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
   providers: [
     UsersServiceV1,
     Auth0Utils,
+    UsersUtilsV1,
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,

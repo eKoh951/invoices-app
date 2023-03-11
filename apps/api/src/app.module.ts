@@ -17,7 +17,7 @@ import envConfig from './config/env.config';
     UsersModuleV1,
     InvoicesModuleV1,
     CacheModule.register({ isGlobal: true, ttl: 0 }),
-    ConfigModule.forRoot({ isGlobal: true, load: [envConfig] }),
+    ConfigModule.forRoot({ isGlobal: true, cache: true, load: [envConfig] }),
     MongooseModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
