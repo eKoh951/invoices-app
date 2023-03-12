@@ -16,8 +16,15 @@ const LoginLogout = ({}: Props) => {
 
   return (
     <>
-      <div>{!user && <a href="/api/auth/login">Login</a>}</div>
-      <div>{user && <a href="/api/auth/logout">Logout</a>}</div>
+      {!user ? (
+        <div>
+          <a href="/api/auth/login">Login</a>
+        </div>
+      ) : (
+        <div>
+          <a href="/api/auth/logout">Logout</a>
+        </div>
+      )}
     </>
   );
 };
