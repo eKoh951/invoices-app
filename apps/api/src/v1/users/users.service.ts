@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { UpdateUserDto, UserDto } from './dto/users.dto';
 
 import axios, { AxiosRequestConfig } from 'axios';
-import { Auth0Utils } from 'src/utils/auth0.utils';
+import { Auth0Utils } from '../../utils/auth0.utils';
 import { UsersUtilsV1 } from './users.utils';
 
 @Injectable()

@@ -16,7 +16,7 @@ import { PartialType } from '@nestjs/mapped-types';
 import {
   PaymentTermsOptions,
   InvoiceStatus,
-} from 'src/v1/invoices/interfaces/invoices.interface';
+} from '../interfaces/invoices.interface';
 
 export class BillFromDto {
   @IsString()

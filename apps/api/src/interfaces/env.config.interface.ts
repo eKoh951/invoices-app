@@ -22,6 +22,7 @@ export interface Auth0Api {
 }
 
 export interface AwsConfig {
+  region: string;
   client: AwsClient;
   s3Bucket: string;
 }

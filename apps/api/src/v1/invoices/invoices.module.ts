@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersSchema } from '../users/schemas/users.schema';
 import { InvoicesServiceV1 } from './invoices.service';
-import { InvoicesUtils } from './invoices.utils';
+import { InvoicesUtilsV1 } from './invoices.utils';
 
 import { InvoicesSchema } from './schemas/invoices.schema';
 
@@ -13,7 +13,7 @@ import { InvoicesSchema } from './schemas/invoices.schema';
       { name: 'Users', schema: UsersSchema },
     ]),
   ],
-  providers: [InvoicesServiceV1, InvoicesUtils],
+  providers: [InvoicesServiceV1, InvoicesUtilsV1],
   exports: [InvoicesServiceV1],
 })
 export class InvoicesModuleV1 {}

@@ -10,7 +10,6 @@ import { ValidateAccessToken } from './middlewares/auth.middleware';
 import envConfig from './config/env.config';
 
 import { V1Module } from './v1/v1.module';
-
 @Module({
   imports: [
     V1Module,

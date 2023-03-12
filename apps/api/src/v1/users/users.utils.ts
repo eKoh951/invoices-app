@@ -1,14 +1,16 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from 'src/interfaces/env.config.interface';
-import * as aws from 'aws-sdk';
+import { Upload } from '@aws-sdk/lib-storage';
+import { S3Client, PutObjectCommandInput, CompleteMultipartUploadCommand, CompleteMultipartUploadCommandInput } from '@aws-sdk/client-s3';
+import { Readable } from 'stream';
 
 @Injectable()
 export class UsersUtilsV1 {
   constructor(private configService: ConfigService) {}
 
-  async uploadImageToAws(userId: string, imgData: Express.Multer.File): Promise<string> {
-    const { client, s3Bucket } = this.configService.get<AwsConfig>('aws');
+  async uploadImageToAws(userId: string, imgData: Express.Multer.File) {
+    const { region, client, s3Bucket } = this.configService.get<AwsConfig>('aws');
     const { buffer, mimetype } = imgData;
 
     if (!this.parseImageMime(mimetype)) {
@@ -22,23 +24,30 @@ export class UsersUtilsV1 {
     const fileName = `${userId}.${imgFormat}`;
 
     try {
-      const s3 = new aws.S3({
+      const s3 = new S3Client({
         credentials: {
           accessKeyId: client.accessKey,
           secretAccessKey: client.secretKey,
         },
+        region,
       });
 
-      const s3Params: aws.S3.PutObjectRequest = {
+      const readableStream = Readable.from(buffer);
+
+      const s3Params: PutObjectCommandInput = {
         Bucket: s3Bucket,
         Key: fileName,
-        Body: buffer,
+        Body: readableStream,
       };
 
-      const uploadImg = s3.upload(s3Params);
-      const response = await uploadImg.promise();
+      const uploadImg = new Upload({
+        client: s3,
+        params: s3Params
+      });
 
-      return response.Location;
+      await uploadImg.done();
+
+      return `https://${s3Bucket}.s3.${region}.amazonaws.com/${fileName}`;
     } catch (err) {
       console.log(err);
       throw new HttpException(

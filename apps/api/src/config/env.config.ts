@@ -9,6 +9,7 @@ export default function (): EnvConfig {
     AUTH0_API_CLIENT_ID,
     AUTH0_API_CLIENT_SECRET,
     AUTH0_API_AUDIENCE,
+    AWS_REGION,
     AWS_ACCESS_KEY,
     AWS_SECRET_KEY,
     AWS_S3_BUCKET,
@@ -29,6 +30,7 @@ export default function (): EnvConfig {
       },
     },
     aws: {
+      region: AWS_REGION,
       client: {
         accessKey: AWS_ACCESS_KEY,
         secretKey: AWS_SECRET_KEY,

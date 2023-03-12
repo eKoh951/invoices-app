@@ -6,13 +6,13 @@ import {
   CreateInvoiceDto,
   UpdateInvoiceDto,
 } from './dto/invoices.dto';
-import { InvoicesUtils } from './invoices.utils';
+import { InvoicesUtilsV1 } from './invoices.utils';
 
 @Injectable()
 export class InvoicesServiceV1 {
   constructor(
     @InjectModel('Invoices') private invoicesModel: Model<InvoiceDto>,
-    private invoicesUtils: InvoicesUtils
+    private invoicesUtils: InvoicesUtilsV1
   ) {}
 
   async createUserInvoice(

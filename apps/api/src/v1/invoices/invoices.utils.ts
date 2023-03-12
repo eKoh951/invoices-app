@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { InvoiceDto } from './dto/invoices.dto';
 import { UserDto } from '../users/dto/users.dto';
 
-export class InvoicesUtils {
+export class InvoicesUtilsV1 {
   constructor(
     @InjectModel('Invoices') private invoicesModel: Model<InvoiceDto>,
     @InjectModel('Users') private usersModel: Model<UserDto>
