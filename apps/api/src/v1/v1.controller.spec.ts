@@ -75,14 +75,6 @@ describe('V1Controller', () => {
     await mongod.stop();
   });
 
-  // afterEach(async () => {
-  //   const collections = mongoConnection.collections;
-  //   for (const key in collections) {
-  //     const collection = collections[key];
-  //     await collection.deleteMany({});
-  //   }
-  // });
-
   describe('U - POST v1/users', (): void => {
     it('should create and return the user', async (): Promise<void> => {
       const createdUser = await v1Controller.createUser(CreateUserDtoStub());
