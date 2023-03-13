@@ -79,9 +79,11 @@ describe('V1Controller', () => {
     it('should create and return the user', async (): Promise<void> => {
       const createdUser = await v1Controller.createUser(CreateUserDtoStub());
 
+      const username = CreateUserDtoStub().email.split('@')[0];
+
       expect(createdUser).toBeDefined();
       expect(createdUser).toHaveProperty('email', CreateUserDtoStub().email);
-      expect(createdUser).toHaveProperty('username', 'test1234');
+      expect(createdUser).toHaveProperty('username', username);
       expect(createdUser).toHaveProperty('admin', false);
     });
 
@@ -111,7 +113,7 @@ describe('V1Controller', () => {
       const userInMongo = await v1Controller.getUser(GetUserParamsStub());
 
       expect(userInMongo).toBeDefined();
-      expect(userInMongo).toHaveProperty('username', 'test1234');
+      expect(userInMongo).toHaveProperty('username', GetUserParamsStub().username);
     });
 
     it('should return a NotFoundException | User not found', async (): Promise<void> => {
