@@ -3,6 +3,8 @@ import {
   BadRequestException,
   NotFoundException,
   InternalServerErrorException,
+  Inject,
+  CACHE_MANAGER,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 // import { ConfigService } from '@nestjs/config';
@@ -12,11 +14,13 @@ import { UpdateUserDto, UserDto } from './dto/users.dto';
 import axios, { AxiosRequestConfig } from 'axios';
 import { Auth0Utils } from '../../utils/auth0.utils';
 import { UsersUtilsV1 } from './users.utils';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class UsersServiceV1 {
   constructor(
     @InjectModel('Users') private usersModel: Model<UserDto>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private usersUtils: UsersUtilsV1,
     private auth0Utils: Auth0Utils
   ) {}
@@ -36,12 +40,19 @@ export class UsersServiceV1 {
       email,
     });
 
+    await this.cacheManager.set(email, createdUser);
+
     return createdUser.toObject({ versionKey: false });
   }
 
   async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<UserDto> {
-    const userInMongo = await this.usersUtils.findUserInMongo(usernameOrEmail);
+    const userInCache = await this.cacheManager.get<UserDto>(usernameOrEmail);
 
+    if (userInCache) {
+      return userInCache;
+    }
+
+    const userInMongo = await this.usersUtils.findUserInMongo(usernameOrEmail);
     return userInMongo.toObject({ versionKey: false });
   }
 
@@ -56,8 +67,13 @@ export class UsersServiceV1 {
 
     try {
       const { data } = await axios(axiosOptions);
-      const userInMongo = await this.createUserByEmail(data.email);
+      const userInCache = await this.cacheManager.get<UserDto>(data.email);
 
+      if (userInCache) {
+        return userInCache;
+      }
+
+      const userInMongo = await this.createUserByEmail(data.email);
       return userInMongo;
     } catch (error) {
       throw new InternalServerErrorException(
@@ -108,6 +124,8 @@ export class UsersServiceV1 {
       throw new NotFoundException('User not found');
     }
 
+    await this.cacheManager.set(updatedUser.email, updatedUser);
+
     return updatedUser.toObject({ versionKey: false });
   }
 
@@ -117,6 +135,8 @@ export class UsersServiceV1 {
     if (!userInMongo) {
       throw new NotFoundException('User not found');
     }
+
+    await this.cacheManager.del(userInMongo.email);
 
     return userInMongo.toObject({ versionKey: false });
   }

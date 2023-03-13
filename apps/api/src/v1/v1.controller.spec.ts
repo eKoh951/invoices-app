@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import {
-  BadRequestException,
   CacheInterceptor,
   CacheModule,
+  BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
 
@@ -177,6 +177,7 @@ describe('V1Controller', () => {
   //////////////////////////////////
 
   let invoiceId: string;
+  let testUsername: string;
 
   describe('I - POST v1/users/:username/invoices', (): void => {
     it('should create and return the invoice', async (): Promise<void> => {
@@ -188,6 +189,7 @@ describe('V1Controller', () => {
       );
 
       invoiceId = createdInvoice.invoiceId;
+      testUsername = CreateInvoiceParamsStub().username;
 
       expect(createdInvoice).toBeDefined();
       expect(createdInvoice.invoiceId).toEqual(invoiceId);
@@ -198,9 +200,7 @@ describe('V1Controller', () => {
 
   describe('I - GET v1/users/:username/invoices', (): void => {
     it('should return all the invoices from a user', async (): Promise<void> => {
-      const allInvoices = await v1Controller.getAllUserInvoices(
-        CreateInvoiceParamsStub().username
-      );
+      const allInvoices = await v1Controller.getAllUserInvoices(testUsername);
 
       expect(allInvoices).toBeDefined();
       expect(Array.isArray(allInvoices)).toBeTruthy();
@@ -211,7 +211,7 @@ describe('V1Controller', () => {
   describe('I - GET v1/users/:username/invoices/:invoiceId', (): void => {
     it('should return one invoice from the user', async (): Promise<void> => {
       const invoiceInMongo = await v1Controller.getUserInvoice(
-        CreateInvoiceParamsStub().username,
+        testUsername,
         invoiceId
       );
 
@@ -223,7 +223,7 @@ describe('V1Controller', () => {
   describe('I - PATCH v1/users/:username/invoices/:invoiceId', (): void => {
     it('should edit and return the invoice', async (): Promise<void> => {
       const updatedInvoice = await v1Controller.updateInvoice(
-        CreateInvoiceParamsStub().username,
+        testUsername,
         invoiceId,
         UpdateInvoiceDtoStub()
       );
@@ -234,11 +234,7 @@ describe('V1Controller', () => {
 
     it('sould return a BadRequestException | At least one property must be provided', async (): Promise<void> => {
       try {
-        await v1Controller.updateInvoice(
-          CreateInvoiceParamsStub().username,
-          invoiceId,
-          {}
-        );
+        await v1Controller.updateInvoice(testUsername, invoiceId, {});
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
         expect(error.message).toMatch(
@@ -251,7 +247,7 @@ describe('V1Controller', () => {
   describe('I - DELETE v1/users/:username/invoices/:invoiceId', (): void => {
     it('should find, delete and return the invoice', async (): Promise<void> => {
       const deletedInvoice = await v1Controller.deleteInvoice(
-        CreateInvoiceParamsStub().username,
+        testUsername,
         invoiceId
       );
 
@@ -260,10 +256,7 @@ describe('V1Controller', () => {
 
     it('should return a NotFoundException | Invoice not found', async (): Promise<void> => {
       try {
-        await v1Controller.getUserInvoice(
-          CreateInvoiceParamsStub().username,
-          invoiceId
-        );
+        await v1Controller.getUserInvoice(testUsername, invoiceId);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.message).toMatch('Invoice not found');

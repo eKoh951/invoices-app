@@ -35,6 +35,7 @@ export class UsersUtilsV1 {
   async uploadImageToAws(userId: string, imgData: Express.Multer.File) {
     const { region, client, s3Bucket } =
       this.configService.get<AwsConfig>('aws');
+      
     const { buffer, mimetype } = imgData;
 
     if (!this.parseImageMime(mimetype)) {
