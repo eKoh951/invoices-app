@@ -1,6 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { Auth0Api } from 'src/interfaces/env.config.interface';
-import { CACHE_MANAGER, HttpException, HttpStatus, Inject } from '@nestjs/common';
+import { CACHE_MANAGER, Inject, InternalServerErrorException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 
 import axios, { AxiosRequestConfig } from 'axios';
@@ -39,9 +39,8 @@ export class Auth0Utils {
       } catch (error) {
         console.log(error);
         
-        throw new HttpException(
-          `An error occurred while getting the token`,
-          HttpStatus.INTERNAL_SERVER_ERROR
+        throw new InternalServerErrorException(
+          `An error occurred while getting the token`
         )
       }
     }

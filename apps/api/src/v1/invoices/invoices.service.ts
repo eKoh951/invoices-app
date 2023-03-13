@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
@@ -58,7 +62,7 @@ export class InvoicesServiceV1 {
     });
 
     if (!invoiceInMongo) {
-      throw new HttpException('Invoice not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Invoice not found');
     }
 
     return invoiceInMongo.toObject({ versionKey: false });
@@ -70,21 +74,20 @@ export class InvoicesServiceV1 {
     invoiceData: UpdateInvoiceDto
   ) {
     if (!Object.keys(invoiceData).length) {
-      throw new HttpException(
-        'At least one property must be added when updating the invoice',
-        HttpStatus.BAD_REQUEST
+      throw new BadRequestException(
+        'At least one property must be added when updating the invoice'
       );
     }
     const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
 
     const invoiceInMongo = await this.invoicesModel.findOneAndUpdate(
       { ownerId, invoiceId },
-      { $set: { invoiceData } },
+      invoiceData,
       { new: true }
     );
 
     if (!invoiceInMongo) {
-      throw new HttpException('Invoice not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Invoice not found');
     }
 
     return invoiceInMongo.toObject({ versionKey: false });
@@ -102,7 +105,7 @@ export class InvoicesServiceV1 {
     });
 
     if (!invoiceInMongo) {
-      throw new HttpException('Invoice not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('Invoice not found');
     }
 
     return invoiceInMongo.toObject({ versionKey: false });

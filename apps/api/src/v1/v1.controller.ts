@@ -52,7 +52,7 @@ export class V1Controller {
   @ApiOperation({ summary: 'Create a user in the database' })
   @ApiOkResponse({ description: 'User successfully registered', type: UserDto })
   createUser(@Body() body: CreateUserDto): Promise<UserDto> {
-    return this.usersService.createOrGetUserByEmail(body.email);
+    return this.usersService.createUserByEmail(body.email);
   }
 
   ////////////// api/v1/users
@@ -79,7 +79,7 @@ export class V1Controller {
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
   getUser(@Param() params: GetUserParams): Promise<UserDto> {
-    return this.usersService.getUserByUsername(params.username);
+    return this.usersService.getUserByUsernameOrEmail(params.username);
   }
 
   ////////////// api/v1/users/:username
@@ -118,6 +118,10 @@ export class V1Controller {
   deleteUser(@Param('username') username: string): Promise<UserDto> {
     return this.usersService.deleteUser(username);
   }
+
+  ////////////////////////////////////////
+  ////////////////////////////////////////
+  ////////////////////////////////////////
 
   ////////////// api/v1/users/:username/invoices
   @Post(':username/invoices')

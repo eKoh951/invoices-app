@@ -40,11 +40,11 @@ export class Invoices {
   paymentTerms: string;
 
   @Prop(
-    raw({
+    [raw({
       name: { type: String },
       quantity: { type: Number },
       price: { type: Number },
-    })
+    })]
   )
   itemList: Record<string, any>[];
 }

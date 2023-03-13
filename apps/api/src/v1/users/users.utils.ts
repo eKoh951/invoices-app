@@ -1,22 +1,45 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AwsConfig } from 'src/interfaces/env.config.interface';
 import { Upload } from '@aws-sdk/lib-storage';
-import { S3Client, PutObjectCommandInput, CompleteMultipartUploadCommand, CompleteMultipartUploadCommandInput } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommandInput } from '@aws-sdk/client-s3';
 import { Readable } from 'stream';
+import { InjectModel } from '@nestjs/mongoose';
+import { UserDto } from './dto/users.dto';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class UsersUtilsV1 {
-  constructor(private configService: ConfigService) {}
+  constructor(
+    private configService: ConfigService,
+    @InjectModel('Users') private usersModel: Model<UserDto>
+  ) {}
+
+  async findUserInMongo(emailOrUsername: string) {
+    const userInMongo = await this.usersModel.findOne({
+      $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+    });
+
+    if (!userInMongo) {
+      throw new NotFoundException(`User not found.`);
+    }
+
+    return userInMongo;
+  }
 
   async uploadImageToAws(userId: string, imgData: Express.Multer.File) {
-    const { region, client, s3Bucket } = this.configService.get<AwsConfig>('aws');
+    const { region, client, s3Bucket } =
+      this.configService.get<AwsConfig>('aws');
     const { buffer, mimetype } = imgData;
 
     if (!this.parseImageMime(mimetype)) {
-      throw new HttpException(
-        `Invalid image format, expected ('jpg' | 'jpeg' | 'png')`,
-        HttpStatus.BAD_REQUEST
+      throw new BadRequestException(
+        `Invalid image format, expected ('jpg' | 'jpeg' | 'png')`
       );
     }
 
@@ -42,7 +65,7 @@ export class UsersUtilsV1 {
 
       const uploadImg = new Upload({
         client: s3,
-        params: s3Params
+        params: s3Params,
       });
 
       await uploadImg.done();
@@ -50,9 +73,8 @@ export class UsersUtilsV1 {
       return `https://${s3Bucket}.s3.${region}.amazonaws.com/${fileName}`;
     } catch (err) {
       console.log(err);
-      throw new HttpException(
-        'Error uploading image, try again later',
-        HttpStatus.INTERNAL_SERVER_ERROR
+      throw new InternalServerErrorException(
+        'Error uploading image, try again later'
       );
     }
   }

@@ -1,5 +1,4 @@
 import {
-  CacheModule,
   CACHE_MANAGER,
   Inject,
   Injectable,

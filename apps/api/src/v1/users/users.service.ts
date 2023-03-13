@@ -1,4 +1,9 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 // import { ConfigService } from '@nestjs/config';
 import { Model } from 'mongoose';
@@ -16,27 +21,26 @@ export class UsersServiceV1 {
     private auth0Utils: Auth0Utils
   ) {}
 
-  async createOrGetUserByEmail(email: string): Promise<UserDto> {
+  async createUserByEmail(email: string): Promise<UserDto> {
+    const username = email.split('@')[0];
     const userInMongo = await this.usersModel.findOne({ email });
 
-    if (!userInMongo) {
-      const username = email.split('@')[0];
-      const userInMongo = await this.usersModel.create({
-        username,
-        email,
-      });
-      return userInMongo.toObject({ versionKey: false });
+    if (userInMongo) {
+      throw new BadRequestException(
+        'A User with te requested email address is already registered'
+      );
     }
 
-    return userInMongo.toObject({ versionKey: false });
+    const createdUser = await this.usersModel.create({
+      username,
+      email,
+    });
+
+    return createdUser.toObject({ versionKey: false });
   }
 
-  async getUserByUsername(username: string): Promise<UserDto> {
-    const userInMongo = await this.usersModel.findOne({ username });
-
-    if (!userInMongo) {
-      throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
-    }
+  async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<UserDto> {
+    const userInMongo = await this.usersUtils.findUserInMongo(usernameOrEmail);
 
     return userInMongo.toObject({ versionKey: false });
   }
@@ -52,13 +56,12 @@ export class UsersServiceV1 {
 
     try {
       const { data } = await axios(axiosOptions);
-      const userInMongo = await this.createOrGetUserByEmail(data.email);
+      const userInMongo = await this.createUserByEmail(data.email);
 
       return userInMongo;
     } catch (error) {
-      throw new HttpException(
-        `An error occurred while getting the current user`,
-        HttpStatus.INTERNAL_SERVER_ERROR
+      throw new InternalServerErrorException(
+        `An error occurred while getting the current user`
       );
     }
   }
@@ -69,12 +72,12 @@ export class UsersServiceV1 {
     return allUsers.map((user) => user.toObject({ versionKey: false }));
   }
 
-  async updateUser(username: string, body: UpdateUserDto, avatar: Express.Multer.File): Promise<UserDto> {
-    const userInMongo = await this.usersModel.findOne({ username });
-
-    if (!userInMongo) {
-      throw new HttpException(`User not found.`, HttpStatus.NOT_FOUND);
-    }
+  async updateUser(
+    username: string,
+    body: UpdateUserDto,
+    avatar: Express.Multer.File
+  ): Promise<UserDto> {
+    const userInMongo = await this.usersUtils.findUserInMongo(username);
 
     const { username: usernameBody } = body;
     const updates: Partial<UserDto> = {};
@@ -84,15 +87,15 @@ export class UsersServiceV1 {
     }
 
     if (avatar !== undefined) {
-      const avatarUrl = await this.usersUtils.uploadImageToAws(userInMongo.id, avatar);
+      const avatarUrl = await this.usersUtils.uploadImageToAws(
+        userInMongo.id,
+        avatar
+      );
       updates.avatar = avatarUrl;
     }
 
     if (!updates.username && !updates.avatar) {
-      throw new HttpException(
-        'At least one property must be provided',
-        HttpStatus.BAD_REQUEST
-      );
+      throw new BadRequestException('At least one property must be provided');
     }
 
     const updatedUser = await this.usersModel.findOneAndUpdate(
@@ -102,7 +105,7 @@ export class UsersServiceV1 {
     );
 
     if (!updatedUser) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('User not found');
     }
 
     return updatedUser.toObject({ versionKey: false });
@@ -112,7 +115,7 @@ export class UsersServiceV1 {
     const userInMongo = await this.usersModel.findOneAndDelete({ username });
 
     if (!userInMongo) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('User not found');
     }
 
     return userInMongo.toObject({ versionKey: false });

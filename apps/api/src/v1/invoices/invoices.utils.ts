@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvoiceDto } from './dto/invoices.dto';
@@ -37,7 +37,7 @@ export class InvoicesUtilsV1 {
     const userInMongo = await this.usersModel.findOne({ username });
 
     if (!userInMongo) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new NotFoundException('User not found');
     }
 
     return userInMongo.id;
