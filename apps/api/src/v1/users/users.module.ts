@@ -1,6 +1,5 @@
 import {
   CacheInterceptor,
-  CacheModule,
   MiddlewareConsumer,
   Module,
   NestModule,

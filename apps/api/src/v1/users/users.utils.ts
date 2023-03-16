@@ -20,29 +20,31 @@ export class UsersUtilsV1 {
     @InjectModel('Users') private usersModel: Model<UserDto>
   ) {}
 
-  async findUserInMongo(emailOrUsername: string) {
-    const userInMongo = await this.usersModel.findOne({
-      $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
-    });
+  private validateImageMime(mimetype: string): void {
+    const mimeRegex = new RegExp(/^image\/(jpg|jpeg|png)$/);
 
-    if (!userInMongo) {
-      throw new NotFoundException(`User not found.`);
+    if (!mimeRegex.test(mimetype)) {
+      throw new BadRequestException(
+        `Invalid image format, expected ('jpg' | 'jpeg' | 'png')`
+      );
     }
+  }
 
-    return userInMongo;
+  private buildS3ImageUrl(
+    s3Bucket: string,
+    region: string,
+    fileName: string
+  ): string {
+    return `https://${s3Bucket}.s3.${region}.amazonaws.com/${fileName}`;
   }
 
   async uploadImageToAws(userId: string, imgData: Express.Multer.File) {
     const { region, client, s3Bucket } =
       this.configService.get<AwsConfig>('aws');
-      
+
     const { buffer, mimetype } = imgData;
 
-    if (!this.parseImageMime(mimetype)) {
-      throw new BadRequestException(
-        `Invalid image format, expected ('jpg' | 'jpeg' | 'png')`
-      );
-    }
+    this.validateImageMime(mimetype);
 
     const imgFormat = mimetype.split('/')[1];
     const fileName = `${userId}.${imgFormat}`;
@@ -71,7 +73,7 @@ export class UsersUtilsV1 {
 
       await uploadImg.done();
 
-      return `https://${s3Bucket}.s3.${region}.amazonaws.com/${fileName}`;
+      return this.buildS3ImageUrl(s3Bucket, region, fileName);
     } catch (err) {
       console.log(err);
       throw new InternalServerErrorException(
@@ -80,9 +82,15 @@ export class UsersUtilsV1 {
     }
   }
 
-  parseImageMime(mimetype: string): boolean {
-    const mimeRegex = new RegExp(/^image\/(jpg|jpeg|png)$/);
+  async findUserInMongo(emailOrUsername: string) {
+    const userInMongo = await this.usersModel.findOne({
+      $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+    });
 
-    return mimeRegex.test(mimetype);
+    if (!userInMongo) {
+      throw new NotFoundException(`User not found.`);
+    }
+
+    return userInMongo;
   }
 }

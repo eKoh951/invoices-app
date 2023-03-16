@@ -79,7 +79,7 @@ export class V1Controller {
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
   getUser(@Param() params: GetUserParams): Promise<UserDto> {
-    return this.usersService.getUserByUsernameOrEmail(params.username);
+    return this.usersService.getUserByUsername(params.username);
   }
 
   ////////////// api/v1/users/:username

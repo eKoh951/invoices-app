@@ -45,14 +45,19 @@ export class UsersServiceV1 {
     return createdUser.toObject({ versionKey: false });
   }
 
-  async getUserByUsernameOrEmail(usernameOrEmail: string): Promise<UserDto> {
-    const userInCache = await this.cacheManager.get<UserDto>(usernameOrEmail);
+  async getUserByUsername(username: string): Promise<UserDto> {
+    const userInMongo = await this.usersUtils.findUserInMongo(username);
+    return userInMongo.toObject({ versionKey: false });
+  }
+
+  async getUserByEmail(email: string): Promise<UserDto> {
+    const userInCache = await this.cacheManager.get<UserDto>(email);
 
     if (userInCache) {
       return userInCache;
     }
 
-    const userInMongo = await this.usersUtils.findUserInMongo(usernameOrEmail);
+    const userInMongo = await this.usersUtils.findUserInMongo(email);
     return userInMongo.toObject({ versionKey: false });
   }
 
@@ -91,24 +96,14 @@ export class UsersServiceV1 {
   async updateUser(
     username: string,
     body: UpdateUserDto,
-    avatar: Express.Multer.File
+    avatarFile: Express.Multer.File
   ): Promise<UserDto> {
     const userInMongo = await this.usersUtils.findUserInMongo(username);
 
-    const { username: usernameBody } = body;
-    const updates: Partial<UserDto> = {};
-
-    if (usernameBody !== undefined) {
-      updates.username = usernameBody;
-    }
-
-    if (avatar !== undefined) {
-      const avatarUrl = await this.usersUtils.uploadImageToAws(
-        userInMongo.id,
-        avatar
-      );
-      updates.avatar = avatarUrl;
-    }
+    const updates: Partial<UserDto> = {
+      ...body.username && { username: body.username },
+      ...avatarFile && { avatar: await this.usersUtils.uploadImageToAws(userInMongo.id, avatarFile) },
+    };
 
     if (!updates.username && !updates.avatar) {
       throw new BadRequestException('At least one property must be provided');
