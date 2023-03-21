@@ -13,8 +13,12 @@ export interface ButtonProps extends ButtonBaseProps {
   children: React.ReactNode;
 }
 
-export const Button = ({ children, ...rest }: ButtonProps) => (
-  <MuiButton {...rest}>{children}</MuiButton>
+export const Button = ({ children, sx,  ...rest }: ButtonProps) => (
+  <MuiButton 
+  sx={{
+    borderRadius: "42px"
+  }}
+  {...rest}>{children}</MuiButton>
 );
 
 Button.defaultProps = {

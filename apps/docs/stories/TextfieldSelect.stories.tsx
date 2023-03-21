@@ -1,10 +1,11 @@
 import React from "react";
-import { TextInput } from "ui/inputText";
+import { MenuItem } from "@mui/material";
+import { TextFieldInput } from "ui/TextFieldSelect";
 
 
 export default {
-  title: "Example",
-  component: TextInput,
+  title: "Locuras ",
+  component: TextFieldInput,
   argTypes: {
     placeholder : {control: "text"},
     label : {control: "text"},
@@ -30,44 +31,42 @@ export default {
   }
 };
 
-const Template = (args) => <TextInput {...args} />
+const Template = (args) => 
 
-export const Text_Input = Template.bind({});
-Text_Input.args = {
- 
-  sx : {
+  <TextFieldInput {...args} >
+    <MenuItem value={1}>Net 1 Day</MenuItem>
+    <MenuItem value={2}>Net 7 Days</MenuItem>
+    <MenuItem value={3}>Net 14 Days</MenuItem>
+    <MenuItem value={4}>Net 30 Days</MenuItem>
+  </TextFieldInput>
 
+export const Option_Select = Template.bind({});
+Option_Select.args = {
 
-    // input label when focused
+ sx : {
+    minWidth : "120px",
     "& label.Mui-focused": {
       color: "purple.main"
     },
-    // // focused color for input with variant='standard'
     "& .MuiInput-underline:after": {
       borderBottomColor: "purple.main",
     },  
-    // // focused color for input with variant='filled'
     "& .MuiFilledInput-underline:after": {
       borderBottomColor: "purple.main"
     },
-    // focused color for input with variant='outlined'
     "& .MuiOutlinedInput-root": {
-        backgroundColor : "componentBackground.main",
-        borderColor: "purple.main",
+        backgroundColor: "componentBackground.main" ,
 
       "&.Mui-focused fieldset": {
-        borderColor: "purple.main",
-        borderWidth : "1px"
+        borderColor: "purple.main"
       },
       '&:hover fieldset': {
         borderColor: 'purple.main',
       },
-      "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: "status.draft",
-        borderWidth: "1px"
-      }
     },
-  }
+    "& .MuiSelect-icon" : {
+      color: "purple.main"
+    },
+  },
+
 };
- 
-  

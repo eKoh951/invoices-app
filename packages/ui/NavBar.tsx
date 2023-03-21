@@ -6,13 +6,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
-import LightMode from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Avatar from "@mui/material/Avatar";
 import { Container } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-
-const drawerWidth = "108px";
+import {logo} from './images/logo.svg'
 
 export default function PermanentDrawerLeft({ ...rest }) {
   const dummyMenuItems = [
@@ -43,30 +41,20 @@ export default function PermanentDrawerLeft({ ...rest }) {
     e.target.dispatchEvent(new customEvent("itemClick", { detail }));
   };
 
-  const itemClick = (e) => {
-    console.log("Item Clicked " + e.detail);
-  };
 
   return (
-    <Container
-      sx={{
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
+    <Container>
       <CssBaseline />
       <Drawer
         {...rest}
         sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
+           "& .MuiDrawer-paper": {
+            width: "103px",
             boxSizing: "border-box",
             alignItems: "center",
             background: "#373B53",
-            borderTopRightRadius: "20px",
-            borderBottomRightRadius: "20px",
+            borderTopRightRadius: "15px",
+            borderBottomRightRadius: "15px",
           },
         }}
         variant="permanent"
@@ -74,24 +62,33 @@ export default function PermanentDrawerLeft({ ...rest }) {
       >
         <Grid2
           container
-          justifyContent={"space-between"}
-          height={"100vh"}
+          justifyContent="space-between"
+          height="100vh"
+          width="100%"
           sx={{
             flexDirection: "column",
             alignItems: "center",
           }}
         >
-          <Grid2 sx={{ my: 2 }}>
-            <ListItemButton>
-              <LightMode color="action" />
-            </ListItemButton>
+          <Grid2
+          sx={{
+            backgroundColor: "purple.main" , 
+            width: "100%",
+            height: "103px"
+          }}
+          >  
+          <img src="./images/logo.svg"/>
           </Grid2>
 
-          <Grid2 sx={{ my: 2 }}>
-            <ListItemButton>
-              <DarkModeIcon color="action" />
-            </ListItemButton>
-            <Divider color="#494E6E" />
+          <Grid2 >
+              <ListItemButton 
+                 sx={{
+                 justifyContent: "center"
+                }}
+              >
+                <DarkModeIcon color="action" />
+                </ListItemButton>
+        <Divider color="#494E6E" />
             <ListItem disablePadding>
               <ListItemButton
                 aria-controls="simple-menu"
@@ -102,7 +99,6 @@ export default function PermanentDrawerLeft({ ...rest }) {
               >
                 <Avatar
                   alt="Remy Sharp"
-                  src="https://avatars.githubusercontent.com/u/9522251?v=4"
                 />
               </ListItemButton>
               <Menu

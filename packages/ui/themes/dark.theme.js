@@ -33,11 +33,16 @@ export const darkTheme = createTheme({
       hover: "#FFFFFF",
       contrastText: "#DFE3FA",
     },
-    // changes finish here
-    contrastText: "white",
-    softBlue: {
-      main: "#7C5DFA",
+    componentBackground : {
+      main : "#252945"
     },
+    icon: {
+      date: "#7E88C3"
+    },
+    font: {
+      main: "#DFE3FA"
+    },
+        // changes finish here
     secondary: {
       main: "#9277FF",
     },
@@ -128,7 +133,7 @@ export const darkTheme = createTheme({
       lineHeight: "137px",
       letterSpacing: "-3.75px",
     },
-    caption: {
+    h5: {
       fontSize: "20px",
       fontWeight: "700",
       lineHeight: "39px",
@@ -150,4 +155,11 @@ export const darkTheme = createTheme({
     fontWeightBold: "700",
     textTransform: "none",
   },
+  caption: {
+    fontSize: "12px",
+      fontWeight: "700",
+      lineHeight: "15px",
+      letterSpacing: "-0.25px",
+      textTransform: "none",
+  }
 });

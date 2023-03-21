@@ -40,7 +40,7 @@ export default function Types() {
         </Box>
         <Box sx={{ width: "100%", maxWidth: 500 }}>
           <Stack spacing={3}>
-            <Typography variant="caption" display="block" gutterBottom>
+            <Typography variant="h5" display="block" gutterBottom>
               ABCDEFGHIJKLMNOPQRSTUV WXYZabcdefghijklmnopqr
               stuvwxyz1234567890!@#$%^&*()
             </Typography>

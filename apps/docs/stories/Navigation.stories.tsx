@@ -8,7 +8,6 @@ export default {
 
 const Template = (args) => <PermanentDrawerLeft {...args} />;
 
-export const NavBar = Template.bind({});
-NavBar.args = {
-  label: "center",
+export const Navigation_Bar = Template.bind({});
+Navigation_Bar.args = {
 };

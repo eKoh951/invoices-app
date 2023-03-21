@@ -34,6 +34,16 @@ export const lightTheme = createTheme({
       contrastText: "#7E88C3",
     },
     // changes finish here
+    componentBackground : {
+      main : "#ffffff"
+    },
+    icon: {
+      date: "#7E88C3"
+    },
+    font: {
+      main: "#0C0E16"
+    },
+
     softBlue: {
       main: "#7C5DFA",
       contrastText: "white",
@@ -134,7 +144,7 @@ export const lightTheme = createTheme({
       lineHeight: "137px",
       letterSpacing: "-3.75px",
     },
-    caption: {
+    h5: {
       fontSize: "20px",
       fontWeight: "700",
       lineHeight: "39px",

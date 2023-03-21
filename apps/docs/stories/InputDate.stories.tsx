@@ -6,11 +6,9 @@ export default {
   component: InputDate,
 }
 
-const Template = (args) => <InputDate {...args}/>
+const Template = (args: JSX.IntrinsicAttributes) => <InputDate {...args}/>
 
-export const Date1 = Template.bind({});
-Date1.args = {
-  label: "Input Text",
-  color: "primary" ,
+export const Date_Picker = Template.bind({});
+Date_Picker.args = {
   variant: "outlined",
-};
+}
