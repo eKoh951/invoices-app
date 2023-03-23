@@ -33,16 +33,16 @@ export const darkTheme = createTheme({
       hover: "#FFFFFF",
       contrastText: "#DFE3FA",
     },
-    componentBackground : {
-      main : "#252945"
+    componentBackground: {
+      main: "#252945",
     },
     icon: {
-      date: "#7E88C3"
+      date: "#7E88C3",
     },
     font: {
-      main: "#DFE3FA"
+      main: "#DFE3FA",
     },
-        // changes finish here
+    // changes finish here
     secondary: {
       main: "#9277FF",
     },
@@ -81,6 +81,9 @@ export const darkTheme = createTheme({
     },
     limeGreen: {
       main: "#33D69F",
+    },
+    navBg: {
+      main: "#1E2139",
     },
   },
   typography: {
@@ -157,9 +160,9 @@ export const darkTheme = createTheme({
   },
   caption: {
     fontSize: "12px",
-      fontWeight: "700",
-      lineHeight: "15px",
-      letterSpacing: "-0.25px",
-      textTransform: "none",
-  }
+    fontWeight: "700",
+    lineHeight: "15px",
+    letterSpacing: "-0.25px",
+    textTransform: "none",
+  },
 });

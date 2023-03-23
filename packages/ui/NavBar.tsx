@@ -10,7 +10,8 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import Avatar from "@mui/material/Avatar";
 import { Container } from "@mui/material";
 import Grid2 from "@mui/material/Unstable_Grid2/Grid2";
-import {logo} from './images/logo.svg'
+import logo from "./images/logo.svg";
+import Image from "next/image";
 
 export default function PermanentDrawerLeft({ ...rest }) {
   const dummyMenuItems = [
@@ -31,7 +32,6 @@ export default function PermanentDrawerLeft({ ...rest }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const nativeOnChange = (e) => {
     const detail = {
       selectedIndex: e.target.selectedIndex,
@@ -40,7 +40,9 @@ export default function PermanentDrawerLeft({ ...rest }) {
 
     e.target.dispatchEvent(new customEvent("itemClick", { detail }));
   };
-
+  const MyLogo = () => {
+    return <Image src={logo} alt="logo" width={103} height={103} />;
+  };
 
   return (
     <Container>
@@ -48,11 +50,11 @@ export default function PermanentDrawerLeft({ ...rest }) {
       <Drawer
         {...rest}
         sx={{
-           "& .MuiDrawer-paper": {
+          "& .MuiDrawer-paper": {
             width: "103px",
             boxSizing: "border-box",
             alignItems: "center",
-            background: "#373B53",
+            backgroundColor: "#373B53",
             borderTopRightRadius: "15px",
             borderBottomRightRadius: "15px",
           },
@@ -71,24 +73,24 @@ export default function PermanentDrawerLeft({ ...rest }) {
           }}
         >
           <Grid2
-          sx={{
-            backgroundColor: "purple.main" , 
-            width: "100%",
-            height: "103px"
-          }}
-          >  
-          <img src="./images/logo.svg"/>
+            sx={{
+              backgroundColor: "purple.main",
+              width: "100%",
+              height: "103px",
+            }}
+          >
+            <MyLogo />
           </Grid2>
 
-          <Grid2 >
-              <ListItemButton 
-                 sx={{
-                 justifyContent: "center"
-                }}
-              >
-                <DarkModeIcon color="action" />
-                </ListItemButton>
-        <Divider color="#494E6E" />
+          <Grid2>
+            <ListItemButton
+              sx={{
+                justifyContent: "center",
+              }}
+            >
+              <DarkModeIcon color="action" />
+            </ListItemButton>
+            <Divider color="#494E6E" />
             <ListItem disablePadding>
               <ListItemButton
                 aria-controls="simple-menu"
@@ -97,9 +99,7 @@ export default function PermanentDrawerLeft({ ...rest }) {
                 aria-label="Open to show more"
                 title="Open to show more"
               >
-                <Avatar
-                  alt="Remy Sharp"
-                />
+                <Avatar alt="Remy Sharp" />
               </ListItemButton>
               <Menu
                 id="simple-menu"

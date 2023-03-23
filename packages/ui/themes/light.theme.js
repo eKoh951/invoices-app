@@ -34,14 +34,14 @@ export const lightTheme = createTheme({
       contrastText: "#7E88C3",
     },
     // changes finish here
-    componentBackground : {
-      main : "#ffffff"
+    componentBackground: {
+      main: "#ffffff",
     },
     icon: {
-      date: "#7E88C3"
+      date: "#7E88C3",
     },
     font: {
-      main: "#0C0E16"
+      main: "#0C0E16",
     },
 
     softBlue: {
@@ -92,6 +92,9 @@ export const lightTheme = createTheme({
     },
     limeGreen: {
       main: "#33D69F",
+    },
+    navBg: {
+      main: "#373B53",
     },
   },
   typography: {
