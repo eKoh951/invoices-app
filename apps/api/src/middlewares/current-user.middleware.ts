@@ -5,7 +5,7 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { Auth0Utils } from 'src/utils/auth0.utils';
+import { Auth0Utils } from '../utils/auth0.utils';
 import { Cache } from 'cache-manager';
 import { User } from 'auth0';
 

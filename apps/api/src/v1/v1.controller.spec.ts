@@ -13,12 +13,15 @@ import { Invoices, InvoicesSchema } from './invoices/schemas/invoices.schema';
 
 import { V1Controller } from './v1.controller';
 import { UsersServiceV1 } from './users/users.service';
+import { UsersServiceV1Mock } from '../test/mocks/users.service.mock';
 import { InvoicesServiceV1 } from './invoices/invoices.service';
 import { UsersUtilsV1 } from './users/users.utils';
 import { InvoicesUtilsV1 } from './invoices/invoices.utils';
 import { Auth0Utils } from '../utils/auth0.utils';
+import { Auth0UtilsMock } from '../test/mocks/auth.utils.mock';
 
 import { ConfigService } from '@nestjs/config';
+import { ConfigServiceMock } from '../test/mocks/config.service.mock';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import {
@@ -49,12 +52,12 @@ describe('V1Controller', () => {
       imports: [CacheModule.register({ isGlobal: true, ttl: 0 })],
       controllers: [V1Controller],
       providers: [
-        UsersServiceV1,
+        { provide: UsersServiceV1, useClass: UsersServiceV1Mock },
         InvoicesServiceV1,
-        Auth0Utils,
+        { provide: Auth0Utils, useClass: Auth0UtilsMock },
         UsersUtilsV1,
         InvoicesUtilsV1,
-        ConfigService,
+        { provide: ConfigService, useValue: ConfigServiceMock },
         { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
         { provide: getModelToken('Invoices'), useValue: invoicesModel },
       ],
@@ -75,7 +78,10 @@ describe('V1Controller', () => {
       expect(auth0User).toBeDefined();
       expect(auth0User).toHaveProperty('email', CurrentUserDtoStub().email);
       expect(auth0User).toHaveProperty('user_id', CurrentUserDtoStub().user_id);
-      expect(auth0User).toHaveProperty('nickname', CurrentUserDtoStub().nickname);
+      expect(auth0User).toHaveProperty(
+        'nickname',
+        CurrentUserDtoStub().nickname
+      );
     });
   });
 
@@ -88,7 +94,7 @@ describe('V1Controller', () => {
       );
 
       expect(updatedUser).toBeDefined();
-      expect(updatedUser).toHaveProperty('nickname', NewUserDtoStub().username);
+      expect(updatedUser).toHaveProperty('nickname', NewUserDtoStub().nickname);
     });
 
     it('should return a BadRequestException | At least one property must be provided', async (): Promise<void> => {
@@ -107,7 +113,6 @@ describe('V1Controller', () => {
 
   describe('I - POST v1/invoices', (): void => {
     it('should create and return the invoice', async (): Promise<void> => {
-
       const createdInvoice = await v1Controller.createUserInvoice(
         CurrentUserDtoStub(),
         CreateInvoiceDtoStub()
@@ -124,7 +129,9 @@ describe('V1Controller', () => {
 
   describe('I - GET v1/invoices', (): void => {
     it('should return all the invoices from a user', async (): Promise<void> => {
-      const allInvoices = await v1Controller.getAllUserInvoices(CurrentUserDtoStub());
+      const allInvoices = await v1Controller.getAllUserInvoices(
+        CurrentUserDtoStub()
+      );
 
       expect(allInvoices).toBeDefined();
       expect(Array.isArray(allInvoices)).toBeTruthy();

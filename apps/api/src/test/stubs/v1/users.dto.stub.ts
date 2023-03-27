@@ -10,9 +10,11 @@ export const CurrentUserDtoStub = (): UserDto => ({
 });
 
 export const UpdateUserDtoStub = (): UpdateUserDto => ({
-  nickname: 'newtest1234',
+  nickname: 'newGuy',
 });
 
 export const NewUserDtoStub = (): UserDto => ({
-  nickname: 'newtest1234',
+  email: 'test@email.com',
+  user_id: 'test|1234567890',
+  nickname: 'newGuy',
 });

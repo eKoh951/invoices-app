@@ -5,13 +5,14 @@ import {
   CACHE_MANAGER,
 } from '@nestjs/common';
 
-import { UpdateUserDto } from './dto/users.dto';
+import { UpdateUserDto, UserDto } from './dto/users.dto';
 
 import { Auth0Utils } from '../../utils/auth0.utils';
 import { UsersUtilsV1 } from './users.utils';
 import { Cache } from 'cache-manager';
 import { ManagementClient, ManagementClientOptions } from 'auth0';
 import { ConfigService } from '@nestjs/config';
+import { Auth0 } from 'src/interfaces/env.config.interface';
 
 @Injectable()
 export class UsersServiceV1 {
@@ -29,9 +30,11 @@ export class UsersServiceV1 {
 
   private async init(): Promise<void> {
     this.token = await this.auth0Utils.getAuthToken();
+    const { domain } = this.configService.get<Auth0>('auth0');
+    
     const managmentOptions: ManagementClientOptions = {
       token: this.token,
-      domain: this.configService.get<string>('auth0.domain'),
+      domain,
     };
     this.auth0Managment = new ManagementClient(managmentOptions);
   }
@@ -40,7 +43,7 @@ export class UsersServiceV1 {
     userId: string,
     body: UpdateUserDto,
     avatarFile: Express.Multer.File
-  ): Promise<any> {
+  ): Promise<UserDto> {
     const updates = {
       ...(body.nickname && { nickname: body.nickname }),
       ...(avatarFile && {
