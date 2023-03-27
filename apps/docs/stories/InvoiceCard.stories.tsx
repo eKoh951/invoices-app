@@ -1,7 +1,7 @@
 import React from 'react'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Button, IconButton, Paper, Stack, Typography } from "@mui/material";
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import StatusSquare from 'ui/StatusCard';
+import { IconButton, Paper, Stack, Typography } from "@mui/material";
 
 type Props = {
   components: React.ElementType[],
@@ -36,7 +36,7 @@ Invoice_Card.args = {
     Typography,
     Typography,
     Typography,
-    Button,
+    StatusSquare,
     IconButton,
   ],
   componentsArgs: [
@@ -44,10 +44,8 @@ Invoice_Card.args = {
     { variant: "body1", children: "Invoice Date" },
     { variant: "body1", children: "Invoice Owner" },
     { variant: "h3", children: "Total Amount" },
-    { children: "Pending" ,
-    sx : {
-      color: "status.pending",
-      backgroundColor: "#FF9797"
+    { children: "holahola" , sx : {
+      color: ""
     }
   },
     { children: <KeyboardArrowRightIcon /> },

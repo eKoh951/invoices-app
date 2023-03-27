@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from "ui";
 import AddIcon from '@mui/icons-material/Add';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 
 export default {
@@ -85,16 +84,3 @@ newItemButton.args = {
   size: "large",
   startIcon: <AddIcon />
 };
-
-export const pending = Template.bind({});
-pending.args = {
-    children: "Pending",
-    size: "large",
-    startIcon: <FiberManualRecordIcon />,
-    sx: {
-        backgroundColor: "#e8be9e",
-        color: "status.pending"
-      }
-  
-    }
-  
