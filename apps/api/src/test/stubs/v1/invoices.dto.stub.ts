@@ -4,13 +4,8 @@ import {
 } from '../../../v1/invoices/interfaces/invoices.interface';
 import {
   CreateInvoiceDto,
-  CreateInvoiceParams,
   UpdateInvoiceDto,
 } from '../../../v1/invoices/dto/invoices.dto';
-
-export const CreateInvoiceParamsStub = (): CreateInvoiceParams => ({
-  username: 'test1234',
-});
 
 export const CreateInvoiceDtoStub = (): CreateInvoiceDto => ({
   status: InvoiceStatus.PENDING,

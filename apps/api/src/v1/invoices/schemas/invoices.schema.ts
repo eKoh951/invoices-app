@@ -6,7 +6,7 @@ export class Invoices {
   invoiceId: string;
 
   @Prop({ required: true, unique: true })
-  ownerId: string;
+  ownerEmail: string;
 
   @Prop({ required: true })
   status: string;

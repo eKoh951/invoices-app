@@ -1,138 +1,64 @@
 import {
   Injectable,
   BadRequestException,
-  NotFoundException,
-  InternalServerErrorException,
   Inject,
   CACHE_MANAGER,
 } from '@nestjs/common';
 
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { UpdateUserDto, UserDto } from './dto/users.dto';
+import { UpdateUserDto } from './dto/users.dto';
 
-import axios, { AxiosRequestConfig } from 'axios';
 import { Auth0Utils } from '../../utils/auth0.utils';
 import { UsersUtilsV1 } from './users.utils';
 import { Cache } from 'cache-manager';
+import { ManagementClient, ManagementClientOptions } from 'auth0';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersServiceV1 {
   constructor(
-    @InjectModel('Users') private usersModel: Model<UserDto>,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private usersUtils: UsersUtilsV1,
-    private auth0Utils: Auth0Utils
-  ) {}
-
-  async createUserByEmail(email: string): Promise<UserDto> {
-    const username = email.split('@')[0];
-    const userInMongo = await this.usersModel.findOne({ email });
-
-    if (userInMongo) {
-      throw new BadRequestException(
-        'A User with te requested email address is already registered'
-      );
-    }
-
-    const createdUser = await this.usersModel.create({
-      username,
-      email,
-    });
-
-    await this.cacheManager.set(email, createdUser);
-
-    return createdUser.toObject({ versionKey: false });
+    private auth0Utils: Auth0Utils,
+    private configService: ConfigService
+  ) {
+    this.init();
   }
 
-  async getUserByUsername(username: string): Promise<UserDto> {
-    const userInMongo = await this.usersUtils.findUserInMongo(username);
-    return userInMongo.toObject({ versionKey: false });
-  }
+  private token: string;
+  private auth0Managment: ManagementClient;
 
-  async getUserByEmail(email: string): Promise<UserDto> {
-    const userInCache = await this.cacheManager.get<UserDto>(email);
-
-    if (userInCache) {
-      return userInCache;
-    }
-
-    const userInMongo = await this.usersUtils.findUserInMongo(email);
-    return userInMongo.toObject({ versionKey: false });
-  }
-
-  async getUserByAuthId(userId: string): Promise<UserDto> {
-    const token = await this.auth0Utils.getAuthToken();
-
-    const axiosOptions: AxiosRequestConfig = {
-      method: 'GET',
-      url: `https://asure.us.auth0.com/api/v2/users/${userId}`,
-      headers: { Authorization: `Bearer ${token}` },
+  private async init(): Promise<void> {
+    this.token = await this.auth0Utils.getAuthToken();
+    const managmentOptions: ManagementClientOptions = {
+      token: this.token,
+      domain: this.configService.get<string>('auth0.domain'),
     };
-
-    try {
-      const { data } = await axios(axiosOptions);
-      const userInCache = await this.cacheManager.get<UserDto>(data.email);
-
-      if (userInCache) {
-        return userInCache;
-      }
-
-      const userInMongo = await this.createUserByEmail(data.email);
-      return userInMongo;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        `An error occurred while getting the current user`
-      );
-    }
-  }
-
-  async getAllUsers(): Promise<UserDto[]> {
-    const allUsers = await this.usersModel.find();
-
-    return allUsers.map((user) => user.toObject({ versionKey: false }));
+    this.auth0Managment = new ManagementClient(managmentOptions);
   }
 
   async updateUser(
-    username: string,
+    userId: string,
     body: UpdateUserDto,
     avatarFile: Express.Multer.File
-  ): Promise<UserDto> {
-    const userInMongo = await this.usersUtils.findUserInMongo(username);
-
-    const updates: Partial<UserDto> = {
-      ...body.username && { username: body.username },
-      ...avatarFile && { avatar: await this.usersUtils.uploadImageToAws(userInMongo.id, avatarFile) },
+  ): Promise<any> {
+    const updates = {
+      ...(body.nickname && { nickname: body.nickname }),
+      ...(avatarFile && {
+        picture: await this.usersUtils.uploadImageToAws(userId, avatarFile),
+      }),
     };
 
-    if (!updates.username && !updates.avatar) {
+    if (!updates.nickname && !updates.picture) {
       throw new BadRequestException('At least one property must be provided');
     }
 
-    const updatedUser = await this.usersModel.findOneAndUpdate(
-      { username },
-      updates,
-      { new: true }
+    const updatedUser = await this.auth0Managment.updateUser(
+      { id: userId },
+      updates
     );
 
-    if (!updatedUser) {
-      throw new NotFoundException('User not found');
-    }
+    await this.cacheManager.set(userId, updatedUser);
 
-    await this.cacheManager.set(updatedUser.email, updatedUser);
-
-    return updatedUser.toObject({ versionKey: false });
-  }
-
-  async deleteUser(username: string): Promise<UserDto> {
-    const userInMongo = await this.usersModel.findOneAndDelete({ username });
-
-    if (!userInMongo) {
-      throw new NotFoundException('User not found');
-    }
-
-    await this.cacheManager.del(userInMongo.email);
-
-    return userInMongo.toObject({ versionKey: false });
+    return updatedUser;
   }
 }

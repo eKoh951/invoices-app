@@ -4,11 +4,10 @@ export default function (): EnvConfig {
   const {
     API_PORT,
     MONGO_URI,
-    AUTH0_APP_DOMAIN,
-    AUTH0_APP_AUDIENCE,
+    AUTH0_AUDIENCE,
+    AUTH0_DOMAIN,
     AUTH0_API_CLIENT_ID,
     AUTH0_API_CLIENT_SECRET,
-    AUTH0_API_AUDIENCE,
     AWS_REGION,
     AWS_ACCESS_KEY,
     AWS_SECRET_KEY,
@@ -19,14 +18,11 @@ export default function (): EnvConfig {
     port: parseInt(API_PORT, 10) || 8000,
     mongoUri: MONGO_URI,
     auth0: {
-      app: {
-        domain: AUTH0_APP_DOMAIN,
-        audience: AUTH0_APP_AUDIENCE,
-      },
+      audience: AUTH0_AUDIENCE,
+      domain: AUTH0_DOMAIN,
       api: {
         clientId: AUTH0_API_CLIENT_ID,
         clientSecret: AUTH0_API_CLIENT_SECRET,
-        audience: AUTH0_API_AUDIENCE,
       },
     },
     aws: {

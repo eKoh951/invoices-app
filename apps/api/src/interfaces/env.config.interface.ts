@@ -6,19 +6,15 @@ export interface EnvConfig {
 }
 
 export interface Auth0 {
-  app: Auth0App;
+  audience: string;
+  domain: string;
   api: Auth0Api;
 }
 
-export interface Auth0App {
-  domain: string;
-  audience: string;
-}
 
 export interface Auth0Api {
   clientId: string;
   clientSecret: string;
-  audience: string;
 }
 
 export interface AwsConfig {

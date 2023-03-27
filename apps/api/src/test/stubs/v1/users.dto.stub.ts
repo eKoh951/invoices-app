@@ -1,25 +1,18 @@
 import {
-  CreateUserDto,
+  UserDto,
   UpdateUserDto,
-  GetUserParams,
 } from '../../../v1/users/dto/users.dto';
 
-export const CreateUserDtoStub = (): CreateUserDto => ({
-  email: 'test1234@email.com',
-});
-
-export const GetUserParamsStub = (): GetUserParams => ({
-  username: 'test1234',
-});
-
-export const GetUserParamsStubError = (): GetUserParams => ({
-  username: 'random1234',
+export const CurrentUserDtoStub = (): UserDto => ({
+  email: 'test@email.com',
+  user_id: 'test|1234567890',
+  nickname: 'testGuy',
 });
 
 export const UpdateUserDtoStub = (): UpdateUserDto => ({
-  username: 'newtest1234',
+  nickname: 'newtest1234',
 });
 
-export const NewUserDtoStub = (): GetUserParams => ({
-  username: 'newtest1234',
+export const NewUserDtoStub = (): UserDto => ({
+  nickname: 'newtest1234',
 });

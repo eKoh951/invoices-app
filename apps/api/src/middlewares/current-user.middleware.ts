@@ -5,15 +5,14 @@ import {
   NestMiddleware,
 } from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
-import { UsersServiceV1 } from '../users.service';
-import { UserDto } from '../dto/users.dto';
+import { Auth0Utils } from 'src/utils/auth0.utils';
 import { Cache } from 'cache-manager';
+import { User } from 'auth0';
 
 declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface Request {
-      user?: UserDto;
+      user?: User;
     }
   }
 }
@@ -21,21 +20,21 @@ declare global {
 @Injectable()
 export class CurrentUserMiddleware implements NestMiddleware {
   constructor(
-    private usersService: UsersServiceV1,
+    private auth0Utils: Auth0Utils,
     @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const userId = req.auth?.payload?.sub.replace(/\|/g, '%7C');
+    const userId = req.auth?.payload?.sub;
 
-    const cachedUser = await this.cacheManager.get<UserDto>(userId);
+    const cachedUser = await this.cacheManager.get(userId);
 
     if (cachedUser) {
       req.user = cachedUser;
       return next();
     }
 
-    const user = await this.usersService.getUserByAuthId(userId);
+    const user = await this.auth0Utils.getUserById(userId);
     req.user = user;
 
     await this.cacheManager.set(userId, user, 0);

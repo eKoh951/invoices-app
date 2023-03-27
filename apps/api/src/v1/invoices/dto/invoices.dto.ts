@@ -80,9 +80,9 @@ export class InvoiceDto {
   @ApiProperty()
   invoiceId: string;
 
-  @IsString()
+  @IsEmail()
   @ApiProperty()
-  ownerId: string;
+  ownerEmail: string;
 
   @IsString()
   @IsEnum(InvoiceStatus)
@@ -157,7 +157,3 @@ export class CreateInvoiceDto {
 }
 
 export class UpdateInvoiceDto extends PartialType(CreateInvoiceDto) {}
-
-export class CreateInvoiceParams {
-  username: string;
-}

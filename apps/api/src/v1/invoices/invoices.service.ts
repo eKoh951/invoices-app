@@ -20,25 +20,22 @@ export class InvoicesServiceV1 {
   ) {}
 
   async createUserInvoice(
-    username: string,
+    ownerEmail: string,
     invoiceData: CreateInvoiceDto
   ): Promise<InvoiceDto> {
-    const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
     const uniqueId = await this.invoicesUtils.generateUniqueId();
 
     const createdInvoice = await this.invoicesModel.create({
       invoiceId: uniqueId,
-      ownerId,
+      ownerEmail,
       ...invoiceData,
     });
 
     return createdInvoice.toObject({ versionKey: false });
   }
 
-  async getAllUserInvoices(username: string): Promise<InvoiceDto[]> {
-    const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
-
-    const mongoInvoices = await this.invoicesModel.find({ ownerId }).exec();
+  async getAllUserInvoices(ownerEmail: string): Promise<InvoiceDto[]> {
+    const mongoInvoices = await this.invoicesModel.find({ ownerEmail }).exec();
 
     const allInvoices = mongoInvoices.map((invoice) => {
       const invoiceData = invoice.toObject({ versionKey: false });
@@ -51,14 +48,12 @@ export class InvoicesServiceV1 {
   }
 
   async getUserInvoice(
-    username: string,
+    ownerEmail: string,
     invoiceId: string
   ): Promise<InvoiceDto> {
-    const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
-
     const invoiceInMongo = await this.invoicesModel.findOne({
       invoiceId,
-      ownerId,
+      ownerEmail,
     });
 
     if (!invoiceInMongo) {
@@ -69,19 +64,18 @@ export class InvoicesServiceV1 {
   }
 
   async updateInvoice(
-    username: string,
+    ownerEmail: string,
     invoiceId: string,
     invoiceData: UpdateInvoiceDto
-  ) {
+  ): Promise<InvoiceDto> {
     if (!Object.keys(invoiceData).length) {
       throw new BadRequestException(
         'At least one property must be added when updating the invoice'
       );
     }
-    const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
 
     const invoiceInMongo = await this.invoicesModel.findOneAndUpdate(
-      { ownerId, invoiceId },
+      { ownerEmail, invoiceId },
       invoiceData,
       { new: true }
     );
@@ -94,13 +88,11 @@ export class InvoicesServiceV1 {
   }
 
   async deleteInvoice(
-    username: string,
+    ownerEmail: string,
     invoiceId: string
   ): Promise<InvoiceDto> {
-    const ownerId = await this.invoicesUtils.getUserIdByUsername(username);
-
     const invoiceInMongo = await this.invoicesModel.findOneAndDelete({
-      ownerId,
+      ownerEmail,
       invoiceId,
     });
 

@@ -1,13 +1,10 @@
-import { NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvoiceDto } from './dto/invoices.dto';
-import { UserDto } from '../users/dto/users.dto';
 
 export class InvoicesUtilsV1 {
   constructor(
     @InjectModel('Invoices') private invoicesModel: Model<InvoiceDto>,
-    @InjectModel('Users') private usersModel: Model<UserDto>
   ) {}
 
   async generateUniqueId(): Promise<string> {
@@ -31,15 +28,5 @@ export class InvoicesUtilsV1 {
     }
 
     return invoiceId;
-  }
-
-  async getUserIdByUsername(username: string): Promise<string> {
-    const userInMongo = await this.usersModel.findOne({ username });
-
-    if (!userInMongo) {
-      throw new NotFoundException('User not found');
-    }
-
-    return userInMongo.id;
   }
 }

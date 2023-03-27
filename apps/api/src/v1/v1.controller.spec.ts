@@ -9,7 +9,6 @@ import {
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { connect, Connection, Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
-import { Users, UsersSchema } from './users/schemas/users.schema';
 import { Invoices, InvoicesSchema } from './invoices/schemas/invoices.schema';
 
 import { V1Controller } from './v1.controller';
@@ -23,15 +22,12 @@ import { ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import {
-  CreateUserDtoStub,
-  GetUserParamsStub,
-  GetUserParamsStubError,
+  CurrentUserDtoStub,
   UpdateUserDtoStub,
   NewUserDtoStub,
 } from '../test/stubs/v1/users.dto.stub';
 import {
   CreateInvoiceDtoStub,
-  CreateInvoiceParamsStub,
   UpdateInvoiceDtoStub,
 } from '../test/stubs/v1/invoices.dto.stub';
 import { InvoiceStatus } from './invoices/interfaces/invoices.interface';
@@ -41,14 +37,12 @@ describe('V1Controller', () => {
 
   let mongod: MongoMemoryServer;
   let mongoConnection: Connection;
-  let usersModel: Model<Users>;
   let invoicesModel: Model<Invoices>;
 
   beforeAll(async () => {
     mongod = await MongoMemoryServer.create();
     const uri = mongod.getUri();
     mongoConnection = (await connect(uri)).connection;
-    usersModel = mongoConnection.model('Users', UsersSchema);
     invoicesModel = mongoConnection.model('Invoices', InvoicesSchema);
 
     const app: TestingModule = await Test.createTestingModule({
@@ -62,7 +56,6 @@ describe('V1Controller', () => {
         InvoicesUtilsV1,
         ConfigService,
         { provide: APP_INTERCEPTOR, useClass: CacheInterceptor },
-        { provide: getModelToken('Users'), useValue: usersModel },
         { provide: getModelToken('Invoices'), useValue: invoicesModel },
       ],
     }).compile();
@@ -75,67 +68,27 @@ describe('V1Controller', () => {
     await mongod.stop();
   });
 
-  describe('U - POST v1/users', (): void => {
-    it('should create and return the user', async (): Promise<void> => {
-      const createdUser = await v1Controller.createUser(CreateUserDtoStub());
+  describe('U - GET v1/users/', (): void => {
+    it('should find and return the current auth0 user', async (): Promise<void> => {
+      const auth0User = v1Controller.getUser(CurrentUserDtoStub());
 
-      const username = CreateUserDtoStub().email.split('@')[0];
-
-      expect(createdUser).toBeDefined();
-      expect(createdUser).toHaveProperty('email', CreateUserDtoStub().email);
-      expect(createdUser).toHaveProperty('username', username);
-      expect(createdUser).toHaveProperty('admin', false);
-    });
-
-    it('should return an BadRequestException | The user already exists', async () => {
-      try {
-        await v1Controller.createUser(CreateUserDtoStub());
-      } catch (error) {
-        expect(error).toBeInstanceOf(BadRequestException);
-        expect(error.message).toMatch(
-          'A User with te requested email address is already registered'
-        );
-      }
+      expect(auth0User).toBeDefined();
+      expect(auth0User).toHaveProperty('email', CurrentUserDtoStub().email);
+      expect(auth0User).toHaveProperty('user_id', CurrentUserDtoStub().user_id);
+      expect(auth0User).toHaveProperty('nickname', CurrentUserDtoStub().nickname);
     });
   });
 
-  describe('U - GET v1/users', (): void => {
-    it('should return an array of users', async (): Promise<void> => {
-      const allUsers = await v1Controller.getAllUsers();
-
-      expect(allUsers).toBeDefined();
-      expect(Array.isArray(allUsers)).toBeTruthy();
-    });
-  });
-
-  describe('U - GET v1/users/:username', (): void => {
-    it('should find and return one user', async (): Promise<void> => {
-      const userInMongo = await v1Controller.getUser(GetUserParamsStub());
-
-      expect(userInMongo).toBeDefined();
-      expect(userInMongo).toHaveProperty('username', GetUserParamsStub().username);
-    });
-
-    it('should return a NotFoundException | User not found', async (): Promise<void> => {
-      try {
-        await v1Controller.getUser(GetUserParamsStubError());
-      } catch (error) {
-        expect(error).toBeInstanceOf(NotFoundException);
-        expect(error.message).toMatch('User not found');
-      }
-    });
-  });
-
-  describe('U - PATCH v1/users/:username', (): void => {
+  describe('U - PATCH v1/users/', (): void => {
     it('should update the username and return the new user', async (): Promise<void> => {
       const updatedUser = await v1Controller.updateUser(
-        GetUserParamsStub(),
+        CurrentUserDtoStub(),
         UpdateUserDtoStub(),
         undefined
       );
 
       expect(updatedUser).toBeDefined();
-      expect(updatedUser).toHaveProperty('username', NewUserDtoStub().username);
+      expect(updatedUser).toHaveProperty('nickname', NewUserDtoStub().username);
     });
 
     it('should return a BadRequestException | At least one property must be provided', async (): Promise<void> => {
@@ -148,42 +101,19 @@ describe('V1Controller', () => {
     });
   });
 
-  describe('U - DELETE v1/users/:username', (): void => {
-    it('should find and delete the user', async (): Promise<void> => {
-      const deletedUser = await v1Controller.deleteUser(
-        NewUserDtoStub().username
-      );
-
-      expect(deletedUser).toBeDefined();
-      expect(deletedUser).toHaveProperty('username', NewUserDtoStub().username);
-    });
-
-    it('should return a NotFoundException | User not found', async (): Promise<void> => {
-      try {
-        await v1Controller.deleteUser(NewUserDtoStub().username);
-      } catch (error) {
-        expect(error).toBeInstanceOf(NotFoundException);
-        expect(error.message).toMatch('User not found');
-      }
-    });
-  });
-
   //////////////////////////////////
 
   let invoiceId: string;
-  let testUsername: string;
 
-  describe('I - POST v1/users/:username/invoices', (): void => {
+  describe('I - POST v1/invoices', (): void => {
     it('should create and return the invoice', async (): Promise<void> => {
-      await v1Controller.createUser(CreateUserDtoStub());
 
       const createdInvoice = await v1Controller.createUserInvoice(
-        CreateInvoiceParamsStub(),
+        CurrentUserDtoStub(),
         CreateInvoiceDtoStub()
       );
 
       invoiceId = createdInvoice.invoiceId;
-      testUsername = CreateInvoiceParamsStub().username;
 
       expect(createdInvoice).toBeDefined();
       expect(createdInvoice.invoiceId).toEqual(invoiceId);
@@ -192,9 +122,9 @@ describe('V1Controller', () => {
     });
   });
 
-  describe('I - GET v1/users/:username/invoices', (): void => {
+  describe('I - GET v1/invoices', (): void => {
     it('should return all the invoices from a user', async (): Promise<void> => {
-      const allInvoices = await v1Controller.getAllUserInvoices(testUsername);
+      const allInvoices = await v1Controller.getAllUserInvoices(CurrentUserDtoStub());
 
       expect(allInvoices).toBeDefined();
       expect(Array.isArray(allInvoices)).toBeTruthy();
@@ -202,10 +132,10 @@ describe('V1Controller', () => {
     });
   });
 
-  describe('I - GET v1/users/:username/invoices/:invoiceId', (): void => {
+  describe('I - GET v1/invoices/:invoiceId', (): void => {
     it('should return one invoice from the user', async (): Promise<void> => {
       const invoiceInMongo = await v1Controller.getUserInvoice(
-        testUsername,
+        CurrentUserDtoStub(),
         invoiceId
       );
 
@@ -214,10 +144,10 @@ describe('V1Controller', () => {
     });
   });
 
-  describe('I - PATCH v1/users/:username/invoices/:invoiceId', (): void => {
+  describe('I - PATCH v1/invoices/:invoiceId', (): void => {
     it('should edit and return the invoice', async (): Promise<void> => {
       const updatedInvoice = await v1Controller.updateInvoice(
-        testUsername,
+        CurrentUserDtoStub(),
         invoiceId,
         UpdateInvoiceDtoStub()
       );
@@ -228,7 +158,7 @@ describe('V1Controller', () => {
 
     it('sould return a BadRequestException | At least one property must be provided', async (): Promise<void> => {
       try {
-        await v1Controller.updateInvoice(testUsername, invoiceId, {});
+        await v1Controller.updateInvoice(CurrentUserDtoStub(), invoiceId, {});
       } catch (error) {
         expect(error).toBeInstanceOf(BadRequestException);
         expect(error.message).toMatch(
@@ -238,10 +168,10 @@ describe('V1Controller', () => {
     });
   });
 
-  describe('I - DELETE v1/users/:username/invoices/:invoiceId', (): void => {
+  describe('I - DELETE v1/invoices/:invoiceId', (): void => {
     it('should find, delete and return the invoice', async (): Promise<void> => {
       const deletedInvoice = await v1Controller.deleteInvoice(
-        testUsername,
+        CurrentUserDtoStub(),
         invoiceId
       );
 
@@ -250,7 +180,7 @@ describe('V1Controller', () => {
 
     it('should return a NotFoundException | Invoice not found', async (): Promise<void> => {
       try {
-        await v1Controller.getUserInvoice(testUsername, invoiceId);
+        await v1Controller.getUserInvoice(CurrentUserDtoStub(), invoiceId);
       } catch (error) {
         expect(error).toBeInstanceOf(NotFoundException);
         expect(error.message).toMatch('Invoice not found');

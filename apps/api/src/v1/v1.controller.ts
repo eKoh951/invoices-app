@@ -12,18 +12,12 @@ import {
 } from '@nestjs/common';
 
 import { UsersServiceV1 } from './users/users.service';
-import {
-  CreateUserDto,
-  GetUserParams,
-  UpdateUserDto,
-  UserDto,
-} from './users/dto/users.dto';
+import { UserDto, UpdateUserDto } from './users/dto/users.dto';
 
 import { InvoicesServiceV1 } from './invoices/invoices.service';
 import {
   InvoiceDto,
   CreateInvoiceDto,
-  CreateInvoiceParams,
   UpdateInvoiceDto,
 } from './invoices/dto/invoices.dto';
 
@@ -37,8 +31,9 @@ import {
 } from '@nestjs/swagger';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
 
-@Controller({ path: 'users', version: '1' })
+@Controller({ version: '1' })
 @UseInterceptors(CacheInterceptor)
 export class V1Controller {
   constructor(
@@ -46,154 +41,88 @@ export class V1Controller {
     private readonly invoicesService: InvoicesServiceV1
   ) {}
 
-  ////////////// api/v1/users
-  @Post()
+  ////////////// api/v1/users/
+  @Get('users')
   @ApiTags('Users')
-  @ApiOperation({ summary: 'Create a user in the database' })
-  @ApiOkResponse({ description: 'User successfully registered', type: UserDto })
-  createUser(@Body() body: CreateUserDto): Promise<UserDto> {
-    return this.usersService.createUserByEmail(body.email);
-  }
-
-  ////////////// api/v1/users
-  @Get()
-  @ApiTags('Users')
-  @ApiOperation({ summary: 'Gets all available users' })
-  @ApiOkResponse({
-    description: 'Successfully obtained users',
-    type: [UserDto],
-  })
-  getAllUsers(): Promise<UserDto[]> {
-    return this.usersService.getAllUsers();
-  }
-
-  ////////////// api/v1/users/:username
-  @Get(':username')
-  @ApiTags('Users')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
   @ApiNotFoundResponse({ description: 'User not found' })
-  getUser(@Param() params: GetUserParams): Promise<UserDto> {
-    return this.usersService.getUserByUsername(params.username);
+  getUser(@CurrentUser() user: UserDto): UserDto {
+    return user;
   }
 
-  ////////////// api/v1/users/:username
-  @Patch(':username')
+  ////////////// api/v1/users/
+  @Patch('users')
   @ApiTags('Users')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
   @ApiOperation({ summary: 'Update the username or avatar of the user' })
   @ApiOkResponse({ description: 'Successfully updated user', type: UserDto })
-  @ApiNotFoundResponse({ description: 'User not found' })
   @ApiBadRequestResponse({
     description: 'At least one property must be provided',
   })
-  @UseInterceptors(FileInterceptor('avatar'))
+  @UseInterceptors(FileInterceptor('picture'))
   updateUser(
-    @Param() params: GetUserParams,
+    @CurrentUser() { user_id }: UserDto,
     @Body() body: UpdateUserDto,
     @UploadedFile() avatar: Express.Multer.File
   ): Promise<UserDto> {
-    return this.usersService.updateUser(params.username, body, avatar);
-  }
-
-  ////////////// api/v1/users/:username
-  @Delete(':username')
-  @ApiTags('Users')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
-  @ApiOperation({ summary: 'Permanently deletes the user' })
-  @ApiOkResponse({ description: 'Successfully deleted user', type: UserDto })
-  deleteUser(@Param('username') username: string): Promise<UserDto> {
-    return this.usersService.deleteUser(username);
+    return this.usersService.updateUser(user_id, body, avatar);
   }
 
   ////////////////////////////////////////
   ////////////////////////////////////////
   ////////////////////////////////////////
 
-  ////////////// api/v1/users/:username/invoices
-  @Post(':username/invoices')
+  ////////////// api/v1/invoices
+  @Post('invoices')
   @ApiBody({ type: CreateInvoiceDto })
   @ApiTags('Invoices')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
-  @ApiOperation({ summary: 'Creates an invoice for the selected user' })
+  @ApiOperation({ summary: 'Creates an invoice for the current user' })
   @ApiOkResponse({
     description: 'Successfully created invoice',
     type: InvoiceDto,
   })
   createUserInvoice(
-    @Param() params: CreateInvoiceParams,
+    @CurrentUser() { email }: UserDto,
     @Body() invoiceData: CreateInvoiceDto
-  ) {
-    return this.invoicesService.createUserInvoice(params.username, invoiceData);
+  ): Promise<InvoiceDto> {
+    return this.invoicesService.createUserInvoice(email, invoiceData);
   }
 
-  ////////////// api/v1/users/:username/invoices
-  @Get(':username/invoices')
+  ////////////// api/v1/invoices
+  @Get('invoices')
   @ApiTags('Invoices')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
-  @ApiOperation({ summary: 'Gets all the invoices of a User' })
+  @ApiOperation({ summary: 'Gets all the invoices of the current User' })
   @ApiOkResponse({
     description: 'Successfully obtained invoices',
     type: [CreateInvoiceDto],
   })
-  getAllUserInvoices(@Param('username') username: string) {
-    return this.invoicesService.getAllUserInvoices(username);
+  getAllUserInvoices(@CurrentUser() { email }: UserDto): Promise<InvoiceDto[]> {
+    return this.invoicesService.getAllUserInvoices(email);
   }
 
-  ////////////// api/v1/users/:username/invoices/:invoiceId
-  @Get(':username/invoices/:invoiceId')
+  ////////////// api/v1/invoices/:invoiceId
+  @Get('invoices/:invoiceId')
   @ApiTags('Invoices')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
   @ApiParam({
     name: 'invoiceId',
     type: 'string',
     required: true,
   })
-  @ApiOperation({ summary: 'Obtain a specific invoice from the user' })
+  @ApiOperation({ summary: 'Obtain a specific invoice from the current user' })
   @ApiOkResponse({
     description: 'Successfully obtained invoice',
     type: CreateInvoiceDto,
   })
   getUserInvoice(
-    @Param('username') username: string,
+    @CurrentUser() { email }: UserDto,
     @Param('invoiceId') invoiceId: string
-  ) {
-    return this.invoicesService.getUserInvoice(username, invoiceId);
+  ): Promise<InvoiceDto> {
+    return this.invoicesService.getUserInvoice(email, invoiceId);
   }
 
-  ////////////// api/v1/users/:username/invoices/:invoiceId
-  @Patch(':username/invoices/:invoiceId')
+  ////////////// api/v1/invoices/:invoiceId
+  @Patch('invoices/:invoiceId')
   @ApiTags('Invoices')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
   @ApiParam({
     name: 'invoiceId',
     type: 'string',
@@ -205,21 +134,16 @@ export class V1Controller {
     type: CreateInvoiceDto,
   })
   updateInvoice(
-    @Param('username') username: string,
+    @CurrentUser() { email }: UserDto,
     @Param('invoiceId') invoiceId: string,
     @Body() invoiceData: UpdateInvoiceDto
-  ) {
-    return this.invoicesService.updateInvoice(username, invoiceId, invoiceData);
+  ): Promise<InvoiceDto> {
+    return this.invoicesService.updateInvoice(email, invoiceId, invoiceData);
   }
 
-  ////////////// api/v1/users/:username/invoices/:invoiceId
-  @Delete(':username/invoices/:invoiceId')
+  ////////////// api/v1/invoices/:invoiceId
+  @Delete('invoices/:invoiceId')
   @ApiTags('Invoices')
-  @ApiParam({
-    name: 'username',
-    type: 'string',
-    required: true,
-  })
   @ApiParam({
     name: 'invoiceId',
     type: 'string',
@@ -231,9 +155,9 @@ export class V1Controller {
     type: CreateInvoiceDto,
   })
   deleteInvoice(
-    @Param('username') username: string,
+    @CurrentUser() { email }: UserDto,
     @Param('invoiceId') invoiceId: string
-  ) {
-    return this.invoicesService.deleteInvoice(username, invoiceId);
+  ): Promise<InvoiceDto> {
+    return this.invoicesService.deleteInvoice(email, invoiceId);
   }
 }

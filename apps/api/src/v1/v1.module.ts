@@ -8,7 +8,6 @@ import { V1Controller } from './v1.controller';
 import { UsersServiceV1 } from './users/users.service';
 import { InvoicesServiceV1 } from './invoices/invoices.service';
 
-import { UsersSchema } from './users/schemas/users.schema';
 import { InvoicesSchema } from './invoices/schemas/invoices.schema';
 
 import { UsersUtilsV1 } from './users/users.utils';
@@ -20,7 +19,6 @@ import { Auth0Utils } from 'src/utils/auth0.utils';
     UsersModuleV1,
     InvoicesModuleV1,
     MongooseModule.forFeature([
-      { name: 'Users', schema: UsersSchema },
       { name: 'Invoices', schema: InvoicesSchema },
     ]),
   ],
