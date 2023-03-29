@@ -3,11 +3,10 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { ReactNode } from 'react';
 
 interface StatusSquareProps {
-  children: ReactNode;
-  sx:  any
+  children: ReactNode
 }
 
-const StatusSquare: React.FC<StatusSquareProps> = ({ children , sx, ...rest}) => {
+const StatusSquare: React.FC<StatusSquareProps> = ({ children}) => {
   return (
     <Box
       sx={{
@@ -19,7 +18,6 @@ const StatusSquare: React.FC<StatusSquareProps> = ({ children , sx, ...rest}) =>
         height: '40px',
         borderRadius: '6px',
       }}
-      {...rest}
     >
       <FiberManualRecordIcon
         sx={{

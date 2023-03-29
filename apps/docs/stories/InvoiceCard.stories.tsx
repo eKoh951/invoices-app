@@ -44,8 +44,9 @@ Invoice_Card.args = {
     { variant: "body1", children: "Invoice Date" },
     { variant: "body1", children: "Invoice Owner" },
     { variant: "h3", children: "Total Amount" },
-    { children: "holahola" , sx : {
-      color: ""
+    { children: "hola victor" , 
+    sx : {
+      color: "status.paid.main"
     }
   },
     { children: <KeyboardArrowRightIcon /> },
