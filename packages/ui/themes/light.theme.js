@@ -43,7 +43,6 @@ export const lightTheme = createTheme({
       hover: "#DFE3FA",
       contrastText: "#7E88C3",
     },
-    // changes finish here
     componentBackground: {
       main: "#ffffff",
       secondary: "#ffffff",
@@ -54,7 +53,7 @@ export const lightTheme = createTheme({
     font: {
       main: "#0C0E16",
     },
-
+    // changes finish here
     softBlue: {
       main: "#7C5DFA",
       contrastText: "white",

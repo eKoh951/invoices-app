@@ -54,6 +54,12 @@ export const darkTheme = createTheme({
       main: "#DFE3FA",
     },
     // changes finish here
+    // added this, we need to have a value for both themes, otherwise it doesn't exist
+    // and we have the "Cannot read properties of undefined (reading 'dark')" error
+    softBlue: {
+      main: "#7C5DFA",
+      contrastText: "white",
+    },
     secondary: {
       main: "#9277FF",
     },
