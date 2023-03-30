@@ -11,9 +11,9 @@ export const CreateInvoiceDtoStub = (): CreateInvoiceDto => ({
   status: InvoiceStatus.PENDING,
   description: 'Invoice test',
   billFrom: {
-    street: 'Lirios 187',
+    street: 'Veracruz 1837',
     city: 'Colima',
-    postCode: '28120',
+    postCode: '28100',
     country: 'Mexico',
   },
   billTo: {
