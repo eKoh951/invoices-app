@@ -19,22 +19,18 @@ export const lightTheme = createTheme({
     },
     status: {
       paid: {
-        main : "#33D69F",
-        secondary: "rgba(51, 214, 159, 0.0571)"
+        main: "#33D69F",
+        secondary: "rgba(51, 214, 159, 0.0571)",
       },
-      pending: 
-      { 
-        main : "#FF8F00",
-        secondary: "rgba(255, 143, 0, 0.0571)     "            
+      pending: {
+        main: "#FF8F00",
+        secondary: "rgba(255, 143, 0, 0.0571)     ",
       },
 
       draft: {
-        
         main: "#DFE3FA",
-        secondary: "rgba(223, 227, 250, 0.0571)"
-        
-      }
-      ,
+        secondary: "rgba(223, 227, 250, 0.0571)",
+      },
     },
     // mutable colors for themes
     saveDraft: {
@@ -47,9 +43,9 @@ export const lightTheme = createTheme({
       hover: "#DFE3FA",
       contrastText: "#7E88C3",
     },
-    // changes finish here
     componentBackground: {
       main: "#ffffff",
+      secondary: "#ffffff",
     },
     icon: {
       date: "#7E88C3",
@@ -57,7 +53,7 @@ export const lightTheme = createTheme({
     font: {
       main: "#0C0E16",
     },
-
+    // changes finish here
     softBlue: {
       main: "#7C5DFA",
       contrastText: "white",

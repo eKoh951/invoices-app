@@ -18,9 +18,19 @@ export const darkTheme = createTheme({
       contrastText: "white",
     },
     status: {
-      paid: "#33D69F",
-      pending: "#FF8F00",
-      draft: "#DFE3FA",
+      paid: {
+        main: "#33D69F",
+        secondary: "rgba(51, 214, 159, 0.0571)",
+      },
+      pending: {
+        main: "#FF8F00",
+        secondary: "rgba(255, 143, 0, 0.0571)     ",
+      },
+
+      draft: {
+        main: "#DFE3FA",
+        secondary: "rgba(223, 227, 250, 0.0571)",
+      },
     },
     // mutable colors for themes
     saveDraft: {
@@ -35,6 +45,7 @@ export const darkTheme = createTheme({
     },
     componentBackground: {
       main: "#252945",
+      secondary: "#1E2139",
     },
     icon: {
       date: "#7E88C3",
@@ -43,6 +54,12 @@ export const darkTheme = createTheme({
       main: "#DFE3FA",
     },
     // changes finish here
+    // added this, we need to have a value for both themes, otherwise it doesn't exist
+    // and we have the "Cannot read properties of undefined (reading 'dark')" error
+    softBlue: {
+      main: "#7C5DFA",
+      contrastText: "white",
+    },
     secondary: {
       main: "#9277FF",
     },
