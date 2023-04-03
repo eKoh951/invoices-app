@@ -1,119 +1,166 @@
-import React from 'react'
 import { TextInput } from "./inputText";
 import InputDate from "./InputDate";
-import { TextFieldInput } from './TextFieldSelect';
-import {Paper, Stack, Typography} from '@mui/material'
-import { InvoiceCreation } from "./InvoiceCreation";
-import { ItemDescriptionRow } from './ItemList';
+import { Button } from "./Button";
+import { TextFieldInput } from "./TextFieldSelect";
+import { Box, MenuItem, Paper, Stack, Typography } from "@mui/material";
+import { ItemDescriptionRow } from "./ItemList";
+import AddIcon from '@mui/icons-material/Add';
+
 
 
 export const InvoiceFormulary = () => {
-  return(
-    <Paper>
-      <Stack>
-            <Stack
-                display={"flex"}
-              >
-                  <Typography>Bill To</Typography>
-              <Stack>
-                      <Typography>Street Address</Typography>
-                      <TextInput />
-                <Stack
-                display={"flex"}
-                direction={"row"}
-                spacing={2}
-                >     
-                  <Stack>
-                      <Typography>City</Typography>
-                      <TextInput />
-                  </Stack>
+  return (
+    <Paper
+      sx={{
+        width: "616px",
+        padding: "56px",
+      }}
+    >
+      <Box>
+        <Stack>
+          <Stack display={"flex"}>
+            <Typography variant="h4" marginBottom={"24px"}>Bill From</Typography>
+            <Stack>
+              <Typography variant="body1">Street Address</Typography>
+              <TextInput 
+              sx={{
+                marginBottom: "24px"
+              }}
+              />
+              <Stack display={"flex"} direction={"row"} justifyContent={"space-between"}>
+                <Stack>
+                  <Typography variant="body1">City</Typography>
+                  <TextInput 
+                  />
+                </Stack>
 
-                  <Stack>
-                      <Typography>Post Code</Typography>
-                      <TextInput />
-                  </Stack>
-                  <Stack>
-                      <Typography>Country</Typography>
-                      <TextInput />
-                  </Stack>
-                  </Stack>
-              </Stack>
-              <Stack>
-                <Typography>Bill From</Typography>
-              <Stack>
-                      <Typography>Client's Name</Typography>
-                      <TextInput />
-                  </Stack> <Stack>
-                      <Typography>Client's Email</Typography>
-                      <TextInput />
-                  </Stack> <Stack>
-                      <Typography>Street Address</Typography>
-                      <TextInput />
-                  </Stack>
-              </Stack>
-              <Stack
-                display={"flex"}
-                direction={"row"}
-                spacing={2}
-                >     
-                  <Stack>
-                      <Typography>City</Typography>
-                      <TextInput />
-                  </Stack>
-
-                  <Stack>
-                      <Typography>Post Code</Typography>
-                      <TextInput />
-                  </Stack>
-                  <Stack>
-                      <Typography>Country</Typography>
-                      <TextInput />
-                  </Stack>
-                  </Stack>
-
-
-        </Stack>
-        <Stack
-                display={"flex"}
-                direction={"row"}
-                justifyContent={'space-around'}
-                >     
-                  <Stack>
-                      <Typography>Issue Date</Typography>
-                      <InputDate />
-                  </Stack>
-
-                  <Stack>
-                      <Typography>Payment Terms</Typography>
-                      <TextFieldInput >
-
-                      </TextFieldInput>
-                  </Stack>
+                <Stack>
+                  <Typography variant="body1">Post Code</Typography>
+                  <TextInput 
                   
+                  />
+                </Stack>
+                <Stack>
+                  <Typography variant="body1">Country</Typography>
+                  <TextInput />
+                </Stack>
+              </Stack>
+            </Stack>
+            <Stack 
+            marginTop={"48px"}
+            >
+              <Typography variant="h4" marginBottom={"24px"}>Bill To</Typography>
+              <Stack>
+                <Typography variant="body1">Client's Name</Typography>
+                <TextInput 
+                  sx={{
+                    marginBottom: "24px"
+                  }}
+                />
+              </Stack>
+              <Stack>
+                <Typography variant="body1">Client's Email</Typography>
+                <TextInput 
+                  sx={{
+                    marginBottom: "24px"
+                  }}
+                />
+              </Stack>
+              <Stack>
+                <Typography variant="body1">Street Address</Typography>
+                <TextInput 
+                  sx={{
+                    marginBottom: "24px"
+                  }}
+                />
+              </Stack>
+            </Stack>
+            <Stack display={"flex"} direction={"row"} justifyContent={"space-between"}>
+              <Stack
+              marginBottom={"24px"}
+              >
+                <Typography variant="body1">City</Typography>
+                <TextInput 
+                
+                />
+              </Stack>
 
-                  </Stack>
-                  <Stack>
-                      <Typography>Project Description</Typography>
-                      <TextInput />
-                  </Stack>
+              <Stack>
+                <Typography variant="body1">Post Code</Typography>
+                <TextInput />
+              </Stack>
+              <Stack>
+                <Typography variant="body1">Country</Typography>
+                <TextInput />
+              </Stack>
+            </Stack>
+          </Stack>
+          <Stack
+            display={"flex"}
+            direction={"row"}
+            justifyContent={"space-between"}
+          >
+            <Stack
+            marginBottom={"24px"}
+            >
+              <Typography variant="body1">Issue Date</Typography>
+              <InputDate 
+              />
+            </Stack>
 
-        
-      </Stack>
-      <Stack>
-        <Typography>ITEM LIST</Typography>
-        <Stack
-        display={"flex"}
-        direction={"row"}
-        >
-          <Typography>Item Name</Typography>
-          <Typography>Qty.</Typography>
-          <Typography>Price</Typography>
-          <Typography>Total</Typography>
+            <Stack>
+              <Typography variant="body1">Payment Terms</Typography>
+
+            </Stack>
+          </Stack>
+          <Stack>
+            <Typography variant="body1">Project Description</Typography>
+            <TextInput />
+          </Stack>
         </Stack>
-      </Stack>
-      <Stack>
+        <Stack>
+          <Typography variant="h5">ITEM LIST</Typography>
+          <Stack display={"flex"} direction={"row"} textAlign={"left"} spacing={"16px"} >
+            <Typography variant="body1"
+            width={"214px"}
+            >Item Name</Typography>
+            <Typography variant="body1"
+            width={"46px"}
+            >Qty.</Typography>
+            <Typography variant="body1"
+            width={"100px"}
+            >Price</Typography>
+            <Typography variant="body1"
+            width={"56px"}
+            >Total</Typography>
+          </Stack>
           <ItemDescriptionRow />
-      </Stack>
+        </Stack>
+        <Stack
+        marginBottom={"44px"}
+        marginTop={"16px"}                 
+        >
+        <Button 
+        sx={{
+          width: "100%"
+        }}
+        startIcon={<AddIcon />}>Add New Item</Button> 
+        </Stack>
+        <Stack 
+        justifyContent={"space-between"}
+        display={"flex"}
+        flexDirection={"row"}
+        >
+        <Button>Discard</Button>
+          <Stack
+           display={"flex"}
+           flexDirection={"row"}
+           >
+            <Button>Save as Draft</Button>
+            <Button>Save & Send</Button>
+          </Stack>
+        </Stack>
+      </Box>
     </Paper>
-  )
-}
+  );
+};

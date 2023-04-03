@@ -5,7 +5,7 @@ import React from 'react'
 
 
 export default {
-  title: "Invoice Formluary",
+  title: "Invoice/Formulary",
   component: InvoiceFormulary
 };
 

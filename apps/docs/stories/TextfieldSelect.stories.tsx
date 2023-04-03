@@ -4,7 +4,7 @@ import { TextFieldInput } from "ui/TextFieldSelect";
 
 
 export default {
-  title: "Locuras ",
+  title: "FormElements/Select",
   component: TextFieldInput,
   argTypes: {
     placeholder : {control: "text"},

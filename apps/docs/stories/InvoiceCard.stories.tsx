@@ -30,7 +30,7 @@ const Template: React.FC<Props> = ({
 );
 
 export default {
-  title: "Invoice Card",
+  title: "Invoice/Card",
   component: Paper,
 };
 

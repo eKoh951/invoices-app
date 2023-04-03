@@ -1,6 +1,6 @@
 import {Button, IconButton, Paper, Stack, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { StatusButton } from "./StatusButton";
+
 
 export const InvoiceCard = ({...rest}) => (
   <Paper {...rest}>

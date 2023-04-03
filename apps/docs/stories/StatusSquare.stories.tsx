@@ -2,7 +2,7 @@ import React from 'react';
 import StatusSquare from 'ui/StatusCard'
 
 export default {
-  title : 'Status Buttons',
+  title : 'Invoice/StatusButtons',
   component : StatusSquare
 }
 

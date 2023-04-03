@@ -2,7 +2,7 @@ import React from "react";
 import PermanentDrawerLeft from "../../../packages/ui/NavBar";
 
 export default {
-  title: "Example",
+  title: "Layout/NavBar",
   component: PermanentDrawerLeft,
 };
 

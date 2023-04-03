@@ -3,7 +3,7 @@ import { TextInput } from "ui/inputText";
 
 
 export default {
-  title: "Example",
+  title: "FormElements/TextInput",
   component: TextInput,
   argTypes: {
     placeholder : {control: "text"},

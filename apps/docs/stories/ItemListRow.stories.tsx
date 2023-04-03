@@ -2,7 +2,7 @@ import {ItemDescriptionRow} from 'ui/ItemList'
 import React from 'react'
 
 export default {
-  title: "ListItemDescription",
+  title: "Invoice/ItemDescription",
   component : ItemDescriptionRow
 }
 

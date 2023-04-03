@@ -2,7 +2,7 @@ import React from "react";
 import {InvoiceCreation} from "ui/InvoiceCreation"
 
 export default {
-  title: "Creation",
+  title: "Invoice/Creation",
   component: InvoiceCreation
 }
 

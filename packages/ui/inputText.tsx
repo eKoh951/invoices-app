@@ -9,5 +9,9 @@ type TextFieldProps = Pick<
 >
 
 export const TextInput = ({...rest }: TextFieldProps) => (
-  <MuiTextfield {...rest }  />
+  <MuiTextfield
+  sx={{
+    height: "48px",
+  }}
+  {...rest }  />
 );

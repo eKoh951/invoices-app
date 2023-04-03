@@ -5,7 +5,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 
 export default {
-  title: "Example/Buttons",
+  title: "Actionable/Buttons",
   component: Button,
   argTypes: {
     children: { control: "text" },

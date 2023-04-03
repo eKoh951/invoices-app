@@ -9,20 +9,23 @@ export const ItemDescriptionRow = ({...rest}) => {
     elevation={0}
     sx={{
       display: "flex",
-      justifyContent: "center "
+      width: "504px"
     }}
     {...rest}
     >
       <Stack
       display={"flex"}
       direction={"row"}
-      maxWidth={"504px"}
+    
       >
         <Stack 
-        marginRight={"16px"}
-        maxWidth={"240px"}
         >
             <TextInput
+            sx={{
+              width: "214px",
+              marginRight: "16px"
+              
+             }}
         />
         </Stack>
         <Stack
@@ -33,7 +36,7 @@ export const ItemDescriptionRow = ({...rest}) => {
         >
            <TextInput 
            sx={{
-            maxWidth: "46px"
+            width: "46px"
            }}
            />
            <TextInput 
@@ -46,7 +49,7 @@ export const ItemDescriptionRow = ({...rest}) => {
             >(Total)</Typography>
            <DeleteIcon />
         </Stack>
-      </Stack>
+      </Stack>  
        
      
     </Paper>

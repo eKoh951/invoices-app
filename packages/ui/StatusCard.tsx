@@ -23,6 +23,7 @@ const StatusSquare: React.FC<StatusSquareProps> = ({
         height: "40px",
         borderRadius: "6px",
       }}
+      {...rest}
     >
       <FiberManualRecordIcon
         sx={{

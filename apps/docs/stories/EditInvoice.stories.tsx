@@ -2,7 +2,7 @@ import React from "react";
 import {EditInvoice} from 'ui/EditInvoiceCard'
 
 export default {
-  title: 'Edit Invoice',
+  title: "FormElements/Edit Invoice",
   component: EditInvoice
 }
 

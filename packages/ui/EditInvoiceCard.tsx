@@ -6,8 +6,6 @@ export const EditInvoice = ({ children, ...rest}) => (
   <Box
   borderRadius={"8px"}
   padding={"0 32px"}
-
-border={"solid 1px"}
   {...rest}
   >
     <Stack
