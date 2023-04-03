@@ -29,6 +29,7 @@
     "@emotion/styled": "^11.10.6",
     "@mui/material": "^5.11.14",
     "@mui/x-date-pickers": "^6.0.0",
+    "@next/font": "^13.2.4",
     "dayjs": "^1.11.7",
     "moment": "^2.29.4"
   }

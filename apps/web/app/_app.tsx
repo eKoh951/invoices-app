@@ -6,10 +6,16 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { themes } from "../../../packages/ui/themes";
 import createEmotionCache from "../src/createEmotionCache";
+import { League_Spartan } from "@next/font/google";
 import Home from "./page";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
+// Next code was writtten to try to apply the Spartan font
+const Spartan = League_Spartan({
+  subsets: ["latin"],
+  weight: ["500", "700"],
+});
 
 export interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;

@@ -1,4 +1,6 @@
 import { createTheme } from "@mui/material";
+import SpartanB from "../fonts/Spartan-Bold-700.ttf";
+import SpartanM from "../fonts/Spartan-Medium-500.ttf";
 
 export const lightTheme = createTheme({
   palette: {
@@ -108,6 +110,7 @@ export const lightTheme = createTheme({
     },
   },
   typography: {
+    fontFamily: ["SpartanM", "SpartanB"].join(","),
     h1: {
       fontSize: "32px",
       fontWeight: "700",
@@ -174,7 +177,7 @@ export const lightTheme = createTheme({
     poster: {
       color: "white",
     },
-    fontFamily: "League Spartan",
+    fontFamily: "Spartan",
     fontWeightMedium: "500",
     fontWeightBold: "700",
     textTransform: "none",
