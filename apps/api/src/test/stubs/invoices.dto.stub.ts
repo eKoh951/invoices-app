@@ -1,11 +1,11 @@
 import {
   InvoiceStatus,
   PaymentTermsOptions,
-} from '../../../v1/invoices/interfaces/invoices.interface';
+} from '../../api/v1/invoices/interfaces/invoices.interface';
 import {
   CreateInvoiceDto,
   UpdateInvoiceDto,
-} from '../../../v1/invoices/dto/invoices.dto';
+} from '../../api/v1/invoices/dto/invoices.dto';
 
 export const CreateInvoiceDtoStub = (): CreateInvoiceDto => ({
   status: InvoiceStatus.PENDING,

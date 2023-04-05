@@ -17,7 +17,7 @@ import { UsersServiceV1Mock } from '../test/mocks/users.service.mock';
 import { InvoicesServiceV1 } from './invoices/invoices.service';
 import { UsersUtilsV1 } from './users/users.utils';
 import { InvoicesUtilsV1 } from './invoices/invoices.utils';
-import { Auth0Utils } from '../utils/auth0.utils';
+import { Auth0Utils } from '../core/utils/auth0.utils';
 import { Auth0UtilsMock } from '../test/mocks/auth.utils.mock';
 
 import { ConfigService } from '@nestjs/config';

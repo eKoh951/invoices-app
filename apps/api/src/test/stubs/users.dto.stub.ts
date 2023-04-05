@@ -1,7 +1,7 @@
 import {
   UserDto,
   UpdateUserDto,
-} from '../../../v1/users/dto/users.dto';
+} from '../../api/v1/users/dto/users.dto';
 
 export const CurrentUserDtoStub = (): UserDto => ({
   email: 'test@email.com',

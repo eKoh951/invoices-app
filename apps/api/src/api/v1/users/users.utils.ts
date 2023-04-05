@@ -4,7 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { AwsConfig } from 'src/interfaces/env.config.interface';
+import { AwsConfig } from 'src/config/interfaces/env.config.interface';
 import { Upload } from '@aws-sdk/lib-storage';
 import { S3Client, PutObjectCommandInput } from '@aws-sdk/client-s3';
 import { Readable } from 'stream';

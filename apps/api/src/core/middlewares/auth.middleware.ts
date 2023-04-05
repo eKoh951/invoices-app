@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response, NextFunction } from 'express';
 import { auth } from 'express-oauth2-jwt-bearer';
-import { Auth0 } from 'src/interfaces/env.config.interface';
+import { Auth0 } from '../../config/interfaces/env.config.interface';
 
 @Injectable()
 export class ValidateAccessToken implements NestMiddleware {
@@ -11,7 +11,7 @@ export class ValidateAccessToken implements NestMiddleware {
     const { domain, audience } = this.configService.get<Auth0>('auth0');
 
     auth({
-      issuerBaseURL: 'https://'+domain,
+      issuerBaseURL: 'https://' + domain,
       audience,
     })(req, res, next);
   }

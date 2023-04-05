@@ -1,4 +1,4 @@
-import { EnvConfig } from 'src/interfaces/env.config.interface';
+import { EnvConfig } from './interfaces/env.config.interface';
 
 export default function (): EnvConfig {
   const {

@@ -12,15 +12,13 @@ import { InvoicesSchema } from './invoices/schemas/invoices.schema';
 
 import { UsersUtilsV1 } from './users/users.utils';
 import { InvoicesUtilsV1 } from './invoices/invoices.utils';
-import { Auth0Utils } from 'src/utils/auth0.utils';
+import { Auth0Utils } from 'src/core/utils/auth0.utils';
 
 @Module({
   imports: [
     UsersModuleV1,
     InvoicesModuleV1,
-    MongooseModule.forFeature([
-      { name: 'Invoices', schema: InvoicesSchema },
-    ]),
+    MongooseModule.forFeature([{ name: 'Invoices', schema: InvoicesSchema }]),
   ],
   controllers: [V1Controller],
   providers: [

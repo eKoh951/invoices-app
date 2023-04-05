@@ -7,12 +7,12 @@ import {
 
 import { UpdateUserDto, UserDto } from './dto/users.dto';
 
-import { Auth0Utils } from '../../utils/auth0.utils';
+import { Auth0Utils } from '../../../core/utils/auth0.utils';
 import { UsersUtilsV1 } from './users.utils';
 import { Cache } from 'cache-manager';
 import { ManagementClient, ManagementClientOptions } from 'auth0';
 import { ConfigService } from '@nestjs/config';
-import { Auth0 } from 'src/interfaces/env.config.interface';
+import { Auth0 } from 'src/config/interfaces/env.config.interface';
 
 @Injectable()
 export class UsersServiceV1 {
@@ -31,7 +31,7 @@ export class UsersServiceV1 {
   private async init(): Promise<void> {
     this.token = await this.auth0Utils.getAuthToken();
     const { domain } = this.configService.get<Auth0>('auth0');
-    
+
     const managmentOptions: ManagementClientOptions = {
       token: this.token,
       domain,

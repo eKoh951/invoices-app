@@ -31,7 +31,7 @@ import {
 } from '@nestjs/swagger';
 import { ApiOkResponse } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { CurrentUser } from '../decorators/current-user.decorator';
+import { CurrentUser } from '../../core/decorators/current-user.decorator';
 
 @Controller({ version: '1' })
 @UseInterceptors(CacheInterceptor)

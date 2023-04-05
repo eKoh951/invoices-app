@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import { Auth0Api, Auth0 } from 'src/interfaces/env.config.interface';
+import { Auth0Api, Auth0 } from '../../config/interfaces/env.config.interface';
 import {
   CACHE_MANAGER,
   Inject,

@@ -1,7 +1,7 @@
 import { User, AppMetadata, UserMetadata } from 'auth0';
-import { Auth0Utils } from '../../utils/auth0.utils';
-import { UserDto } from '../../v1/users/dto/users.dto';
-import { CurrentUserDtoStub } from '../stubs/v1/users.dto.stub';
+import { Auth0Utils } from '../../core/utils/auth0.utils';
+import { UserDto } from '../../api/v1/users/dto/users.dto';
+import { CurrentUserDtoStub } from '../stubs/users.dto.stub';
 
 export class Auth0UtilsMock extends Auth0Utils {
   async getAuthToken(): Promise<string> {

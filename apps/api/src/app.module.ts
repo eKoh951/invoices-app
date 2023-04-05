@@ -7,13 +7,13 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ValidateAccessToken } from './middlewares/auth.middleware';
-import { CurrentUserMiddleware } from './middlewares/current-user.middleware';
+import { ValidateAccessToken } from './core/middlewares/auth.middleware';
+import { CurrentUserMiddleware } from './core/middlewares/current-user.middleware';
 import envConfig from './config/env.config';
 
-import { V1Module } from './v1/v1.module';
+import { V1Module } from './api/v1/v1.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { Auth0Utils } from './utils/auth0.utils';
+import { Auth0Utils } from './core/utils/auth0.utils';
 
 @Module({
   imports: [
