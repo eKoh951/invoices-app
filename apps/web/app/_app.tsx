@@ -1,7 +1,7 @@
-import * as React from "react";
+import React from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
-import { ThemeProvider, useTheme } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { themes } from "../../../packages/ui/themes";
@@ -23,17 +23,28 @@ export interface MyAppProps extends AppProps {
 
 export default function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
-  const theme = useTheme();
+  
+  // Agrega un estado de React para almacenar la preferencia del tema
+  const [themeMode, setThemeMode] = React.useState("light");
+
+  // Cambia entre los temas light y dark en función del valor de themeMode
+  const theme = themes[themeMode];
+
+  // Función para alternar entre temas light y dark
+  const toggleTheme = () => {
+    setThemeMode(themeMode === "light" ? "dark" : "light");
+  };
+
   return (
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
-      <ThemeProvider theme={themes[theme.palette.mode]}>
+      <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Component {...pageProps} />
+        {/* Puedes pasar toggleTheme a los componentes que necesiten cambiar el tema */}
+        <Component {...pageProps} toggleTheme={toggleTheme} />
         <Home />
       </ThemeProvider>
     </CacheProvider>
-  );
-}
+  );}
