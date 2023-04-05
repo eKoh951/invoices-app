@@ -1,4 +1,5 @@
-import Head from "next/head";
+"use client";
+import ResponsiveDrawer from "../../../packages/ui/NavBar";
 
 export default function RootLayout({
   children,
@@ -7,10 +8,10 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <Head>
-        <title>My first attempt</title>
-      </Head>
-      <body>{children}</body>
+      <body>
+        <ResponsiveDrawer window={undefined} />
+        {children}
+      </body>
     </html>
   );
 }
