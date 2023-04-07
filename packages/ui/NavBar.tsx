@@ -46,7 +46,11 @@ export default function ResponsiveDrawer(props: { window: any }) {
     setTabletOpen(!tabletOpen);
   };
   const MyLogo = () => {
-    return <Image src={logo} alt="logo" width={103} height={103} />;
+    return (
+      <div>
+        <Image src={logo} alt="logo" width={103} height={103} />;
+      </div>
+    );
   };
 
   const drawer = (

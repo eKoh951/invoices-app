@@ -2,9 +2,9 @@
 import { Typography } from "@mui/material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import { Button } from "../../../../packages/ui/Button";
+import { Button } from "ui/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { InvoiceCard } from "../../../../packages/ui/InvoiceCard";
+import { InvoiceCard } from "ui/InvoiceCard";
 
 export default function invoicesList() {
   return (
