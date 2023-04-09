@@ -23,7 +23,8 @@ export default function PermanentDrawerLeft() {
         return (
             <Box>
                 <Image src={logo} alt="logo" quality={25} style={{
-                    height:"100%"
+                    height:"100%",
+                    width:"auto"
                 }}/>
             </Box>
             
