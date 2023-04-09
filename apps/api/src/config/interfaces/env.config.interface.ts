@@ -1,29 +1,26 @@
 export interface EnvConfig {
   port: number;
-  mongoUri: string;
-  auth0: Auth0;
-  aws: AwsConfig;
+  appwrite: AppWrite;
 }
 
-export interface Auth0 {
-  audience: string;
-  domain: string;
-  api: Auth0Api;
+export interface AppWrite {
+  endpoint: string;
+  projectId: string;
+  apiKey: string;
+  buckets: AppWBuckets;
+  databases: AppWDatabases;
 }
 
-
-export interface Auth0Api {
-  clientId: string;
-  clientSecret: string;
+export interface AppWBuckets {
+  bucketId: string;
 }
 
-export interface AwsConfig {
-  region: string;
-  client: AwsClient;
-  s3Bucket: string;
+export interface AppWDatabases {
+  databaseId: string;
+  collections: AppWCollections;
 }
 
-export interface AwsClient {
-  accessKey: string;
-  secretKey: string;
+export interface AppWCollections {
+  usersId: string;
+  invoicesId: string;
 }

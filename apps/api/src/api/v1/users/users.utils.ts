@@ -3,15 +3,21 @@ import {
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { AppwriteService } from 'src/modules/appwrite/appwrite.service';
+import { ID, InputFile, Storage } from 'node-appwrite';
 import { ConfigService } from '@nestjs/config';
-import { AwsConfig } from 'src/config/interfaces/env.config.interface';
-import { Upload } from '@aws-sdk/lib-storage';
-import { S3Client, PutObjectCommandInput } from '@aws-sdk/client-s3';
-import { Readable } from 'stream';
+import { AppWBuckets } from 'src/config/interfaces/env.config.interface';
 
 @Injectable()
 export class UsersUtilsV1 {
-  constructor(private configService: ConfigService) {}
+  private readonly appwriteStorage: Storage;
+
+  constructor(
+    private configService: ConfigService,
+    private appwriteService: AppwriteService
+  ) {
+    this.appwriteStorage = this.appwriteService.getStorage();
+  }
 
   private validateImageMime(mimetype: string): void {
     const mimeRegex = new RegExp(/^image\/(jpg|jpeg|png)$/);
@@ -23,18 +29,7 @@ export class UsersUtilsV1 {
     }
   }
 
-  private buildS3ImageUrl(
-    s3Bucket: string,
-    region: string,
-    fileName: string
-  ): string {
-    return `https://${s3Bucket}.s3.${region}.amazonaws.com/${fileName}`;
-  }
-
-  async uploadImageToAws(userId: string, imgData: Express.Multer.File) {
-    const { region, client, s3Bucket } =
-      this.configService.get<AwsConfig>('aws');
-
+  async uploadImage(userId: string, imgData: Express.Multer.File) {
     const { buffer, mimetype } = imgData;
 
     this.validateImageMime(mimetype);
@@ -43,30 +38,18 @@ export class UsersUtilsV1 {
     const fileName = `${userId}.${imgFormat}`;
 
     try {
-      const s3 = new S3Client({
-        credentials: {
-          accessKeyId: client.accessKey,
-          secretAccessKey: client.secretKey,
-        },
-        region,
-      });
+      const { bucketId } =
+        this.configService.get<AppWBuckets>('appwrite.buckets');
 
-      const readableStream = Readable.from(buffer);
+      const uploadedFile = await this.appwriteStorage.createFile(
+        bucketId,
+        ID.unique(),
+        InputFile.fromBuffer(buffer, fileName)
+      );
 
-      const s3Params: PutObjectCommandInput = {
-        Bucket: s3Bucket,
-        Key: fileName,
-        Body: readableStream,
-      };
+      console.log(uploadedFile);
 
-      const uploadImg = new Upload({
-        client: s3,
-        params: s3Params,
-      });
-
-      await uploadImg.done();
-
-      return this.buildS3ImageUrl(s3Bucket, region, fileName);
+      return uploadedFile;
     } catch (err) {
       throw new InternalServerErrorException(
         'Error uploading image, try again later'
