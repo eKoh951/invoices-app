@@ -1,36 +1,37 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "@mui/material/AppBar";
+import { useTheme } from "@mui/material";
+import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
+import Grid from "@mui/material/Grid";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import { Avatar } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import logo from "./images/logo.svg";
 import Image from "next/image";
 
-const drawerWidth = 103;
 
-export default function ResponsiveDrawer(props: { window: any }) {
-  const MenuItems = [
-    {
-      title: "Profile",
-    },
-    {
-      title: "Invoices",
-    },
-    {
-      title: " Log Out",
-    },
-  ];
+export default function PermanentDrawerLeft() {
+  const theme = useTheme();
+  
+  const MyLogo = () => {
+        return (
+            <Box>
+                <Image src={logo} alt="logo" quality={25} style={{
+                    height:"100%"
+                }}/>
+            </Box>
+            
+        )
+       
+      
+      };
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (e) => {
     setAnchorEl(e.currentTarget);
@@ -38,39 +39,41 @@ export default function ResponsiveDrawer(props: { window: any }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const { window } = props;
-  const [tabletOpen, setTabletOpen] = React.useState(false);
-
-  const handleDrawerToggle = () => {
-    setTabletOpen(!tabletOpen);
-  };
-  const MyLogo = () => {
-    return (
-      <div>
-        <Image src={logo} alt="logo" width={103} height={103} />;
-      </div>
-    );
+  const nativeOnChange = (e) => {
+    const detail = {
+      selectedIndex: e.target.selectedIndex,
+    };
+    e.target.selectedIndex = 0;
+    e.target.dispatchEvent(new customEvent("itemClick", { detail }));
   };
 
-  const drawer = (
-    <Box>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="space-between"
-        height="100vh" // Asegúrate de asignar una altura, de lo contrario, space-between no funcionará
-        alignItems="center"
+  return (
+    <Box sx={{ display: "flex" }}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
         sx={{
-          backgroundColor: "#373B53",
-          borderTopRightRadius: "15px",
-          borderBottomRightRadius: "15px",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignContent: "center",
+          height: "80px",
+          padding:"0",
+
+          [theme.breakpoints.up("md")]: {
+            display: "none",
+          },
         }}
       >
-        <Box>
+        <Grid 
+        display={"flex"} 
+       
+        
+        >
           <MyLogo />
-        </Box>
-        <Box display="flex" flexDirection="column" alignItems="center">
+        </Grid>
+        <Grid display={"flex"}>
           <ListItemButton
             sx={{
               justifyContent: "center",
@@ -78,9 +81,13 @@ export default function ResponsiveDrawer(props: { window: any }) {
           >
             <DarkModeIcon color="action" />
           </ListItemButton>
+          <Divider sx={{
+                color:"#ffffff",
+                borderWidth:"1px"
+                
+            }}/>
 
-          <Divider color="#494E6E" />
-          <ListItem disablePadding>
+      
             <ListItemButton
               aria-controls="simple-menu"
               aria-haspopup="true"
@@ -90,7 +97,6 @@ export default function ResponsiveDrawer(props: { window: any }) {
             >
               <Avatar alt="Remy Sharp" />
             </ListItemButton>
-
             <Menu
               id="simple-menu"
               anchorEl={anchorEl}
@@ -98,103 +104,99 @@ export default function ResponsiveDrawer(props: { window: any }) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              {MenuItems.map((item) => (
-                <MenuItem
-                  onClick={handleClose}
-                  key={item.title}
-                  value={item.title}
-                >
-                  {item.title}
-                </MenuItem>
-              ))}
+              <MenuItem>Profile</MenuItem>
+              <MenuItem>Invoices</MenuItem>
+              <MenuItem>Log Out</MenuItem>
             </Menu>
-          </ListItem>
-        </Box>
-      </Box>
-    </Box>
-  );
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        borderRadius: "0px 20px 20px 0px;",
-      }}
-    >
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
-          backgroundColor: "purple.main",
-        }}
-      >
-        <Toolbar
-          sx={{
-            display: { sm: "none" },
-            backgroundColor: "#373B53",
-          }}
-        >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{
-              mr: 2,
-              display: { sm: "none" },
-            }}
-          >
-            <MyLogo />
-          </IconButton>
-        </Toolbar>
+       
+        </Grid>
       </AppBar>
-      <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 1 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          variant="temporary"
-          open={tabletOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
-      <Box
-        component="main"
+      <Drawer
         sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: "103px",
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: "103px",
+            boxSizing: "border-box",
+            paddingLeft:"0",
+            borderTopRightRadius:"20px"
+
+          },
+          [theme.breakpoints.down("md")]: {
+            display: "none",
+          },
         }}
-      ></Box>
+        variant="permanent"
+        anchor="left"
+      >
+        <Grid
+          container
+          justifyContent="space-between"
+          height="100vh"
+          sx={{
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+           <Grid 
+        display={"flex"} 
+       
+        
+        >
+          <MyLogo />
+        </Grid>
+          <Grid
+          width={"100%"}
+          >
+            <ListItemButton
+              sx={{
+                justifyContent: "center",
+                alignItems:"center",
+                padding:"28px 42px"
+              }}
+            >
+              <DarkModeIcon color="action" />
+            </ListItemButton>
+            <Divider 
+            
+            sx={{
+                color:"#ffffff",
+                width:"100%"
+                
+            }}  />
+            <ListItem
+            disablePadding
+            >
+              <ListItemButton
+              sx={{
+                justifyContent: "center",
+                alignItems:"center",
+                padding: "24px"
+              }}
+                
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+                aria-label="Open to show more"
+                title="Open to show more"
+              >
+                <Avatar alt="Remy Sharp" />
+              </ListItemButton>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Invoices</MenuItem>
+                <MenuItem>Log Out</MenuItem>
+              </Menu>
+            </ListItem>
+          </Grid>
+        </Grid>
+      </Drawer>
     </Box>
   );
 }
