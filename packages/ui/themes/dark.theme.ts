@@ -12,6 +12,18 @@ declare module "@mui/material/styles" {
     };
   }
 
+  
+  interface BreakpointOverrides {
+    xs: false; // removes the `xs` breakpoint
+    sm: false;
+    md: false;
+    lg: false;
+    xl: false;
+    mobile: true; // adds the `mobile` breakpoint
+    tablet: true;
+    desktop: true;
+  }
+
   interface PaletteOptions {
     draft: PaletteColorOptions;
   }
@@ -122,4 +134,11 @@ export const darkTheme = createTheme({
     //   letterSpacing: "-0.25px",
     //   textTransform: "none",
   },
+  breakpoints: {
+    values: {
+      mobile: 375,
+      tablet: 768,
+      desktop: 1440,
+    }
+  }
 });
