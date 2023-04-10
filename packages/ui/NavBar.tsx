@@ -16,7 +16,7 @@ import logo from "./images/logo.svg";
 import Image from "next/image";
 
 
-export default function PermanentDrawerLeft() {
+export default function NavBar() {
   const theme = useTheme();
   
   const MyLogo = () => {
@@ -29,8 +29,6 @@ export default function PermanentDrawerLeft() {
             </Box>
             
         )
-       
-      
       };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,7 +60,7 @@ export default function PermanentDrawerLeft() {
           height: "80px",
           padding:"0",
 
-          [theme.breakpoints.up("md")]: {
+          [theme.breakpoints.up("tablet")]: {
             display: "none",
           },
         }}
@@ -123,7 +121,7 @@ export default function PermanentDrawerLeft() {
             borderTopRightRadius:"20px"
 
           },
-          [theme.breakpoints.down("md")]: {
+          [theme.breakpoints.down("tablet")]: {
             display: "none",
           },
         }}
