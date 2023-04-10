@@ -39,6 +39,11 @@ export const darkTheme = createTheme({
       main: "#7C5DFA",
       light: "#9277FF",
     },
+    secondary:{
+      main:"#7E88C3",
+      light: "#888EB0",
+      dark:"#0C0E16"
+    },
     error: {
       main: "#EC5757",
       light: "#FF9797",
