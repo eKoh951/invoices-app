@@ -137,9 +137,9 @@ export const lightTheme = createTheme({
   },
     breakpoints: {
     values: {
-      mobile: 375,
-      tablet: 768,
-      desktop: 1440,
+      mobile: 600,
+      tablet: 900,
+      desktop: 1200,
     }
   }
 });
