@@ -21,7 +21,7 @@ export default function invoicesList() {
             <Button
               variant="contained"
               startIcon={<AddCircleIcon />}
-              sx={{ color: "#7C5DFA", textTransform: "none" }}
+              sx={{ color: "primary.main", textTransform: "none" }}
             >
               New Invoice
             </Button>

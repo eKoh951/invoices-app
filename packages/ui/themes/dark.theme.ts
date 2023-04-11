@@ -12,7 +12,6 @@ declare module "@mui/material/styles" {
     };
   }
 
-  
   interface BreakpointOverrides {
     xs: false; // removes the `xs` breakpoint
     sm: false;
@@ -144,9 +143,9 @@ export const darkTheme = createTheme({
   },
   breakpoints: {
     values: {
-      mobile: 375,
-      tablet: 768,
-      desktop: 1440,
-    }
-  }
+      mobile: 375, // sm
+      tablet: 768, // md
+      desktop: 1440, //lg
+    },
+  },
 });

@@ -10,9 +10,9 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
 export default function Home() {
   return (
-    <Container maxWidth="lg" /*sx={{ pl: 103 }}*/>
+    <Container maxWidth="desktop" /*sx={{ pl: 103 }}*/>
       <Grid container spacing={2} alignItems="center">
-        <Grid item md={6} xs={12}>
+        <Grid item desktop={6} mobile={12}>
           <Typography variant="h3" color="#7C5DFA" sx={{ fontSize: 32 }}>
             Take control of your company today
           </Typography>
@@ -24,8 +24,8 @@ export default function Home() {
           </Typography>
         </Grid>
         <Grid
-          md={6}
-          display={{ xs: "none", md: "block" }}
+          desktop={6}
+          display={{ mobile: "none", tablet: "block" }}
           container
           spacing={2}
           alignItems="center"
@@ -54,7 +54,7 @@ export default function Home() {
         </Typography>
       </Box>
       <Grid container spacing={2} paddingBottom={4}>
-        <Grid item md={4} xs={6} alignItems="center">
+        <Grid item tablet={4} mobile={6} alignItems="center">
           <Box
             sx={{
               my: 4,
@@ -75,7 +75,7 @@ export default function Home() {
             provisions to credit your income and deductions.
           </Typography>
         </Grid>
-        <Grid item md={4} xs={6} alignItems="center">
+        <Grid item tablet={4} mobile={6} alignItems="center">
           <Box
             sx={{
               my: 4,
@@ -94,7 +94,7 @@ export default function Home() {
             Balance of sums and receivables or trial balance
           </Typography>
         </Grid>
-        <Grid item md={4} xs={12}>
+        <Grid item tablet={4} mobile={12}>
           <Box
             sx={{
               my: 4,
@@ -127,7 +127,7 @@ export default function Home() {
         height={208}
         justifyContent="flex-end"
       >
-        <Grid item md={4} xs={6}>
+        <Grid item tablet={4} mobile={6}>
           <Typography sx={{ fontWeight: 700, color: "white" }}>
             Electronic Invoicing
           </Typography>
