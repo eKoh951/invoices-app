@@ -37,8 +37,7 @@ export const darkTheme = createTheme({
     },
     primary: {
       main: "#7C5DFA",
-      light: "#9277FF",
-      dark: ""
+      light: "#9277FF"
     },
     secondary:{
       main:"#7E88C3",
@@ -143,9 +142,9 @@ export const darkTheme = createTheme({
   },
   breakpoints: {
     values: {
-      mobile: 375, // sm
-      tablet: 768, // md
-      desktop: 1440, //lg
-    },
-  },
+      mobile: 600,
+      tablet: 900,
+      desktop: 1200,
+    }
+  }
 });

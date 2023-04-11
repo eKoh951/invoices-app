@@ -52,7 +52,7 @@ export default function NavBar() {
       <AppBar
         position="fixed"
         sx={{
-          width: "100vw",
+          width: "100%",
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-between",
@@ -60,7 +60,7 @@ export default function NavBar() {
           height: "80px",
           padding:"0",
 
-          [theme.breakpoints.up("tablet")]: {
+          [theme.breakpoints.up("desktop")]: {
             display: "none",
           },
         }}
@@ -121,7 +121,7 @@ export default function NavBar() {
             borderTopRightRadius:"20px"
 
           },
-          [theme.breakpoints.down("tablet")]: {
+          [theme.breakpoints.down("desktop")]: {
             display: "none",
           },
         }}

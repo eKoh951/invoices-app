@@ -20,19 +20,15 @@ const Layout = (props:LayoutProps) => {
           alignItems: 'center',
           height: '100%',
           padding: "0",
-          marginLeft:"103px",
-          [theme.breakpoints.down("tablet")]: {
+          margin: "0",
+          paddingLeft:"103px",
+          [theme.breakpoints.down("desktop")]: {
             paddingTop: '80px',
-            marginLeft: "0"
+            paddingLeft: "0"
           },
         }}
       >
-        <Box
-          sx={{
-            width:"730px",
-            paddingTop: "72px",
-          }}
-        >
+        <Box>
           {children}
         </Box>
       </Container>

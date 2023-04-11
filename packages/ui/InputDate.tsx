@@ -24,18 +24,18 @@ export default function InputDate() {
         textField : {
           sx : {
             "& label.Mui-focused": {
-              color: "purple.main" , 
+              color: "primary.main" , 
               
             },
            "& .MuiOutlinedInput-root": {
               backgroundColor : "componentBackground.main",
 
               "&.Mui-focused fieldset": {
-               borderColor: "purple.main" ,
+               borderColor: "primary.main" ,
                borderWidth : "1px"
              },
               '&:hover fieldset': {
-               borderColor: 'purple.main',
+               borderColor: 'primary.main',
               },
            },
            "& .MuiIconButton-root": {

@@ -4,20 +4,19 @@ import {
   ButtonProps as MuiButtonProps,
 } from "@mui/material";
 
-type ButtonBaseProps = Pick<
-  MuiButtonProps,
-  "variant" | "size" | "color" | "sx" | "children" | "endIcon" | "startIcon"
->;
-
-export interface ButtonProps extends ButtonBaseProps {
+export interface ButtonProps extends Omit<MuiButtonProps, 'children'> {
   children: React.ReactNode;
 }
 
-export const Button = ({ children, ...rest }: ButtonProps) => (
-  <MuiButton 
-  sx={{
-    borderRadius: "42px"
-  }}
-  {...rest}>{children}</MuiButton>
+export const Button = ({ children, sx, ...rest }: ButtonProps) => (
+  <MuiButton
+    sx={{
+      borderRadius: "42px",
+      padding: "17px 24px",
+      ...sx,
+    }}
+    {...rest}
+  >
+    {children}
+  </MuiButton>
 );
-
