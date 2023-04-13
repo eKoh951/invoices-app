@@ -8,6 +8,11 @@ import {
   TableFooter,
   TableHead,
   TableRow,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -15,41 +20,8 @@ import Typography from "@mui/material/Typography";
 import { Button } from "../../../packages/ui/Button";
 import StatusSquare from "ui/StatusCard";
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
-import { useRouter } from "next/router";
-// import { toast } from "react-toastify"; // i think there is something similar in MUI Modal
-import React, { useRef } from "react";
-import { useTheme } from "@emotion/react";
+import { useState } from "react";
 
-const InvoiceDetails = (props: { data: any }) => {
-  const router = useRouter();
-  const { data } = props;
-  const modalRef = useRef(null);
-
-  const goBack = () => router.push("/");
-
-  // update invoice status in database
-  const updateStatus = async (invoiceId: any) => {
-    const res = await fetch(`/api/invoices/${invoiceId}`, {
-      method: "PUT",
-    });
-    const data = await res.json();
-  };
-
-  // delete invoice from the database
-  const deleteInvoice = async (invoiceId: any) => {
-    try {
-      const res = await fetch(`/api/invoices/${invoiceId}`, {
-        method: "DELETE",
-      });
-
-      const data = await res.json();
-      toast.success(data.message);
-      router.push("/");
-    } catch (error) {
-      toast.error("Something went wrong!");
-    }
-  };
-};
 const billFromExample = {
   street: "123 Main St",
   city: "San Francisco",
@@ -109,12 +81,22 @@ const updateInvoiceExample = {
 };
 
 export default function invoiceDetails() {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Container maxWidth="tablet">
       <Grid direction="row">
         <Button
           // onClick={goBack}
           //sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}}
+          sx={{ color: "white", ":hover": { color: "secondary.light" } }}
           startIcon={
             <KeyboardArrowDownIcon
               color="primary"
@@ -143,7 +125,7 @@ export default function invoiceDetails() {
             </Grid>
             <Grid>
               <StatusSquare
-                sx={{ color: "warning.main", backgroundColor: "#FF8F00" }}
+                sx={{ color: "warning.main", backgroundColor: "warning.dark" }}
               >
                 {invoiceExample.status}
               </StatusSquare>
@@ -162,7 +144,8 @@ export default function invoiceDetails() {
                 sx={{
                   color: "draft.main",
                   backgroundColor: "#252945",
-                  borderRadius: "14px",
+                  borderRadius: "24px",
+                  ":hover": { bgcolor: "white", color: "secondary.main" },
                 }}
               >
                 Edit
@@ -172,53 +155,74 @@ export default function invoiceDetails() {
                 sx={{
                   color: "white",
                   backgroundColor: "error.main",
-                  borderRadius: "14px",
+                  borderRadius: "24px",
+                  ":hover": { bgcolor: "error.light" },
                 }}
+                onClick={handleOpen}
               >
                 Delete
-              </Button>
-              <Button variant="contained">Mark as Paid</Button>
-            </Stack>
-          </Grid>
-        </Grid>
-
-        {/* ========= confirm deletion modal start ========== We can apply Modal component from MUI*/}
-        <Grid container item direction="column" spacing={3}>
-          <Grid item>
-            <Typography variant="h2" marginBottom={2}>
-              Confirm Deletion
-            </Typography>
-            <Typography variant="body1">
-              Are you sure you want to delete invoice #
-              {invoiceExample.invoiceId}? This action can not be undone.
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Stack spacing={1} direction="row">
-              <Button
-                variant="contained"
-                sx={{
-                  color: "draft.main",
-                  backgroundColor: "#252945",
-                  borderRadius: "14px",
-                }}
-              >
-                Cancel
               </Button>
               <Button
                 variant="contained"
                 sx={{
-                  color: "white",
-                  backgroundColor: "error.main",
-                  borderRadius: "14px",
+                  borderRadius: "24px",
+                  ":hover": { bgcolor: "primary.light" },
                 }}
               >
-                Delete
+                Mark as Paid
               </Button>
             </Stack>
+            {/* ========= confirm deletion modal start ========== We can apply Modal component from MUI*/}
+            <Dialog
+              open={open}
+              onClose={handleClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                <Typography variant="h2">Confirm Deletion</Typography>
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  <Typography variant="body1">
+                    Are you sure you want to delete invoice #
+                    {invoiceExample.invoiceId}? This action cannot be undone.
+                  </Typography>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={handleClose}
+                  variant="contained"
+                  sx={{
+                    color: "draft.main",
+                    backgroundColor: "#252945",
+                    borderRadius: "24px",
+                    ":hover": { bgcolor: "white", color: "secondary.main" },
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => {
+                    // Llama a la función de eliminar factura aquí
+                    handleClose();
+                  }}
+                  variant="contained"
+                  sx={{
+                    color: "white",
+                    backgroundColor: "error.main",
+                    borderRadius: "24px",
+                    ":hover": { bgcolor: "error.light" },
+                  }}
+                  autoFocus
+                >
+                  Delete
+                </Button>
+              </DialogActions>
+            </Dialog>
           </Grid>
         </Grid>
-
         {/* ======== confirm deletion modal end */}
 
         {/* ========= invoice details =========== */}

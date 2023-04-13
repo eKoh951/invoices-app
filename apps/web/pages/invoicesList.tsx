@@ -97,7 +97,11 @@ export default function invoicesList() {
               <Button
                 variant="contained"
                 startIcon={<AddCircleIcon />}
-                sx={{ color: "white", borderRadius: "14px" }}
+                sx={{
+                  color: "white",
+                  borderRadius: "24px",
+                  ":hover": { bgcolor: "primary.light" },
+                }}
                 // onClick={navigatePage}
               >
                 New Invoice
@@ -126,13 +130,14 @@ export default function invoicesList() {
           <Typography variant="body1">{invoiceExample.updatedAt}</Typography>
           <Typography variant="body1">{billToExample.clientName}</Typography>
           <Typography variant="h3">(Total Amount)</Typography>
-          <StatusSquare sx={{ color: "white" }} />
+          <StatusSquare sx={{ color: "warning.main" }}>
+            {invoiceExample.status}
+          </StatusSquare>
           <IconButton>
-            <KeyboardArrowRightIcon />
+            <KeyboardArrowRightIcon sx={{ color: "primary.main" }} />
           </IconButton>
         </Stack>
       </Grid>
-      <InvoiceCard />
     </Container>
   );
 }
