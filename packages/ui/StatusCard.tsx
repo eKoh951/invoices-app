@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { ReactNode } from "react";
+import PropTypes from "prop-types";
 
 interface StatusSquareProps {
   children: ReactNode;
@@ -35,6 +36,11 @@ const StatusSquare: React.FC<StatusSquareProps> = ({
       <Typography variant="h4">{children}</Typography>
     </Box>
   );
+};
+
+StatusSquare.propTypes = {
+  children: PropTypes.node,
+  sx: PropTypes.any,
 };
 
 export default StatusSquare;

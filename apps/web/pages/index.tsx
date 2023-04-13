@@ -11,23 +11,25 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 export default function Home() {
   return (
     <Container maxWidth="desktop" /*sx={{ pl: 103 }}*/>
-      <Grid container spacing={2} alignItems="center">
+      <Grid container desktop={12} alignItems="center">
         <Grid item desktop={6} mobile={12}>
-          <Typography variant="h3" color="#7C5DFA" sx={{ fontSize: 32 }}>
+          <Typography variant="h1" color="primary.main">
             Take control of your company today
           </Typography>
-          <Typography variant="h3" sx={{ fontSize: 32 }}>
+          <Typography variant="h1">
             through the most powerful and easy-to-use administrative system
           </Typography>
-          <Typography variant="h3" sx={{ fontSize: 12, color: "#888EB0" }}>
+          <Typography
+            variant="body1"
+            sx={{ color: "secondary.light", paddingTop: "0.75rem" }}
+          >
             Comply to all SAT requirements
           </Typography>
         </Grid>
         <Grid
           desktop={6}
-          display={{ mobile: "none", tablet: "block" }}
+          display={{ tablet: "none", mobile: "none", desktop: "block" }}
           container
-          spacing={2}
           alignItems="center"
           style={{
             backgroundImage: "url(/image_1.png)",
@@ -45,16 +47,12 @@ export default function Home() {
           alignItems: "center",
         }}
       >
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{ fontWeight: 700, fontSize: 20 }}
-        >
+        <Typography variant="h2" gutterBottom sx={{}}>
           Efficiency, Compliance and Intelligence
         </Typography>
       </Box>
       <Grid container spacing={2} paddingBottom={4}>
-        <Grid item tablet={4} mobile={6} alignItems="center">
+        <Grid item desktop={4} tablet={6} mobile={12} alignItems="center">
           <Box
             sx={{
               my: 4,
@@ -64,18 +62,22 @@ export default function Home() {
               alignItems: "center",
             }}
           >
-            <CalendarMonthIcon sx={{ fontSize: 40, color: "#7C5DFA" }} />
+            <CalendarMonthIcon sx={{ fontSize: 40, color: "primary.main" }} />
           </Box>
 
-          <Typography align="center" sx={{ fontWeight: 700, fontSize: 16 }}>
+          <Typography
+            variant="h3"
+            align="center"
+            sx={{ color: "secondary.light" }}
+          >
             Fiscal Account Periods and Years
           </Typography>
-          <Typography align="center" sx={{ fontSize: 12 }}>
+          <Typography variant="body1" align="center" sx={{}}>
             You have acces to all information related to the compliance of taxes
             provisions to credit your income and deductions.
           </Typography>
         </Grid>
-        <Grid item tablet={4} mobile={6} alignItems="center">
+        <Grid item desktop={4} tablet={6} mobile={12} alignItems="center">
           <Box
             sx={{
               my: 4,
@@ -85,16 +87,20 @@ export default function Home() {
               alignItems: "center",
             }}
           >
-            <BalanceIcon sx={{ fontSize: 40, color: "#7C5DFA" }} />
+            <BalanceIcon sx={{ fontSize: 40, color: "primary.main" }} />
           </Box>
-          <Typography align="center" sx={{ fontWeight: 700, fontSize: 16 }}>
+          <Typography
+            variant="h3"
+            align="center"
+            sx={{ color: "secondary.light" }}
+          >
             Trial Balance
           </Typography>
-          <Typography align="center" sx={{ fontSize: 12 }}>
+          <Typography variant="body1" align="center" sx={{}}>
             Balance of sums and receivables or trial balance
           </Typography>
         </Grid>
-        <Grid item tablet={4} mobile={12}>
+        <Grid item desktop={4} mobile={12}>
           <Box
             sx={{
               my: 4,
@@ -104,13 +110,17 @@ export default function Home() {
               alignItems: "center",
             }}
           >
-            <LibraryBooksIcon sx={{ fontSize: 40, color: "#7C5DFA" }} />
+            <LibraryBooksIcon sx={{ fontSize: 40, color: "primary.main" }} />
           </Box>
 
-          <Typography align="center" sx={{ fontWeight: 700, fontSize: 16 }}>
+          <Typography
+            variant="h3"
+            align="center"
+            sx={{ color: "secondary.light" }}
+          >
             Chart of Accounts
           </Typography>
-          <Typography align="center" sx={{ fontSize: 12 }}>
+          <Typography variant="body1" align="center" sx={{}}>
             Hierarchical account catalog based on grouping codes for accounting
             accounts.
           </Typography>
@@ -128,16 +138,19 @@ export default function Home() {
         justifyContent="flex-end"
       >
         <Grid item tablet={4} mobile={6}>
-          <Typography sx={{ fontWeight: 700, color: "white" }}>
+          <Typography variant="h3" sx={{ color: "white" }}>
             Electronic Invoicing
           </Typography>
-          <Typography sx={{ color: "white" }}>
+          <Typography
+            variant="body1"
+            sx={{ color: "white", paddingBottom: "2em" }}
+          >
             Electronic accounting module.
           </Typography>
-          <Typography sx={{ fontWeight: 700, color: "white" }}>
+          <Typography variant="h3" sx={{ color: "white" }}>
             Get paid Faster
           </Typography>
-          <Typography sx={{ color: "white" }}>
+          <Typography variant="body1" sx={{ color: "white" }}>
             Online opayments and automated follow-ups
           </Typography>
         </Grid>

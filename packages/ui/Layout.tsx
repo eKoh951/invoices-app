@@ -1,24 +1,24 @@
-import { Box, Container } from '@mui/material'
-import ResponsiveDrawer from 'ui/NavBar'
-import {useTheme} from '@mui/material'
+import { Box, Container } from "@mui/material";
+import ResponsiveDrawer from "ui/NavBar";
+import { useTheme } from "@mui/material";
 
-interface LayoutProps { 
-  children?:React.ReactNode
+interface LayoutProps {
+  children?: React.ReactNode;
 }
 
-const Layout = (props:LayoutProps) => {
-  const {children} = props
-  const theme = useTheme()
+const Layout = (props: LayoutProps) => {
+  const { children } = props;
+  const theme = useTheme();
 
   return (
     <>
-      <ResponsiveDrawer/>
+      <ResponsiveDrawer />
       <Container
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100%',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
           padding: "0",
           margin: "0",
           paddingLeft:"103px",
@@ -33,7 +33,7 @@ const Layout = (props:LayoutProps) => {
         </Box>
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

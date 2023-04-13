@@ -135,7 +135,7 @@ export default function invoiceDetails() {
           justifyContent="space-between"
           borderRadius={2}
           padding="1.6rem"
-          sx={{ backgroundColor: "#1E2139" }}
+          sx={{ backgroundColor: "background.paper" }}
         >
           <Grid container item tablet={4} alignItems="center">
             <Grid>
@@ -145,7 +145,7 @@ export default function invoiceDetails() {
               <StatusSquare
                 sx={{ color: "warning.main", backgroundColor: "#FF8F00" }}
               >
-                Pending
+                {invoiceExample.status}
               </StatusSquare>
             </Grid>
           </Grid>
@@ -157,25 +157,65 @@ export default function invoiceDetails() {
               alignContent="center"
               alignItems="center"
             >
-              <Button variant="contained">Edit</Button>
-              <Button variant="contained">Delete</Button>
+              <Button
+                variant="contained"
+                sx={{
+                  color: "draft.main",
+                  backgroundColor: "#252945",
+                  borderRadius: "14px",
+                }}
+              >
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  color: "white",
+                  backgroundColor: "error.main",
+                  borderRadius: "14px",
+                }}
+              >
+                Delete
+              </Button>
               <Button variant="contained">Mark as Paid</Button>
             </Stack>
           </Grid>
         </Grid>
 
         {/* ========= confirm deletion modal start ========== We can apply Modal component from MUI*/}
-        <Grid container item>
+        <Grid container item direction="column" spacing={3}>
           <Grid item>
-            <Typography variant="h3">Confirm Deletion</Typography>
-            <Typography>
-              Are you sure you want to delete invoice # - logic - ? This action
-              can not be undone.
+            <Typography variant="h2" marginBottom={2}>
+              Confirm Deletion
+            </Typography>
+            <Typography variant="body1">
+              Are you sure you want to delete invoice #
+              {invoiceExample.invoiceId}? This action can not be undone.
             </Typography>
           </Grid>
           <Grid item>
-            <Button variant="contained">Cancel</Button>
-            <Button variant="contained">Confirm</Button>
+            <Stack spacing={1} direction="row">
+              <Button
+                variant="contained"
+                sx={{
+                  color: "draft.main",
+                  backgroundColor: "#252945",
+                  borderRadius: "14px",
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  color: "white",
+                  backgroundColor: "error.main",
+                  borderRadius: "14px",
+                }}
+              >
+                Delete
+              </Button>
+            </Stack>
           </Grid>
         </Grid>
 
