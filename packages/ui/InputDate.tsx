@@ -28,7 +28,7 @@ export default function InputDate() {
               
             },
            "& .MuiOutlinedInput-root": {
-              backgroundColor : "componentBackground.main",
+              backgroundColor : "primary.dark",
 
               "&.Mui-focused fieldset": {
                borderColor: "primary.main" ,
@@ -46,43 +46,43 @@ export default function InputDate() {
         popper : {
           sx : {
             "& .MuiPaper-root": {
-              backgroundColor: "componentBackground.main",
+              backgroundColor: "primary.dark",
               fontWeight: "700"
             },
             "& .MuiDateCalendar-root":{
-              backgroundColor: "componentBackground.main",
+              backgroundColor: "primary.dark",
               fontWeight: "700"
             },
                 "& .MuiPickersDay-root.Mui-selected": {
-              backgroundColor: "#ffffff",
-              color : "purple.main",
+              backgroundColor: "secondary.contrastText",
+              color : "primary.main",
               fontWeight: "700"
             },
             "& .MuiPickersDay-dayWithMargin:hover": {
-              color: "purple.main",
-              backgroundColor: "componentBackground.main"
+              color: "primary.main",
+              backgroundColor: "secondary.dark"
             },
             "& .MuiPickersDay-root:not(.Mui-selected)" : 
             {
               border : "none",
-              backgroundColor: "componentBackground.main",
+              backgroundColor: "secondary.dark",
               fontWeight: "700"
             } ,
         
             "& .MuiSvgIcon-root": {
-              color: "purple.main"
+              color: "primary.main"
             },
             "& .MuiPickersYear-yearButton.Mui-selected": {
-              color: "purple.main",
-              backgroundColor: "componentBackground.main"
+              color: "primary.main",
+              backgroundColor: "secondary.dark"
             }, 
             "& .MuiPickersYear-yearButton:hover": {
-              color: "purple.main",
-              backgroundColor: "componentBackground.main"
+              color: "primary.main",
+              backgroundColor: "secondary.dark"
             },
             "& .MuiPickersYear-yearButton": {
               fontWeight: "700",
-              color: "font.main"
+              color: "primary.main"
             }, 
             "& .MuiDayCalendar-header": {
               display: "none"

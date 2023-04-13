@@ -151,7 +151,7 @@ export default function NavBar() {
               sx={{
                 justifyContent: "center",
                 alignItems:"center",
-                padding:"28px 42px"
+                padding:"28px "
               }}
             >
               <DarkModeIcon color="action" />

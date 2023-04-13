@@ -3,6 +3,8 @@ import { Button } from "ui";
 import { TextInput } from "ui/inputText";
 import { Avatar, Box, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material";
+import {IconButton} from "@mui/material";
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 
 const ProfileCard = () => {
   const theme = useTheme();
@@ -64,12 +66,43 @@ const ProfileCard = () => {
               },
             }}
           >
-            <Avatar
-              sx={{
-                width: "100%",
-                height: "100%",
-              }}
+            <IconButton
+                  sx={{
+                    zIndex: "5",
+                    position: "absolute"
+                  }}   
+            >
+            <AddAPhotoIcon />
+      
+            </IconButton>
+          
+
+            <IconButton
+            sx={{
+
+              width: "100%",
+              height: "100%",
+              
+              // "& : hover" : {
+              //   color: "primary.main", 
+              //   backgroundColor: "draft.contrastText"
+              // }
+            }}
+            >
+           
+            <Avatar 
+            sx={{
+              width: "100%",
+              height: "100%",
+                 
+              "& : hover" : {
+                color: "primary.main", 
+                backgroundColor: "draft.            contrastText"
+              }
+            }}
             />
+            </IconButton>
+           
           </Box>
 
           <Typography variant="h1" marginBottom={"8px"}>Username</Typography>

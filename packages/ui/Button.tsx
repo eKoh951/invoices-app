@@ -10,7 +10,8 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'children'> {
 
 export const Button = ({ children, sx, ...rest }: ButtonProps) => (
   <MuiButton
-    sx={{
+  sx={{
+
       borderRadius: "42px",
       padding: "17px 24px",
       ...sx,
