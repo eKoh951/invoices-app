@@ -1,20 +1,32 @@
 "use client";
+import { ReactEventHandler, useState } from "react";
 import { Button } from "ui";
 import { TextInput } from "ui/inputText";
 import { Avatar, Box, Paper, Typography } from "@mui/material";
 import { useTheme } from "@mui/material";
-import {IconButton} from "@mui/material";
-import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
+import { IconButton } from "@mui/material";
+import AddAPhotoIcon from "@mui/icons-material/AddAPhoto";
 
 const ProfileCard = () => {
   const theme = useTheme();
+  const [inputValue, setInputValue] = useState("");
+
+  const [hover, setHover] = useState(false)
+
+  const onMouseEnter = () => {
+    setHover(true)
+  }
+
+  const onMouseLeave = () => {
+    setHover(false)
+  }
+
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
   return (
-    <Box
-    paddingTop={"72px"}
-    width={"100%"}
-   paddingBottom={"53px"}
-    >
+    <Box paddingTop={"72px"} width={"100%"} paddingBottom={"53px"}>
       <Box textAlign={"left"} marginBottom={"56px"}>
         <Typography variant="h1" paddingBottom={"0.66em"}>
           Profile
@@ -26,9 +38,9 @@ const ProfileCard = () => {
           flexDirection: "row",
           width: "100%",
           display: "flex",
-          
+
           [theme.breakpoints.down("desktop")]: {
-            flexDirection: "column"
+            flexDirection: "column",
           },
         }}
       >
@@ -38,10 +50,10 @@ const ProfileCard = () => {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            justifyContent:"center",
-            minWidth:"328px",
-            width:"266px",
-         
+            justifyContent: "center",
+            minWidth: "328px",
+            width: "266px",
+
             [theme.breakpoints.down("desktop")]: {
               width: "672px",
               marginBottom: "20px",
@@ -58,57 +70,79 @@ const ProfileCard = () => {
             sx={{
               width: "172px",
               height: "176px",
-              zIndex: "5",
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               marginTop: "68px",
-              marginBottom:"21px",
+              marginBottom: "21px",
               [theme.breakpoints.down("desktop")]: {
-                marginBottom:"13px"
+                marginBottom: "13px",
               },
             }}
           >
-            <IconButton
+            <Box
+             onMouseEnter={onMouseEnter}
+             onMouseLeave={onMouseLeave}
+             display  = {hover ? "block" : "none" }
+              sx={{
+                height: "100%",
+                width: "100%",
+                zIndex: "5",
+                position: "absolute",
+            
+              }}
+            >
+              <IconButton
+                
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <AddAPhotoIcon
                   sx={{
-                    zIndex: "5",
-                    position: "absolute"
-                  }}   
-            >
-            <AddAPhotoIcon />
-      
-            </IconButton>
-          
+                    width: "50%",
+                    height: "50%",
+                  }}
+                />
+              </IconButton>
+            </Box>
 
-            <IconButton
-            sx={{
-
-              width: "100%",
-              height: "100%",
+            <Box
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+              sx={{
+                width: "100%",
+                height: "100%",
+            
+                  
               
-              // "& : hover" : {
-              //   color: "primary.main", 
-              //   backgroundColor: "draft.contrastText"
-              // }
-            }}
+              }}
             >
-           
-            <Avatar 
-            sx={{
-              width: "100%",
-              height: "100%",
-                 
-              "& : hover" : {
-                color: "primary.main", 
-                backgroundColor: "draft.            contrastText"
-              }
-            }}
-            />
-            </IconButton>
-           
+              <IconButton
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  
+                }}
+              >
+                <Avatar
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              </IconButton>
+            </Box>
           </Box>
 
-          <Typography variant="h1" marginBottom={"8px"}>Username</Typography>
-          <Typography variant="body1" 
-          paddingBottom={"16px"}
-          >mail.mail@mail.com</Typography>
+          <Typography variant="h1" marginBottom={"8px"}>
+            Username
+          </Typography>
+          <Typography variant="body1" paddingBottom={"16px"}>
+            mail.mail@mail.com
+          </Typography>
         </Paper>
         <Box
           sx={{
@@ -133,32 +167,40 @@ const ProfileCard = () => {
               marginBottom: "13px",
             }}
           >
-            <Typography variant="h4" color={"primary.main"} >Settings</Typography>
-            <Typography variant="body1" marginTop={"21px"} marginBottom={"10px"}>Username</Typography>
+            <Typography variant="h4" color={"primary.main"}>
+              Settings
+            </Typography>
+            <Typography
+              variant="body1"
+              marginTop={"21px"}
+              marginBottom={"10px"}
+            >
+              Username
+            </Typography>
             <TextInput
               sx={{
                 width: "100%",
               }}
+              value={inputValue}
+              onChange={handleInputChange}
             />
-            <Box
-            display={"flex"}
-            justifyContent={"end"}
-            marginTop={"39px"}
-            >
+            <Box display={"flex"} justifyContent={"end"} marginTop={"39px"}>
               <Button
-              sx={{
-                color:"secondary.main",
-                backgroundColor: "secondary.contrastText",
-                marginRight:"8px"
-              }}
+                sx={{
+                  color: "secondary.main",
+                  backgroundColor: "secondary.contrastText",
+                  marginRight: "8px",
+                }}
+                disabled={!inputValue}
               >
                 Cancel
               </Button>
               <Button
-              sx={{
-                color:"error.contrastText",
-                backgroundColor: "primary.main"
-              }}
+                sx={{
+                  color: "error.contrastText",
+                  backgroundColor: "primary.main",
+                }}
+                disabled={!inputValue}
               >
                 Save Changes
               </Button>
@@ -168,20 +210,20 @@ const ProfileCard = () => {
             elevation={1}
             sx={{
               padding: "24px 13.5px",
-              height: "145px"
+              height: "145px",
             }}
           >
-            <Typography variant="h4" color={"primary.main"}>Security</Typography>
-            <Typography 
-            variant="body1" 
-            marginBottom={"7px"} 
-            marginTop={"22px"}>
-              Password</Typography>
+            <Typography variant="h4" color={"primary.main"}>
+              Security
+            </Typography>
+            <Typography variant="body1" marginBottom={"7px"} marginTop={"22px"}>
+              Password
+            </Typography>
             <Button
               sx={{
                 width: "100%",
-                color:"secondary.main",
-                backgroundColor: "secondary.contrastText"
+                color: "secondary.main",
+                backgroundColor: "secondary.contrastText",
               }}
             >
               Send Recovery Email
