@@ -21,6 +21,8 @@ import { Button } from "../../../packages/ui/Button";
 import StatusSquare from "ui/StatusCard";
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
 import { useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const billFromExample = {
   street: "123 Main St",
@@ -90,6 +92,37 @@ export default function invoiceDetails() {
     setOpen(false);
   };
 
+  // delete invoice from the database
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  const deleteInvoice = async (invoiceId) => {
+    try {
+      const res = await fetch(`/api/invoices/${invoiceId}`, {
+        method: "DELETE",
+      });
+
+      const data = await res.json();
+      setSnackbarMessage(data.message);
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
+      router.push("/");
+    } catch (error) {
+      setSnackbarMessage("Something went wrong!");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
   return (
     <Container maxWidth="tablet">
       <Grid direction="row">
@@ -143,7 +176,7 @@ export default function invoiceDetails() {
                 variant="contained"
                 sx={{
                   color: "draft.main",
-                  backgroundColor: "#252945",
+                  backgroundColor: "primary.dark",
                   borderRadius: "24px",
                   ":hover": { bgcolor: "white", color: "secondary.main" },
                 }}
@@ -172,54 +205,58 @@ export default function invoiceDetails() {
                 Mark as Paid
               </Button>
             </Stack>
-            {/* ========= confirm deletion modal start ========== We can apply Modal component from MUI*/}
+            {/* ========= confirm deletion modal start ==========*/}
             <Dialog
               open={open}
               onClose={handleClose}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
-              <DialogTitle id="alert-dialog-title">
-                <Typography variant="h2">Confirm Deletion</Typography>
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  <Typography variant="body1">
-                    Are you sure you want to delete invoice #
-                    {invoiceExample.invoiceId}? This action cannot be undone.
-                  </Typography>
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={handleClose}
-                  variant="contained"
-                  sx={{
-                    color: "draft.main",
-                    backgroundColor: "#252945",
-                    borderRadius: "24px",
-                    ":hover": { bgcolor: "white", color: "secondary.main" },
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={() => {
-                    // Llama a la función de eliminar factura aquí
-                    handleClose();
-                  }}
-                  variant="contained"
-                  sx={{
-                    color: "white",
-                    backgroundColor: "error.main",
-                    borderRadius: "24px",
-                    ":hover": { bgcolor: "error.light" },
-                  }}
-                  autoFocus
-                >
-                  Delete
-                </Button>
-              </DialogActions>
+              <Grid sx={{ width: "30em", height: "16 em" }}>
+                <DialogTitle id="alert-dialog-title">
+                  <Typography variant="h2">Confirm Deletion</Typography>
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    <Typography variant="body1">
+                      Are you sure you want to delete invoice #
+                      {invoiceExample.invoiceId}? This action cannot be undone.
+                    </Typography>
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={handleClose}
+                    variant="contained"
+                    sx={{
+                      color: "draft.main",
+                      backgroundColor: "#252945",
+                      borderRadius: "24px",
+                      ":hover": { bgcolor: "white", color: "secondary.main" },
+                      marginBottom: "1em",
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      deleteInvoice(invoiceExample.invoiceId);
+                      handleClose();
+                    }}
+                    variant="contained"
+                    sx={{
+                      color: "white",
+                      backgroundColor: "error.main",
+                      borderRadius: "24px",
+                      ":hover": { bgcolor: "error.light" },
+                      marginBottom: "1em",
+                    }}
+                    autoFocus
+                  >
+                    Delete
+                  </Button>
+                </DialogActions>
+              </Grid>
             </Dialog>
           </Grid>
         </Grid>
@@ -346,6 +383,20 @@ export default function invoiceDetails() {
           </Grid>
         </Grid>
       </Stack>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity={snackbarSeverity}
+          variant="filled"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 }
