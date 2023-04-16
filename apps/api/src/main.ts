@@ -15,6 +15,10 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   app.enableVersioning();
   app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,POST,PATCH,DELETE'
+  })
 
   const config = new DocumentBuilder()
     .setTitle('Invoice App')
