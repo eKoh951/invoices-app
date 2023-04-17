@@ -30,6 +30,7 @@
     "@mui/material": "^5.11.14",
     "@mui/x-date-pickers": "^6.0.0",
     "@next/font": "^13.2.4",
+    "@auth0/nextjs-auth0": "^2.2.2",
     "dayjs": "^1.11.7",
     "moment": "^2.29.4"
   }

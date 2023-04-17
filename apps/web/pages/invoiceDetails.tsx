@@ -230,7 +230,7 @@ export default function invoiceDetails() {
                     variant="contained"
                     sx={{
                       color: "draft.main",
-                      backgroundColor: "#252945",
+                      backgroundColor: "primary.dark",
                       borderRadius: "24px",
                       ":hover": { bgcolor: "white", color: "secondary.main" },
                       marginBottom: "1em",
@@ -269,7 +269,7 @@ export default function invoiceDetails() {
           item
           borderRadius={2}
           padding="1.6rem"
-          sx={{ backgroundColor: "#1E2139" }}
+          sx={{ backgroundColor: "background.paper" }}
         >
           <Grid container item paddingBottom={2} justifyContent="space-between">
             <Grid item>
@@ -327,7 +327,7 @@ export default function invoiceDetails() {
               borderRadius={2}
               margin={2}
               padding={2}
-              sx={{ backgroundColor: "#252945" }}
+              sx={{ backgroundColor: "primary.dark" }}
             >
               <Table>
                 <TableHead>
@@ -371,7 +371,7 @@ export default function invoiceDetails() {
                   </TableRow>
                 </TableBody>
                 <TableFooter>
-                  <TableRow sx={{ backgroundColor: "#0C0E16" }}>
+                  <TableRow sx={{ backgroundColor: "secondary.dark" }}>
                     <TableCell align="center">Amount Due</TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
