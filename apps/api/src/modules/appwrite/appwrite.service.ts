@@ -8,11 +8,11 @@ export class AppwriteService {
   private readonly appwrite: Client;
 
   constructor(private configService: ConfigService) {
-    const { endpoint, projectId, apiKey } =
+    const { endpoint, projectId } =
       this.configService.get<AppWrite>('appwrite');
 
     this.appwrite = new Client();
-    this.appwrite.setEndpoint(endpoint).setProject(projectId).setKey(apiKey);
+    this.appwrite.setEndpoint(endpoint).setProject(projectId).setJWT('TOKEN HERE');
   }
 
   getClient(): Client {
