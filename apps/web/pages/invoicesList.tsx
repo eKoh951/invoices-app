@@ -141,3 +141,30 @@ export default function invoicesList() {
     </Container>
   );
 }
+
+// export async function getStaticProps() {
+//   const client = await MongoClient.connect(
+//     `mongodb+srv://${process.env.USER__NAME}:${process.env.USER__PASSWORD}@cluster0.ishut.mongodb.net/${process.env.DATABASE__NAME}?retryWrites=true&w=majority`,
+//     { useNewUrlParser: true }
+//   );
+
+//   const db = client.db();
+//   const collection = db.collection("allInvoices");
+
+//   const invoices = await collection.find({}).toArray();
+
+//   return {
+//     props: {
+//       data: invoices.map((invoice) => {
+//         return {
+//           id: invoice._id.toString(),
+//           clientName: invoice.clientName,
+//           createdAt: invoice.createdAt,
+//           total: invoice.total,
+//           status: invoice.status,
+//         };
+//       }),
+//     },
+//     revalidate: 1,
+//   };
+// }

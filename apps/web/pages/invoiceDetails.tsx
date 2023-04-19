@@ -23,6 +23,7 @@ import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material"
 import { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useRouter } from "next/router";
 
 const billFromExample = {
   street: "123 Main St",
@@ -83,6 +84,7 @@ const updateInvoiceExample = {
 };
 
 export default function invoiceDetails() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(true);
@@ -97,9 +99,10 @@ export default function invoiceDetails() {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const deleteInvoice = async (invoiceId) => {
+  const deleteInvoice = async (invoiceId: string) => {
     try {
       const res = await fetch(`/api/invoices/${invoiceId}`, {
+        // en la direccion poner la url de la api
         method: "DELETE",
       });
 
@@ -114,8 +117,11 @@ export default function invoiceDetails() {
       setSnackbarOpen(true);
     }
   };
+  const handleEditInvoice = (invoiceId) => {
+    router.push(`/edit-invoice/${invoiceId}`);
+  };
 
-  const handleSnackbarClose = (event, reason) => {
+  const handleSnackbarClose = (event: any, reason: string) => {
     if (reason === "clickaway") {
       return;
     }
@@ -174,6 +180,7 @@ export default function invoiceDetails() {
             >
               <Button
                 variant="contained"
+                onClick={() => handleEditInvoice(invoiceExample.invoiceId)}
                 sx={{
                   color: "draft.main",
                   backgroundColor: "primary.dark",
@@ -400,3 +407,30 @@ export default function invoiceDetails() {
     </Container>
   );
 }
+
+// export async function getStaticProps() {
+//   const client = await MongoClient.connect(
+//     `mongodb+srv://${process.env.USER__NAME}:${process.env.USER__PASSWORD}@cluster0.ishut.mongodb.net/${process.env.DATABASE__NAME}?retryWrites=true&w=majority`,
+//     { useNewUrlParser: true }
+//   );
+
+//   const db = client.db();
+//   const collection = db.collection("allInvoices");
+
+//   const invoices = await collection.find({}).toArray();
+
+//   return {
+//     props: {
+//       data: invoices.map((invoice) => {
+//         return {
+//           id: invoice._id.toString(),
+//           clientName: invoice.clientName,
+//           createdAt: invoice.createdAt,
+//           total: invoice.total,
+//           status: invoice.status,
+//         };
+//       }),
+//     },
+//     revalidate: 1,
+//   };
+// }
