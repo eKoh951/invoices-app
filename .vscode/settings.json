@@ -4,5 +4,8 @@
   "prettier.configPath": ".eslintrc.js",
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
+  }
 }

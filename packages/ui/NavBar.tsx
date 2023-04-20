@@ -14,10 +14,13 @@ import { Avatar } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import logo from "./images/logo.svg";
 import Image from "next/image";
+import { useUser } from "@auth0/nextjs-auth0/client";
+import LoginIcon from '@mui/icons-material/Login';
 
 
 export default function NavBar() {
   const theme = useTheme();
+  const {user} = useUser()
   
   const MyLogo = () => {
         return (
@@ -94,7 +97,14 @@ export default function NavBar() {
               aria-label="Open to show more"
               title="Open to show more"
             >
-              <Avatar alt="Remy Sharp" />
+              {user ? 
+                 <Avatar alt="users profile picture" src={user.picture} />
+                :
+                <a href="/api/auth/login">
+                  <LoginIcon />
+                </a>
+                 
+                }
             </ListItemButton>
             <Menu
               id="simple-menu"
@@ -179,7 +189,14 @@ export default function NavBar() {
                 aria-label="Open to show more"
                 title="Open to show more"
               >
-                <Avatar alt="Remy Sharp" />
+                {user ? 
+                 <Avatar alt="users profile picture" src={user.picture} />
+                :
+                <a href="/api/auth/login">
+                  <LoginIcon />
+                </a>
+                 
+                }
               </ListItemButton>
               <Menu
                 id="simple-menu"
@@ -190,7 +207,10 @@ export default function NavBar() {
               >
                 <MenuItem>Profile</MenuItem>
                 <MenuItem>Invoices</MenuItem>
+                <a href="/api/auth/logout">
                 <MenuItem>Log Out</MenuItem>
+                </a>
+                
               </Menu>
             </ListItem>
           </Grid>
