@@ -42,7 +42,7 @@ export class V1Controller {
   ) {}
 
   ////////////// api/v1/users/
-  @Get('users')
+  @Get('users/@me')
   @ApiTags('Users')
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
@@ -52,7 +52,7 @@ export class V1Controller {
   }
 
   ////////////// api/v1/users/
-  @Patch('users')
+  @Patch('users/@me')
   @ApiTags('Users')
   @ApiOperation({ summary: 'Update the username or avatar of the user' })
   @ApiOkResponse({ description: 'Successfully updated user', type: UserDto })
