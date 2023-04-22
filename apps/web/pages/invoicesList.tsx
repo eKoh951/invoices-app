@@ -1,11 +1,21 @@
 "use client";
-import { IconButton, Stack, Typography } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Button } from "ui/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import StatusSquare from "../../../packages/ui/StatusCard";
+import { InvoiceCard } from "../../../packages/ui/InvoiceCard";
+import { InvoiceCreation } from "../../../packages/ui/InvoiceCreation";
 
 const billFromExample = {
   street: "123 Main St",
@@ -70,59 +80,25 @@ export default function invoicesList() {
   // const { data } = props;
   // const navigatePage = () => router.push("/add-new");
   const apiMethod = async () => {
-    const resToken = await fetch('api/getAccesToken')
-    const { accessToken } = await resToken.json()
+    const resToken = await fetch("api/getAccesToken");
+    const { accessToken } = await resToken.json();
 
     const res = await fetch("http://localhost:8000/api/v1/invoices", {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
       },
-    }
-    
-    )
-  }
+    });
+  };
 
   return (
-    <Container>
-      <Grid container justifyContent="space-between" marginBottom={3}>
-        <Grid>
-          <Typography variant="h1" marginBottom={1}>
-            Invoices
-          </Typography>
-          <Typography variant="body1">
-            There are total (data.length) invoices
-          </Typography>
-        </Grid>
-        <Grid direction="row" alignItems="center">
-          <Grid>
-            <Stack
-              direction="row"
-              alignItems="center"
-              alignContent="center"
-              spacing={2}
-            >
-              <Typography>Filter</Typography>
-              <Button
-                variant="contained"
-                startIcon={<AddCircleIcon />}
-                sx={{
-                  color: "white",
-                  borderRadius: "24px",
-                  ":hover": { bgcolor: "primary.light" },
-                }}
-                // onClick={navigatePage}
-              >
-                New Invoice
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      </Grid>
+    <Container maxWidth="desktop" sx={{ width: "730px" }}>
+      {/* ============= header ================== */}
+      <InvoiceCreation />
       {/* ======= invoice item =========== */}
       <Grid
         container
-        direction="column"
+        //direction="column"
         justifyContent="center"
         alignItems="center"
         marginBottom={2}
@@ -132,8 +108,9 @@ export default function invoicesList() {
           direction={"row"}
           justifyContent={"space-between"}
           alignItems={"center"}
-          spacing={3}
-          padding={2}
+          spacing={5}
+          paddingY={2}
+          //width="95%"
         >
           <Typography variant="h4">{invoiceExample.invoiceId}</Typography>
           <Typography variant="body1">{invoiceExample.updatedAt}</Typography>
@@ -142,12 +119,12 @@ export default function invoicesList() {
           <StatusSquare sx={{ color: "warning.main" }}>
             {invoiceExample.status}
           </StatusSquare>
-          {/* Poner un link en el siguiente arrow que me lleve a los detalles de la invoice */}
           <IconButton>
             <KeyboardArrowRightIcon sx={{ color: "primary.main" }} />
           </IconButton>
         </Stack>
       </Grid>
+      <InvoiceCard />
     </Container>
   );
 }

@@ -15,9 +15,11 @@ export const InvoiceCard = ({ ...rest }) => (
       <Typography variant="body1">(Invoice Date)</Typography>
       <Typography variant="body1">(Invoice Owner)</Typography>
       <Typography variant="h3">(Total Amount)</Typography>
-      <StatusSquare sx={{ color: "white" }} />
+      <StatusSquare sx={{ color: "warning.main" }}>
+        (invoiceExample.status)
+      </StatusSquare>
       <IconButton>
-        <KeyboardArrowRightIcon />
+        <KeyboardArrowRightIcon sx={{ color: "primary.main" }} />
       </IconButton>
     </Stack>
   </Paper>

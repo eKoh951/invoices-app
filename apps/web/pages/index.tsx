@@ -25,7 +25,6 @@ export default function Home() {
           >
             Comply to all SAT requirements
           </Typography>
-          <a href="/api/auth/login">Login</a>
         </Grid>
         <Grid
           desktop={6}

@@ -101,16 +101,16 @@ export default function invoiceDetails() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const deleteInvoice = async (invoiceId: string) => {
-    const resToken = await fetch('api/getAccessToken')
-    const { accessToken } = await resToken.json()
+    const resToken = await fetch("api/getAccessToken");
+    const { accessToken } = await resToken.json();
     try {
       const res = await fetch(
         `https://localhost:8000/api/v1/invoices/${invoiceId}`,
         {
           method: "DELETE",
-          headers: { 
-            Authorization: `Bearer ${accessToken}`
-          }
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
 
@@ -126,15 +126,15 @@ export default function invoiceDetails() {
     }
   };
   const handleEditInvoice = async (invoiceId: string) => {
-    const resToken = await fetch('api/getAccessToken')
-    const { accessToken } = await resToken.json()
+    const resToken = await fetch("api/getAccessToken");
+    const { accessToken } = await resToken.json();
     const res = await fetch(
       `https://localhost:8000/api/v1/invoices/${invoiceId}`,
       {
         method: "PATCH",
-        headers:{
-          Authorization: `Bearer ${accessToken}`
-        }
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
       }
     );
     //router.push(`/edit-invoice/${invoiceId}`);
@@ -149,7 +149,7 @@ export default function invoiceDetails() {
   };
 
   return (
-    <Container maxWidth="tablet">
+    <Container sx={{ maxWidth: "730px" }}>
       <Grid direction="row">
         <Button
           // onClick={goBack}
