@@ -4,9 +4,6 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import { Button } from "ui/Button";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { InvoiceCard } from "ui/InvoiceCard";
-import { useRouter } from "next/router";
-import { MongoClient } from "mongodb";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import StatusSquare from "../../../packages/ui/StatusCard";
 
@@ -71,8 +68,20 @@ const updateInvoiceExample = {
 export default function invoicesList() {
   // const router = useRouter();
   // const { data } = props;
-
   // const navigatePage = () => router.push("/add-new");
+  const apiMethod = async () => {
+    const resToken = await fetch('api/getAccesToken')
+    const { accessToken } = await resToken.json()
+
+    const res = await fetch("http://localhost:8000/api/v1/invoices", {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+    }
+    
+    )
+  }
 
   return (
     <Container>
@@ -133,6 +142,7 @@ export default function invoicesList() {
           <StatusSquare sx={{ color: "warning.main" }}>
             {invoiceExample.status}
           </StatusSquare>
+          {/* Poner un link en el siguiente arrow que me lleve a los detalles de la invoice */}
           <IconButton>
             <KeyboardArrowRightIcon sx={{ color: "primary.main" }} />
           </IconButton>

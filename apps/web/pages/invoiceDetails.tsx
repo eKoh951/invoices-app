@@ -20,7 +20,8 @@ import Typography from "@mui/material/Typography";
 import { Button } from "../../../packages/ui/Button";
 import StatusSquare from "ui/StatusCard";
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
-import { useState } from "react";
+//import { useState } from "react";
+import React, { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
 import { useRouter } from "next/router";
@@ -100,11 +101,18 @@ export default function invoiceDetails() {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const deleteInvoice = async (invoiceId: string) => {
+    const resToken = await fetch('api/getAccessToken')
+    const { accessToken } = await resToken.json()
     try {
-      const res = await fetch(`/api/invoices/${invoiceId}`, {
-        // en la direccion poner la url de la api
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+        {
+          method: "DELETE",
+          headers: { 
+            Authorization: `Bearer ${accessToken}`
+          }
+        }
+      );
 
       const data = await res.json();
       setSnackbarMessage(data.message);
@@ -117,8 +125,19 @@ export default function invoiceDetails() {
       setSnackbarOpen(true);
     }
   };
-  const handleEditInvoice = (invoiceId) => {
-    router.push(`/edit-invoice/${invoiceId}`);
+  const handleEditInvoice = async (invoiceId: string) => {
+    const resToken = await fetch('api/getAccessToken')
+    const { accessToken } = await resToken.json()
+    const res = await fetch(
+      `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+      {
+        method: "PATCH",
+        headers:{
+          Authorization: `Bearer ${accessToken}`
+        }
+      }
+    );
+    //router.push(`/edit-invoice/${invoiceId}`);
   };
 
   const handleSnackbarClose = (event: any, reason: string) => {
@@ -398,7 +417,7 @@ export default function invoiceDetails() {
       >
         <Alert
           onClose={handleSnackbarClose}
-          severity={snackbarSeverity}
+          severity={"success"}
           variant="filled"
         >
           {snackbarMessage}
