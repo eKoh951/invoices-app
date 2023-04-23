@@ -5,7 +5,6 @@ import {
   IsArray,
   IsDate,
   ArrayMinSize,
-  IsNumberString,
   IsEmail,
   IsEnum,
   ValidateNested,
@@ -68,11 +67,11 @@ export class ItemListDto {
   @ApiProperty()
   name: string;
 
-  @IsNumberString()
+  @IsNumber()
   @ApiProperty()
   quantity: number;
 
-  @IsNumberString()
+  @IsNumber()
   @ApiProperty()
   price: number;
 }

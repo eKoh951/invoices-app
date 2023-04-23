@@ -38,7 +38,7 @@ import { Auth0Utils } from './core/utils/auth0.utils';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ValidateAccessToken).forRoutes('*');
-    consumer.apply(CurrentUserMiddleware).forRoutes('*');
+    consumer.apply(ValidateAccessToken).forRoutes('dev');
+    consumer.apply(CurrentUserMiddleware).forRoutes('dev');
   }
 }
