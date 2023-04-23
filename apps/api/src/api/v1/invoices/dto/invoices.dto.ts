@@ -1,5 +1,6 @@
 import {
   IsString,
+  IsNumber,
   IsNotEmptyObject,
   IsArray,
   IsDate,
@@ -103,7 +104,7 @@ export class InvoiceDto {
   @ApiProperty()
   billTo: BillToDto;
 
-  @IsNumberString()
+  @IsNumber()
   @IsEnum(PaymentTermsOptions)
   @ApiProperty()
   paymentTerms: PaymentTermsOptions;
@@ -143,7 +144,7 @@ export class CreateInvoiceDto {
   @ApiProperty()
   billTo: BillToDto;
 
-  @IsNumberString()
+  @IsNumber()
   @IsEnum(PaymentTermsOptions)
   @ApiProperty()
   paymentTerms: PaymentTermsOptions;
