@@ -37,7 +37,7 @@ export class Invoices {
   billTo: Record<string, string>;
 
   @Prop()
-  paymentTerms: string;
+  paymentTerms: number;
 
   @Prop(
     [raw({
