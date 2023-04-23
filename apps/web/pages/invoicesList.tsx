@@ -1,5 +1,6 @@
 "use client";
 import {
+  Box,
   FormControl,
   IconButton,
   InputLabel,
@@ -17,63 +18,53 @@ import StatusSquare from "../../../packages/ui/StatusCard";
 import { InvoiceCard } from "../../../packages/ui/InvoiceCard";
 import { InvoiceCreation } from "../../../packages/ui/InvoiceCreation";
 
-const billFromExample = {
-  street: "123 Main St",
-  city: "San Francisco",
-  postCode: "94105",
-  country: "USA",
-};
-
-const billToExample = {
-  clientName: "John Doe",
-  clientEmail: "johndoe@example.com",
-  street: "789 Market St",
-  city: "New York",
-  postCode: "10001",
-  country: "USA",
-};
-
-const itemListExample = [
+// Resultado similar a lo que daria la API al consultar un Invoice
+const invoiceExample = [
   {
-    name: "Web Design",
-    quantity: 1,
-    price: 1500,
+    invoiceId: "INV-00004",
+    clientName: "Erick Huie",
+    ownerEmail: "eh@example.com",
+    status: "paid",
+    description: "Final Feliz",
+    paymentTerms: 30,
+    createdAt: "20 Apr 2023",
+    updatedAt: "21 Sep 2023",
+    totalAmount: "3500",
   },
   {
-    name: "Hosting",
-    quantity: 1,
-    price: 100,
+    invoiceId: "INV-00003",
+    clientName: "Marco Sotelo",
+    ownerEmail: "Ms@example.com",
+    status: "paid",
+    description: "Cariniosas web",
+    paymentTerms: 30,
+    createdAt: "13 Apr 2023",
+    updatedAt: "15 Sep 2023",
+    totalAmount: "1700",
+  },
+  {
+    invoiceId: "INV-00002",
+    clientName: "John Smith",
+    ownerEmail: "mio@example.com",
+    status: "paid",
+    description: "Chat app",
+    paymentTerms: 30,
+    createdAt: "22 Apr 2023",
+    updatedAt: "23 Sep 2023",
+    totalAmount: "2500",
+  },
+  {
+    invoiceId: "INV-00001",
+    clientName: "John Doe",
+    ownerEmail: "owner@example.com",
+    status: "pending",
+    description: "Web design and hosting services",
+    paymentTerms: 30,
+    createdAt: "21 Aug 2021",
+    updatedAt: "20 Sep 2021",
+    totalAmount: "1500",
   },
 ];
-
-// Resultado similar a lo que daria la API al consultar un Invoice
-const invoiceExample = {
-  invoiceId: "INV-00001",
-  ownerEmail: "owner@example.com",
-  status: "pending",
-  description: "Web design and hosting services",
-  billFrom: billFromExample,
-  billTo: billToExample,
-  paymentTerms: 30,
-  itemList: itemListExample,
-  createdAt: "21 Aug 2021",
-  updatedAt: "20 Sep 2021",
-};
-
-// Ejemplo de los datos que se enviarian a la API al crear un Invoice
-const createInvoiceExample = {
-  status: "pending",
-  description: "Web design and hosting services",
-  billFrom: billFromExample,
-  billTo: billToExample,
-  paymentTerms: 30,
-  itemList: itemListExample,
-};
-
-const updateInvoiceExample = {
-  status: "paid",
-  description: "Web design and hosting services - Updated",
-};
 
 export default function invoicesList() {
   // const router = useRouter();
@@ -96,35 +87,11 @@ export default function invoicesList() {
       {/* ============= header ================== */}
       <InvoiceCreation />
       {/* ======= invoice item =========== */}
-      <Grid
-        container
-        //direction="column"
-        justifyContent="center"
-        alignItems="center"
-        marginBottom={2}
-        sx={{ backgroundColor: "background.paper", borderRadius: "8px" }}
-      >
-        <Stack
-          direction={"row"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          spacing={5}
-          paddingY={2}
-          //width="95%"
-        >
-          <Typography variant="h4">{invoiceExample.invoiceId}</Typography>
-          <Typography variant="body1">{invoiceExample.updatedAt}</Typography>
-          <Typography variant="body1">{billToExample.clientName}</Typography>
-          <Typography variant="h3">(Total Amount)</Typography>
-          <StatusSquare sx={{ color: "warning.main" }}>
-            {invoiceExample.status}
-          </StatusSquare>
-          <IconButton>
-            <KeyboardArrowRightIcon sx={{ color: "primary.main" }} />
-          </IconButton>
-        </Stack>
-      </Grid>
-      <InvoiceCard />
+      <Box>
+        {invoiceExample.map((invoice) => (
+          <InvoiceCard key={invoice.invoiceId} invoice={invoice} />
+        ))}
+      </Box>
     </Container>
   );
 }
