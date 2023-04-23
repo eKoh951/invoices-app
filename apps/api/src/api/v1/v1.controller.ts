@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 
 import { UsersServiceV1 } from './users/users.service';
-import { UserDto, UpdateUserDto } from './users/dto/users.dto';
+import { UserDto, UpdateUserDto, PasswordRecoveryDto } from './users/dto/users.dto';
 
 import { InvoicesServiceV1 } from './invoices/invoices.service';
 import {
@@ -41,8 +41,8 @@ export class V1Controller {
     private readonly invoicesService: InvoicesServiceV1
   ) {}
 
-  ////////////// api/v1/users/
-  @Get('users')
+  ////////////// api/v1/users/@me
+  @Get('users/@me')
   @ApiTags('Users')
   @ApiOperation({ summary: 'Gets the requested user' })
   @ApiOkResponse({ description: 'Successfully obtained user', type: UserDto })
@@ -51,8 +51,8 @@ export class V1Controller {
     return user;
   }
 
-  ////////////// api/v1/users/
-  @Patch('users')
+  ////////////// api/v1/users/@me
+  @Patch('users/@me')
   @ApiTags('Users')
   @ApiOperation({ summary: 'Update the username or avatar of the user' })
   @ApiOkResponse({ description: 'Successfully updated user', type: UserDto })
@@ -66,6 +66,17 @@ export class V1Controller {
     @UploadedFile() avatar: Express.Multer.File
   ): Promise<UserDto> {
     return this.usersService.updateUser(user_id, body, avatar);
+  }
+
+  ////////////// api/v1/users/@me/password_recovery
+  @Post('users/@me/password_recovery')
+  @ApiTags('Users')
+  @ApiOperation({ summary: 'Send an email to reset password to current user' })
+  @ApiOkResponse({ description: 'The password reset email has been sent.', type: PasswordRecoveryDto })
+  getPasswordRecovery(
+    @CurrentUser() user: UserDto
+  ): Promise<PasswordRecoveryDto> {
+    return this.usersService.sendRecoveryEmail(user);
   }
 
   ////////////////////////////////////////

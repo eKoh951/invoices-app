@@ -3,16 +3,21 @@ import {
   BadRequestException,
   Inject,
   CACHE_MANAGER,
+  InternalServerErrorException,
 } from '@nestjs/common';
 
-import { UpdateUserDto, UserDto } from './dto/users.dto';
+import { UserDto, UpdateUserDto, PasswordRecoveryDto } from './dto/users.dto';
 
 import { Auth0Utils } from '../../../core/utils/auth0.utils';
 import { UsersUtilsV1 } from './users.utils';
 import { Cache } from 'cache-manager';
-import { ManagementClient, ManagementClientOptions } from 'auth0';
+import {
+  AuthenticationClient,
+  ManagementClient,
+  ManagementClientOptions,
+} from 'auth0';
 import { ConfigService } from '@nestjs/config';
-import { Auth0 } from 'src/config/interfaces/env.config.interface';
+import { Auth0, Auth0Api } from 'src/config/interfaces/env.config.interface';
 
 @Injectable()
 export class UsersServiceV1 {
@@ -27,16 +32,25 @@ export class UsersServiceV1 {
 
   private token: string;
   private auth0Managment: ManagementClient;
+  private auth0Client: AuthenticationClient;
 
   private async init(): Promise<void> {
     this.token = await this.auth0Utils.getAuthToken();
     const { domain } = this.configService.get<Auth0>('auth0');
+    const { clientId, clientSecret } =
+      this.configService.get<Auth0Api>('auth0.api');
 
     const managmentOptions: ManagementClientOptions = {
       token: this.token,
       domain,
     };
     this.auth0Managment = new ManagementClient(managmentOptions);
+
+    this.auth0Client = new AuthenticationClient({
+      domain,
+      clientId,
+      clientSecret,
+    });
   }
 
   async updateUser(
@@ -63,5 +77,24 @@ export class UsersServiceV1 {
     await this.cacheManager.set(userId, updatedUser);
 
     return updatedUser;
+  }
+
+  async sendRecoveryEmail(user: UserDto): Promise<PasswordRecoveryDto> {
+    const { clientId } = this.configService.get<Auth0Api>('auth0.api');
+    const { email } = user;
+
+    try {
+      await this.auth0Client.requestChangePasswordEmail({
+        email,
+        connection: 'Username-Password-Authentication',
+        client_id: clientId,
+      });
+
+      return {
+        status: 'The password reset email has been sent.',
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(error.message);
+    }
   }
 }

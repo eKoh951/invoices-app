@@ -18,7 +18,7 @@ async function bootstrap() {
   app.enableCors({
     origin: '*',
     methods: 'GET,POST,PATCH,DELETE'
-  })
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Invoice App')

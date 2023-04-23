@@ -1,10 +1,10 @@
 import {
   IsString,
+  IsNumber,
   IsNotEmptyObject,
   IsArray,
   IsDate,
   ArrayMinSize,
-  IsNumberString,
   IsEmail,
   IsEnum,
   ValidateNested,
@@ -67,11 +67,11 @@ export class ItemListDto {
   @ApiProperty()
   name: string;
 
-  @IsNumberString()
+  @IsNumber()
   @ApiProperty()
   quantity: number;
 
-  @IsNumberString()
+  @IsNumber()
   @ApiProperty()
   price: number;
 }
@@ -103,7 +103,7 @@ export class InvoiceDto {
   @ApiProperty()
   billTo: BillToDto;
 
-  @IsNumberString()
+  @IsNumber()
   @IsEnum(PaymentTermsOptions)
   @ApiProperty()
   paymentTerms: PaymentTermsOptions;
@@ -143,7 +143,7 @@ export class CreateInvoiceDto {
   @ApiProperty()
   billTo: BillToDto;
 
-  @IsNumberString()
+  @IsNumber()
   @IsEnum(PaymentTermsOptions)
   @ApiProperty()
   paymentTerms: PaymentTermsOptions;

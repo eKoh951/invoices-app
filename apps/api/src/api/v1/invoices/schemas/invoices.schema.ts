@@ -1,6 +1,6 @@
-import { Prop, Schema, SchemaFactory, raw } from "@nestjs/mongoose";
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 
-@Schema({ timestamps: { createdAt: true, updatedAt: true } })
+@Schema({ timestamps: { createdAt: true, updatedAt: true }})
 export class Invoices {
   @Prop({ required: true, unique: true })
   invoiceId: string;
@@ -39,13 +39,13 @@ export class Invoices {
   @Prop()
   paymentTerms: number;
 
-  @Prop([
-    raw({
+  @Prop(
+    [raw({
       name: { type: String },
       quantity: { type: Number },
       price: { type: Number },
-    }),
-  ])
+    })]
+  )
   itemList: Record<string, any>[];
 }
 
