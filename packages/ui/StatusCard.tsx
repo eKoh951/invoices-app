@@ -13,6 +13,22 @@ const StatusSquare: React.FC<StatusSquareProps> = ({
   sx,
   ...rest
 }) => {
+  
+  const getStatusStyle = (status: ReactNode) => {
+    switch (status) {
+      case "Pending":
+        return { backgroundColor: "warning.dark", color: "warning.main" };
+      case "Paid":
+        return { backgroundColor: "success.dark", color: "success.main" };
+      case "Draft":
+        return { backgroundColor: "draft.contrastText", color: "draft.main" };
+      default:
+        return {};
+    }
+  };
+
+  const statusStyle = getStatusStyle(children);
+
   return (
     <Box
       sx={{
@@ -23,6 +39,8 @@ const StatusSquare: React.FC<StatusSquareProps> = ({
         width: "104px",
         height: "40px",
         borderRadius: "6px",
+        ...statusStyle,
+        ...sx,
       }}
       {...rest}
     >

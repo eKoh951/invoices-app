@@ -8,12 +8,14 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 
 
-export default function InputDate() {
+export default function InputDate({onChange, value}) {
   return (
     <LocalizationProvider 
     dateAdapter={AdapterDayjs}
     >
       <DatePicker 
+      onChange={onChange}
+      value={value}
       slots={{
         openPickerIcon : CalendarTodayIcon,
         rightArrowIcon : KeyboardArrowRightIcon,
