@@ -5,6 +5,7 @@ import { getSession } from "@auth0/nextjs-auth0";
 import { GetServerSideProps } from "next";
 import { getToken, AccessTokenResult } from "../pages/api/getAccessToken"; // Importa la función aquí desde el nuevo archivo
 import { Key } from "react";
+import Link from "next/link";
 
 interface Invoice {
   invoiceId: string;
@@ -25,7 +26,13 @@ export default function invoicesList({ invoices }: Props) {
       {/* ======= invoice item ===========  */}
       <Box>
         {invoices.map((invoice: { invoiceId: Key | null | undefined }) => (
-          <InvoiceCard key={invoice.invoiceId} invoice={invoice} />
+          <Link
+            style={{ textDecoration: "none" }}
+            href={`/invoiceDetails/${invoice.invoiceId}`}
+            key={invoice.invoiceId}
+          >
+            <InvoiceCard key={invoice.invoiceId} invoice={invoice} />
+          </Link>
         ))}
       </Box>
     </Container>
