@@ -52,6 +52,7 @@ export interface Invoice {
   paymentTerms: PaymentTermsOptions;
   itemList: Item[];
   formattedDate: string;
+  createdAt: string;
 }
 
 export interface BillFrom {
@@ -70,7 +71,7 @@ export interface BillTo {
   country: string;
 }
 
-interface InvoiceDetailsProps {
+interface Props {
   invoice: Invoice;
 }
 
@@ -88,7 +89,13 @@ function formatDate(dateString: string | number | Date) {
   return date.replace(/\b\w/g, (l) => l.toUpperCase());
 }
 
-export default function invoiceDetails({ invoice }: Props) {
+export default function InvoiceDetails({ invoice }: Props) {
+  const formattedDate = formatDate(invoice.createdAt);
+  const totalAmount = invoice.itemList.reduce(
+    (accumulator, item) => accumulator + item.quantity * item.price,
+    0
+  );
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -325,13 +332,13 @@ export default function invoiceDetails({ invoice }: Props) {
                 Invoice Date
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {invoice.formattedDate}
+                {formattedDate}
               </Typography>
               <Typography variant="body1" paddingBottom={0.5}>
                 Payment Due
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {invoice.updatedAt}
+                {formattedDate}
               </Typography>
             </Grid>
             {/* ======= invoice client address ========== */}
@@ -385,7 +392,7 @@ export default function invoiceDetails({ invoice }: Props) {
                     <TableCell align="center">Amount Due</TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
-                    <TableCell align="center">$$$$$$$</TableCell>
+                    <TableCell align="center">{totalAmount}</TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>
