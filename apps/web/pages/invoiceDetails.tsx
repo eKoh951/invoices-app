@@ -20,71 +20,59 @@ import Typography from "@mui/material/Typography";
 import { Button } from "../../../packages/ui/Button";
 import StatusSquare from "ui/StatusCard";
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
-//import { useState } from "react";
 import React, { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { GetServerSideProps } from "next";
+import { getSession } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
+import { getToken, AccessTokenResult } from "../pages/api/getAccessToken";
 
-const billFromExample = {
-  street: "123 Main St",
-  city: "San Francisco",
-  postCode: "94105",
-  country: "USA",
-};
+interface Invoice {
+  invoiceId: string;
+  createdAt: string;
+  clientName: string;
+  totalAmount: number;
+  status: string;
+  description: string;
+  billFrom: string;
+  billTo: string;
+  street: string;
+  city: string;
+  country: string;
+  postCode: string;
+  formattedDate: any;
+}
 
-const billToExample = {
-  clientName: "John Doe",
-  clientEmail: "johndoe@example.com",
-  street: "789 Market St",
-  city: "New York",
-  postCode: "10001",
-  country: "USA",
-};
+interface Props {
+  invoice: Invoice;
+}
 
-const itemListExample = [
-  {
-    name: "Web Design",
-    quantity: 1,
-    price: 1500,
-  },
-  {
-    name: "Hosting",
-    quantity: 1,
-    price: 100,
-  },
-];
+function formatDate(dateString: string | number | Date) {
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-// Resultado similar a lo que daria la API al consultar un Invoice
-const invoiceExample = {
-  invoiceId: "INV-00001",
-  ownerEmail: "owner@example.com",
-  status: "pending",
-  description: "Web design and hosting services",
-  billFrom: billFromExample,
-  billTo: billToExample,
-  paymentTerms: 30,
-  itemList: itemListExample,
-  createdAt: "21 Aug 2021",
-  updatedAt: "20 Sep 2021",
-};
+  const date = new Date(dateString);
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const year = date.getFullYear();
 
-// Ejemplo de los datos que se enviarian a la API al crear un Invoice
-const createInvoiceExample = {
-  status: "pending",
-  description: "Web design and hosting services",
-  billFrom: billFromExample,
-  billTo: billToExample,
-  paymentTerms: 30,
-  itemList: itemListExample,
-};
+  return `${day} ${months[monthIndex]} ${year}`;
+}
 
-const updateInvoiceExample = {
-  status: "paid",
-  description: "Web design and hosting services - Updated",
-};
-
-export default function invoiceDetails() {
+export default function invoiceDetails({ invoice }: Props) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -185,7 +173,7 @@ export default function invoiceDetails() {
               <StatusSquare
                 sx={{ color: "warning.main", backgroundColor: "warning.dark" }}
               >
-                {invoiceExample.status}
+                {invoice.status}
               </StatusSquare>
             </Grid>
           </Grid>
@@ -199,7 +187,7 @@ export default function invoiceDetails() {
             >
               <Button
                 variant="contained"
-                onClick={() => handleEditInvoice(invoiceExample.invoiceId)}
+                onClick={() => handleEditInvoice(invoice.invoiceId)}
                 sx={{
                   color: "draft.main",
                   backgroundColor: "primary.dark",
@@ -246,7 +234,7 @@ export default function invoiceDetails() {
                   <DialogContentText id="alert-dialog-description">
                     <Typography variant="body1">
                       Are you sure you want to delete invoice #
-                      {invoiceExample.invoiceId}? This action cannot be undone.
+                      {invoice.invoiceId}? This action cannot be undone.
                     </Typography>
                   </DialogContentText>
                 </DialogContent>
@@ -266,7 +254,7 @@ export default function invoiceDetails() {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteInvoice(invoiceExample.invoiceId);
+                      deleteInvoice(invoice.invoiceId);
                       handleClose();
                     }}
                     variant="contained"
@@ -299,18 +287,18 @@ export default function invoiceDetails() {
         >
           <Grid container item paddingBottom={2} justifyContent="space-between">
             <Grid item>
-              <Typography variant="h3">{invoiceExample.invoiceId}</Typography>
-              <Typography variant="body1">
-                {invoiceExample.description}
-              </Typography>
+              <Typography variant="h3">{invoice.invoiceId}</Typography>
+              <Typography variant="body1">{invoice.description}</Typography>
             </Grid>
             <Grid item>
-              <Typography variant="body2">{billFromExample.street}</Typography>
-              <Typography variant="body2">{billFromExample.city}</Typography>
+              <Typography variant="body2">{invoice.billFrom.street}</Typography>
+              <Typography variant="body2">{invoice.billFrom.city}</Typography>
               <Typography variant="body2">
-                {billFromExample.postCode}
+                {invoice.billFrom.postCode}
               </Typography>
-              <Typography variant="body2">{billFromExample.country}</Typography>
+              <Typography variant="body2">
+                {invoice.billFrom.country}
+              </Typography>
             </Grid>
           </Grid>
 
@@ -321,13 +309,13 @@ export default function invoiceDetails() {
                 Invoice Date
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {invoiceExample.createdAt}
+                {formattedDate}
               </Typography>
               <Typography variant="body1" paddingBottom={0.5}>
                 Payment Due
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {invoiceExample.updatedAt}
+                {invoice.updatedAt}
               </Typography>
             </Grid>
             {/* ======= invoice client address ========== */}
@@ -336,16 +324,16 @@ export default function invoiceDetails() {
                 Bill To
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {billToExample.clientName}
+                {billTo.clientName}
               </Typography>
-              <Typography variant="body1">{billToExample.street}</Typography>
-              <Typography variant="body1">{billToExample.city}</Typography>
-              <Typography variant="body1">{billToExample.postCode}</Typography>
-              <Typography variant="body1">{billToExample.country}</Typography>
+              <Typography variant="body1">{invoice.billTo.street}</Typography>
+              <Typography variant="body1">{invoice.billTo.city}</Typography>
+              <Typography variant="body1">{invoice.billTo.postCode}</Typography>
+              <Typography variant="body1">{invoice.billTo.country}</Typography>
             </Grid>
             <Grid item tablet={4}>
               <Typography variant="body1">Sent to</Typography>
-              <Typography variant="h3">{billToExample.clientEmail}</Typography>
+              <Typography variant="h3">{invoice.billTo.clientEmail}</Typography>
             </Grid>
             <Grid
               container
@@ -367,31 +355,31 @@ export default function invoiceDetails() {
                 <TableBody>
                   <TableRow>
                     <TableCell align="center">
-                      {itemListExample[0].name}
+                      {invoice.itemList[0].name}
                     </TableCell>
                     <TableCell align="center">
-                      {itemListExample[0].quantity}
+                      {invoice.itemList[0].quantity}
                     </TableCell>
                     <TableCell align="center">
-                      {itemListExample[0].price}
+                      {invoice.itemList[0].price}
                     </TableCell>
                     <TableCell align="center">
-                      {itemListExample[0].price}
+                      {invoice.itemList[0].price}
                     </TableCell>
                     {/* check if the op is here or in the backEnd */}
                   </TableRow>
                   <TableRow>
                     <TableCell align="center">
-                      {itemListExample[1].name}
+                      {invoice.itemList[1].name}
                     </TableCell>
                     <TableCell align="center">
-                      {itemListExample[1].quantity}
+                      {invoice.itemList[1].quantity}
                     </TableCell>
                     <TableCell align="center">
-                      {itemListExample[1].price}
+                      {invoice.itemList[1].price}
                     </TableCell>
                     <TableCell align="center">
-                      {itemListExample[1].price}
+                      {invoice.itemList[1].price}
                     </TableCell>
                     {/* check if the op is here or in the backEnd */}
                   </TableRow>
@@ -426,3 +414,53 @@ export default function invoiceDetails() {
     </Container>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { req, res, query } = context;
+  const { invoiceId } = query;
+
+  // Comprueba si el usuario está autenticado
+  const session = await getSession(req, res);
+  if (!session || !session.user) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+
+  let accessTokenResult: AccessTokenResult;
+  try {
+    accessTokenResult = await getToken(req, res);
+  } catch (error) {
+    console.error("Error getting access token:", error);
+    return {
+      notFound: true,
+    };
+  }
+
+  const response = await fetch(
+    `http://localhost:8000/api/v1/invoices/${invoiceId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${accessTokenResult.accessToken}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    console.error("Error fetching invoice:", response.statusText);
+    return {
+      notFound: true,
+    };
+  }
+  const invoice = await response.json();
+
+  return {
+    props: {
+      invoice,
+    },
+  };
+};

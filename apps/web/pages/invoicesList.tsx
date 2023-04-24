@@ -2,23 +2,29 @@ import { Box, Container } from "@mui/material";
 import { InvoiceCard } from "../../../packages/ui/InvoiceCard";
 import { InvoiceCreation } from "../../../packages/ui/InvoiceCreation";
 import { getSession } from "@auth0/nextjs-auth0";
-import { getToken } from "../lib/getAccessToken"; // Importa la función aquí desde el nuevo archivo
+import { GetServerSideProps } from "next";
+import { getToken, AccessTokenResult } from "../pages/api/getAccessToken"; // Importa la función aquí desde el nuevo archivo
+import { Key } from "react";
 
 interface Invoice {
   invoiceId: string;
-  // Agrega aquí las demás propiedades de la factura que necesites
+  createdAt: string;
+  clientName: string;
+  totalAmount: number;
+  status: string;
+}
+interface Props {
+  invoices: Invoice[];
 }
 
-export default function invoicesList({invoices}) {
-
-  
+export default function invoicesList({ invoices }: Props) {
   return (
     <Container maxWidth="desktop" sx={{ width: "730px" }}>
-      {/* ============= header ================== */}
+      {/* ============= header ==================  */}
       <InvoiceCreation />
-      {/* ======= invoice item =========== */}
+      {/* ======= invoice item ===========  */}
       <Box>
-        {invoices.map((invoice) => (
+        {invoices.map((invoice: { invoiceId: Key | null | undefined }) => (
           <InvoiceCard key={invoice.invoiceId} invoice={invoice} />
         ))}
       </Box>
@@ -26,25 +32,25 @@ export default function invoicesList({invoices}) {
   );
 }
 
-export async function getServerSideProps(context) {
+export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, res } = context;
 
   // Comprueba si el usuario está autenticado
-  const session = getSession(req, res);
+  const session = await getSession(req, res);
   if (!session || !session.user) {
     return {
       redirect: {
-        destination: '/login', // Redirige al usuario a la página de inicio de sesión si no está autenticado
+        destination: "/login", // Redirige al usuario a la página de inicio de sesión si no está autenticado
         permanent: false,
       },
     };
   }
 
-  let accessToken;
+  let accessTokenResult: AccessTokenResult;
   try {
-    accessToken = await getToken(req, res);
+    accessTokenResult = await getToken(req, res);
   } catch (error) {
-    console.error('Error al obtener el token de acceso:', error);
+    console.error("Error getting access token:", error);
     return {
       notFound: true,
     };
@@ -53,15 +59,21 @@ export async function getServerSideProps(context) {
   const response = await fetch("http://localhost:8000/api/v1/invoices", {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: `Bearer ${accessTokenResult.accessToken}`,
     },
   });
 
-  const invoices = await response.json()
+  if (!response.ok) {
+    console.error("Error fetching invoices:", response.statusText);
+    return {
+      notFound: true,
+    };
+  }
+  const invoices = await response.json();
 
   return {
     props: {
       invoices,
     },
-  }
-}
+  };
+};
