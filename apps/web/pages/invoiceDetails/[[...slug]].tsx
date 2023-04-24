@@ -17,62 +17,85 @@ import {
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { Button } from "../../../packages/ui/Button";
-import StatusSquare from "ui/StatusCard";
+import { Button } from "../../../../packages/ui/Button";
+import StatusSquare from "../../../../packages/ui/StatusCard";
 import { KeyboardArrowDown as KeyboardArrowDownIcon } from "@mui/icons-material";
 import React, { useState } from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
+import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
-import { useRouter } from "next/router";
-import { getToken, AccessTokenResult } from "../pages/api/getAccessToken";
+import { getToken, AccessTokenResult } from "../../pages/api/getAccessToken";
 
-interface Invoice {
+export enum InvoiceStatus {
+  DRAFT = "draft",
+  PENDING = "pending",
+  PAID = "paid",
+}
+
+export enum PaymentTermsOptions {
+  NET_1_DAY = 1,
+  NET_7_DAYS = 7,
+  NET_14_DAYS = 14,
+  NET_30_DAYS = 30,
+}
+
+export interface Invoice {
   invoiceId: string;
-  createdAt: string;
-  clientName: string;
-  totalAmount: number;
-  status: string;
+  ownerId: string;
+  status: InvoiceStatus;
   description: string;
-  billFrom: string;
-  billTo: string;
+  billFrom: BillFrom;
+  billTo: BillTo;
+  date: string;
+  paymentTerms: PaymentTermsOptions;
+  itemList: Item[];
+  formattedDate: string;
+  createdAt: string;
+}
+
+export interface BillFrom {
   street: string;
   city: string;
-  country: string;
   postCode: string;
-  formattedDate: any;
+  country: string;
+}
+
+export interface BillTo {
+  clientName: string;
+  clientEmail: string;
+  street: string;
+  city: string;
+  postCode: string;
+  country: string;
 }
 
 interface Props {
   invoice: Invoice;
 }
 
-function formatDate(dateString: string | number | Date) {
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  const date = new Date(dateString);
-  const day = date.getDate();
-  const monthIndex = date.getMonth();
-  const year = date.getFullYear();
-
-  return `${day} ${months[monthIndex]} ${year}`;
+function calculateTotal(quantity: number, price: number): number {
+  return quantity * price;
 }
 
-export default function invoiceDetails({ invoice }: Props) {
+function formatDate(dateString: string | number | Date) {
+  const date = new Date(dateString).toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+
+  return date.replace(/\b\w/g, (l) => l.toUpperCase());
+}
+
+export default function InvoiceDetails({ invoice }: Props) {
+  const formattedDate = formatDate(invoice.createdAt);
+  const totalAmount = invoice.itemList.reduce(
+    (accumulator, item) => accumulator + item.quantity * item.price,
+    0
+  );
+
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
@@ -315,7 +338,7 @@ export default function invoiceDetails({ invoice }: Props) {
                 Payment Due
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {invoice.updatedAt}
+                {formattedDate}
               </Typography>
             </Grid>
             {/* ======= invoice client address ========== */}
@@ -324,7 +347,7 @@ export default function invoiceDetails({ invoice }: Props) {
                 Bill To
               </Typography>
               <Typography variant="h3" paddingBottom={1}>
-                {billTo.clientName}
+                {invoice.billTo.clientName}
               </Typography>
               <Typography variant="body1">{invoice.billTo.street}</Typography>
               <Typography variant="body1">{invoice.billTo.city}</Typography>
@@ -353,43 +376,23 @@ export default function invoiceDetails({ invoice }: Props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow>
-                    <TableCell align="center">
-                      {invoice.itemList[0].name}
-                    </TableCell>
-                    <TableCell align="center">
-                      {invoice.itemList[0].quantity}
-                    </TableCell>
-                    <TableCell align="center">
-                      {invoice.itemList[0].price}
-                    </TableCell>
-                    <TableCell align="center">
-                      {invoice.itemList[0].price}
-                    </TableCell>
-                    {/* check if the op is here or in the backEnd */}
-                  </TableRow>
-                  <TableRow>
-                    <TableCell align="center">
-                      {invoice.itemList[1].name}
-                    </TableCell>
-                    <TableCell align="center">
-                      {invoice.itemList[1].quantity}
-                    </TableCell>
-                    <TableCell align="center">
-                      {invoice.itemList[1].price}
-                    </TableCell>
-                    <TableCell align="center">
-                      {invoice.itemList[1].price}
-                    </TableCell>
-                    {/* check if the op is here or in the backEnd */}
-                  </TableRow>
+                  {invoice.itemList.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell align="center">{item.name}</TableCell>
+                      <TableCell align="center">{item.quantity}</TableCell>
+                      <TableCell align="center">{item.price}</TableCell>
+                      <TableCell align="center">
+                        {item.quantity * item.price}
+                      </TableCell>
+                    </TableRow>
+                  ))}
                 </TableBody>
                 <TableFooter>
                   <TableRow sx={{ backgroundColor: "secondary.dark" }}>
                     <TableCell align="center">Amount Due</TableCell>
                     <TableCell></TableCell>
                     <TableCell></TableCell>
-                    <TableCell align="center">$$$$$$$</TableCell>
+                    <TableCell align="center">{totalAmount}</TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>
@@ -417,7 +420,7 @@ export default function invoiceDetails({ invoice }: Props) {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, res, query } = context;
-  const { invoiceId } = query;
+  const invoiceId = query.slug[0];
 
   // Comprueba si el usuario está autenticado
   const session = await getSession(req, res);
@@ -451,7 +454,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
 
   if (!response.ok) {
-    console.error("Error fetching invoice:", response.statusText);
+    console.error("Error fetching invoice details:", response.statusText);
     return {
       notFound: true,
     };
