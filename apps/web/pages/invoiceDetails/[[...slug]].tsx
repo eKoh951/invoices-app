@@ -136,6 +136,39 @@ export default function InvoiceDetails({ invoice }: Props) {
       setSnackbarOpen(true);
     }
   };
+
+  // change status of the invoice to paid
+  const markInvoiceAsPaid = async (invoiceId: string) => {
+    const resToken = await fetch("api/getAccessToken");
+    const { accessToken } = await resToken.json();
+    try {
+      const res = await fetch(
+        `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ status: InvoiceStatus.PAID }),
+        }
+      );
+
+      if (res.ok) {
+        setSnackbarMessage("Invoice marked as paid");
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+        router.replace(router.asPath); // Refresca la página para mostrar el estado actualizado
+      } else {
+        throw new Error("Error marking invoice as paid");
+      }
+    } catch (error) {
+      setSnackbarMessage("Something went wrong!");
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+    }
+  };
+
   const handleEditInvoice = async (invoiceId: string) => {
     const resToken = await fetch("api/getAccessToken");
     const { accessToken } = await resToken.json();
@@ -228,7 +261,7 @@ export default function InvoiceDetails({ invoice }: Props) {
                   borderRadius: "24px",
                   ":hover": { bgcolor: "error.light" },
                 }}
-                onClick={handleOpen}
+                onClick={() => deleteInvoice(invoice.invoiceId)}
               >
                 Delete
               </Button>
@@ -238,6 +271,7 @@ export default function InvoiceDetails({ invoice }: Props) {
                   borderRadius: "24px",
                   ":hover": { bgcolor: "primary.light" },
                 }}
+                onClick={() => markInvoiceAsPaid(invoice.invoiceId)}
               >
                 Mark as Paid
               </Button>
