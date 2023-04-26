@@ -27,7 +27,7 @@ export default function NavBar() {
             <Box>
                 <Image src={logo} alt="logo" quality={25} style={{
                     height:"100%",
-                    width:"auto"
+                    width:"100%"
                 }}/>
             </Box>
             

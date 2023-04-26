@@ -31,56 +31,64 @@ export default {
 
 const Template = (args) => <Button {...args} />;
 
-export const Playground = Template.bind({});
-Playground.args = {
-  label: "Click me!",
-  color: "softBlue",
-  size: "large",
-  fontWeightBold: "700",
-  textTransform: "none",
-  sx: { borderRadius: "42px" },
-};
-
 export const newInvoiceButton = Template.bind({});
 newInvoiceButton.args = {
   children: "New Invoice",
-  color: "softBlue",
   size: "large",
+  sx: {
+    backgroundColor : "primary.main",
+    color: "error.contrastText"
+  },
   startIcon: <AddCircleIcon />
 };
 
 export const paidButton = Template.bind({});
 paidButton.args = {
   children: "Mark as Paid",
-  color: "softBlue",
   size: "large",
+  sx: {
+    backgroundColor : "primary.light",
+    color: "error.contrastText"
+  },
 };
 
 export const deleteButton = Template.bind({});
 deleteButton.args = {
   children: "Delete",
-  color: "softRed",
   size: "large",
+  sx: {
+    backgroundColor : "error.main",
+    color: "error.contrastText"
+  },
 };
 
 export const editButton = Template.bind({});
 editButton.args = {
   children: "Edit",
-  color: "lightGrayishBlue",
   size: "large",
+  sx: {
+    backgroundColor : "secondary.contrastText",
+    color: "secondary.main"
+  },
 };
 
 export const draftButton = Template.bind({});
 draftButton.args = {
   children: "Safe as Draft",
-  color: "veryDarkGrayishBlue",
   size: "large",
+  sx: {
+    backgroundColor : "primary.light",
+    color: "error.contrastText"
+  },
 };
 
 export const newItemButton = Template.bind({});
 newItemButton.args = {
   children: "Add New Item",
-  color: "lightGrayishBlue",
   size: "large",
+  sx: {
+    backgroundColor : "primary.contrastText",
+    color: "draft.main"
+  },
   startIcon: <AddIcon />
 };

@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 type TextFieldProps = Pick<
   MuiTextFieldProps,
-  "variant" | "size" | "color" | "sx" | "placeholder" | "required" | "label" |  "children"
+  "variant" | "size" | "color" | "sx" | "placeholder" | "required" | "label" |  "children" | "onChange" | "value"
 >
 
 export const TextFieldInput = ({...rest }: TextFieldProps) => (

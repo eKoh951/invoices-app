@@ -4,7 +4,7 @@ import { TextInput } from "ui/inputText";
 import * as React from "react";
 
 const TestPage = () => {
-  const { user, isLoading } = useUser();
+  const { user, isLoading,  } = useUser();
   const [inputText, setInputText] = React.useState("");
 
   if (isLoading) return <div>adad</div>;

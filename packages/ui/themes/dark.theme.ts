@@ -38,7 +38,8 @@ export const darkTheme = createTheme({
     primary: {
       main: "#7C5DFA",
       light: "#9277FF",
-      dark: "#252945"
+      dark: "#252945",
+      contrastText: "#373B53"
     },
     secondary: {
       main: "#7E88C3",
@@ -94,6 +95,7 @@ export const darkTheme = createTheme({
       fontWeight: "500",
       lineHeight: "15px",
       letterSpacing: "-0.25px",
+      marginBottom: "10px"
     },
     body2: {
       fontSize: "11px",
@@ -115,10 +117,10 @@ export const darkTheme = createTheme({
       letterSpacing: "-3.75px",
     },
     h5: {
-      fontSize: "20px",
+      fontSize: "18px",
       fontWeight: "700",
-      lineHeight: "39px",
-      letterSpacing: "8px",
+      lineHeight: "32px",
+      letterSpacing: "-0.38px",
       color: "#888EB0",
     },
     button: {
@@ -128,18 +130,6 @@ export const darkTheme = createTheme({
       letterSpacing: "-0.25px",
       textTransform: "none",
     },
-    // Commenting this for now, it is causing a bug
-    //   fontFamily: "League Spartan",
-    //   fontWeightMedium: "500",
-    //   fontWeightBold: "700",
-    //   textTransform: "none",
-    // },
-    // caption: {
-    //   fontSize: "12px",
-    //   fontWeight: "700",
-    //   lineHeight: "15px",
-    //   letterSpacing: "-0.25px",
-    //   textTransform: "none",
   },
   breakpoints: {
     values: {
