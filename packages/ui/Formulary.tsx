@@ -6,12 +6,13 @@ import { TextFieldInput } from "./TextFieldSelect";
 import { Box, MenuItem, Paper, Stack, Typography } from "@mui/material";
 import { ItemDescriptionRow } from "./FormularyItemList";
 import AddIcon from '@mui/icons-material/Add';
+import {useTheme} from "@mui/material";
 
 
 
 
 export const InvoiceFormulary = () => {
-
+    const theme = useTheme()
 
  
     // Agregue useState para cada campo que desea guardar
@@ -28,6 +29,7 @@ export const InvoiceFormulary = () => {
     const [clientsPaymentTerms, setClientsPaymentTerms] = useState("");
     const [issueDate, setIssueDate] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
+    const [row, setRow] = useState([])
   
     // Función para manejar cambios en los TextInput
     const handleChange = (event, setState) => {
@@ -48,6 +50,7 @@ export const InvoiceFormulary = () => {
       sx={{
         width: "616px",
         padding: "56px",
+        backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText"
       }}
     >
       <Box>

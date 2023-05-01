@@ -25,6 +25,9 @@ const ProfileCard = () => {
     setInputValue(event.target.value);
   };
 
+
+
+  
   return (
     <Box paddingTop={"72px"} width={"100%"} paddingBottom={"53px"}>
       <Box textAlign={"left"} marginBottom={"56px"}>

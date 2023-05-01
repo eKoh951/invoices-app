@@ -43,30 +43,5 @@ const Template = (args) =>
 export const Option_Select = Template.bind({});
 Option_Select.args = {
 
- sx : {
-    minWidth : "120px",
-    "& label.Mui-focused": {
-      color: "purple.main"
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "purple.main",
-    },  
-    "& .MuiFilledInput-underline:after": {
-      borderBottomColor: "purple.main"
-    },
-    "& .MuiOutlinedInput-root": {
-        backgroundColor: "componentBackground.main" ,
-
-      "&.Mui-focused fieldset": {
-        borderColor: "purple.main"
-      },
-      '&:hover fieldset': {
-        borderColor: 'purple.main',
-      },
-    },
-    "& .MuiSelect-icon" : {
-      color: "purple.main"
-    },
-  },
 
 };

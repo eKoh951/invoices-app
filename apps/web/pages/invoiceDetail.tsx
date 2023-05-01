@@ -27,6 +27,7 @@ import { GetServerSideProps } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
 import { useRouter } from "next/router";
 import { getToken, AccessTokenResult } from "./api/getAccessToken";
+import { stringify } from "querystring";
 
 export enum InvoiceStatus {
   DRAFT = "draft",
@@ -106,24 +107,34 @@ export default function invoiceDetails({ invoice }: Props) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const deleteInvoice = async (invoiceId: string) => {
+  const deleteInvoice = async (invoiceId: any) => {
     const resToken = await fetch("api/getAccessToken");
     const { accessToken } = await resToken.json();
+    console.log(accessToken)
     try {
       const res = await fetch(
-        `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+        `http://localhost:8000/api/v1/invoices/${invoiceId}`,
         {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${accessToken}`,
-          },
+          }, 
         }
       );
-
-      const data = await res.json();
-      setSnackbarMessage(data.message);
-      setSnackbarSeverity("success");
-      setSnackbarOpen(true);
+  
+      if (res.headers.get("Content-Type")?.includes("application/json")) {
+        const data = await res.json();
+        setSnackbarMessage(data.message);
+        setSnackbarSeverity("success");
+        setSnackbarOpen(true);
+      } else {
+        const text = await res.text();
+        console.error("Error:", text);
+        setSnackbarMessage("Something went wrong!");
+        setSnackbarSeverity("error");
+        setSnackbarOpen(true);
+      }
+      
       router.push("/");
     } catch (error) {
       setSnackbarMessage("Something went wrong!");
@@ -131,11 +142,11 @@ export default function invoiceDetails({ invoice }: Props) {
       setSnackbarOpen(true);
     }
   };
-  const handleEditInvoice = async (invoiceId: string) => {
+  const handleEditInvoice = async (invoiceId: any) => {
     const resToken = await fetch("api/getAccessToken");
     const { accessToken } = await resToken.json();
     const res = await fetch(
-      `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+      `http://localhost:8000/api/v1/invoices/${invoiceId}`,
       {
         method: "PATCH",
         headers: {
@@ -272,8 +283,7 @@ export default function invoiceDetails({ invoice }: Props) {
                   </Button>
                   <Button
                     onClick={() => {
-                      deleteInvoice(invoice.invoiceId);
-                      handleClose();
+                      deleteInvoice(invoice.invoiceId)
                     }}
                     variant="contained"
                     sx={{

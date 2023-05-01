@@ -4,6 +4,7 @@ import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import { useTheme } from "@mui/material";
+import { useContext } from "react";
 import Divider from "@mui/material/Divider";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -16,23 +17,37 @@ import logo from "./images/logo.svg";
 import Image from "next/image";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import LoginIcon from '@mui/icons-material/Login';
-
+import ThemeContext from "ui/ThemeContext";
+import LightModeIcon from '@mui/icons-material/LightMode';
+import { themes } from "./themes";
 
 export default function NavBar() {
   const theme = useTheme();
   const {user} = useUser()
+  const { toggleTheme } = useContext(ThemeContext);
   
   const MyLogo = () => {
-        return (
-            <Box>
-                <Image src={logo} alt="logo" quality={25} style={{
-                    height:"100%",
-                    width:"100%"
-                }}/>
-            </Box>
-            
-        )
-      };
+    return (
+      <Box
+        sx={{
+          position: "relative",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%', // Establece el ancho máximo al 100% del contenedor
+          height: '100%', // Establece el alto máximo al 100% del contenedor
+        }}
+      >
+        <Image
+          src={logo}
+          alt="logo"
+          quality={25}
+          width={100}
+          height={100}
+        />
+      </Box>
+    );
+  };
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (e) => {
@@ -53,7 +68,7 @@ export default function NavBar() {
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
-        position="fixed"
+        position="absolute"
         sx={{
           width: "100%",
           display: "flex",
@@ -77,11 +92,20 @@ export default function NavBar() {
         </Grid>
         <Grid display={"flex"}>
           <ListItemButton
+          onClick={(e) => {
+            e.preventDefault();
+            toggleTheme();
+          }}
             sx={{
               justifyContent: "center",
             }}
+            
           >
-            <DarkModeIcon color="action" />
+           {theme === themes.light ? (
+          <DarkModeIcon sx={{ color : theme.palette.secondary.main}} />
+          ) : (
+          <LightModeIcon sx={{ color : theme.palette.secondary.main}} />
+            )}
           </ListItemButton>
           <Divider sx={{
                 color:"#ffffff",
@@ -158,13 +182,21 @@ export default function NavBar() {
           width={"100%"}
           >
             <ListItemButton
+         onClick={(e) => {
+          e.preventDefault();
+          toggleTheme();
+        }}
               sx={{
                 justifyContent: "center",
                 alignItems:"center",
                 padding:"28px "
               }}
             >
-              <DarkModeIcon color="action" />
+        {theme.palette.mode === "light" ? (
+          <DarkModeIcon color="action" />
+          ) : (
+          <LightModeIcon color="action" />
+            )}
             </ListItemButton>
             <Divider 
             
@@ -190,21 +222,15 @@ export default function NavBar() {
                 title="Open to show more"
               >
                 {user ? 
-                 <Avatar alt="users profile picture" src={user.picture} />
-                :
-                <a href="/api/auth/login">
-                  <LoginIcon />
-                </a>
-                 
-                }
-              </ListItemButton>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
+                <>
+                  <Avatar alt="users profile picture" src={user.picture} />
+                  <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
                 <MenuItem>Profile</MenuItem>
                 <MenuItem>Invoices</MenuItem>
                 <a href="/api/auth/logout">
@@ -212,6 +238,17 @@ export default function NavBar() {
                 </a>
                 
               </Menu>
+                </>
+               
+                :
+                <a href="/api/auth/login">
+                  <LoginIcon />
+                </a>
+
+                 
+                }
+              </ListItemButton>
+              
             </ListItem>
           </Grid>
         </Grid>

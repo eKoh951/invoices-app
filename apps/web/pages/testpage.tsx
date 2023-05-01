@@ -13,7 +13,7 @@ const TestPage = () => {
     const resToken = await fetch("api/getAccessToken");
 
     const { accessToken } = await resToken.json();
-    console.log(accessToken);
+    console.log(accessToken)
 
     const formData = new FormData();
     formData.append("nickname", inputText);
@@ -31,10 +31,10 @@ const TestPage = () => {
     return data;
   };
 
-  const guardarData = (e: any) => {
+  function guardarData(e: any) {
     setInputText(e.target.value);
     console.log(inputText);
-  };
+  }
 
   return (
     <div>

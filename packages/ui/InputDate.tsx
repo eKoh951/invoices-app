@@ -1,14 +1,19 @@
+
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-
+import { useTheme } from '@mui/material';
+import { useState } from 'react';
 
 
 
 export default function InputDate({onChange, value}) {
+
+const theme = useTheme()
+
   return (
     <LocalizationProvider 
     dateAdapter={AdapterDayjs}
@@ -26,48 +31,48 @@ export default function InputDate({onChange, value}) {
         textField : {
           sx : {
             "& label.Mui-focused": {
-              color: "primary.main" , 
+              color: theme.palette.mode === "dark" ? "primary.dark" : "primary.main" , 
               
             },
            "& .MuiOutlinedInput-root": {
-              backgroundColor : "primary.dark",
+              backgroundColor : theme.palette.mode === "dark" ? "background.paper" : "error.contrastText",
 
               "&.Mui-focused fieldset": {
-               borderColor: "primary.main" ,
+               borderColor: theme.palette.mode === "dark" ? "primary.dark" : "primary.main",
                borderWidth : "1px"
              },
               '&:hover fieldset': {
-               borderColor: 'primary.main',
+               borderColor: theme.palette.mode === "dark" ? "primary.dark" : "primary.main",
               },
            },
            "& .MuiIconButton-root": {
-            color: "icon.date"
+            color: "secondary.main"
           }
           },
         },
         popper : {
           sx : {
             "& .MuiPaper-root": {
-              backgroundColor: "primary.dark",
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText",
               fontWeight: "700"
             },
             "& .MuiDateCalendar-root":{
-              backgroundColor: "primary.dark",
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText",
               fontWeight: "700"
             },
                 "& .MuiPickersDay-root.Mui-selected": {
-              backgroundColor: "secondary.contrastText",
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText",
               color : "primary.main",
               fontWeight: "700"
             },
             "& .MuiPickersDay-dayWithMargin:hover": {
               color: "primary.main",
-              backgroundColor: "secondary.dark"
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText"
             },
             "& .MuiPickersDay-root:not(.Mui-selected)" : 
             {
               border : "none",
-              backgroundColor: "secondary.dark",
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText",
               fontWeight: "700"
             } ,
         
@@ -76,15 +81,16 @@ export default function InputDate({onChange, value}) {
             },
             "& .MuiPickersYear-yearButton.Mui-selected": {
               color: "primary.main",
-              backgroundColor: "secondary.dark"
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText"
             }, 
             "& .MuiPickersYear-yearButton:hover": {
               color: "primary.main",
-              backgroundColor: "secondary.dark"
+              backgroundColor: theme.palette.mode === "dark" ? "background.paper" : "error.contrastText"
             },
             "& .MuiPickersYear-yearButton": {
               fontWeight: "700",
-              color: "primary.main"
+              color: theme.palette.mode === "dark" ? "error.contrastText" : "secondary.dark"
+             
             }, 
             "& .MuiDayCalendar-header": {
               display: "none"

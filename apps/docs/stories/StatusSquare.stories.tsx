@@ -10,17 +10,17 @@ const Template = (args) => <StatusSquare {...args} />;
 
 export const Paid = Template.bind({});
 Paid.args = {
-  children: "Paid"
+  children: "paid"
 }
 
 export const Pending = Template.bind({});
 Pending.args = {
-  children: "Pending"
+  children: "pending"
 }
 
 export const Draft = Template.bind({});
 Draft.args = {
-  children: "Draft"
+  children: "draft"
 }
 
 

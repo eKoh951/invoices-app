@@ -15,17 +15,6 @@ export default {
     variant: {
       control: { type: "select", options: ["filled", "outline", "text"] },
     },
-    color: {
-      control: {
-        type: "select",
-        options: [
-          "mostlyBlack",
-          "white",
-          "darkGreyishBlue",
-          "lightGreyishBlueHover",
-        ],    
-      },
-    },
   },
 };
 

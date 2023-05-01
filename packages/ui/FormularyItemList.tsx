@@ -21,14 +21,10 @@ export const ItemDescriptionRow = ({...rest}) => {
 
       >
         <Stack 
+        width="214px"
+        marginRight="16px"
         >
-            <TextInput
-            sx={{
-              width: "214px",
-              marginRight: "16px"
-              
-             }}
-        />
+            <TextInput />
         </Stack>
         <Stack
          display={"flex"}
@@ -51,7 +47,7 @@ export const ItemDescriptionRow = ({...rest}) => {
             >(Total)</Typography>
             <IconButton 
             sx={{
-              margin: "0 0 0 0"
+              margin: "0"
             }}
             >
             <DeleteIcon />

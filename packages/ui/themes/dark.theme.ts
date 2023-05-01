@@ -9,6 +9,7 @@ declare module "@mui/material/styles" {
   interface Theme {
     palette: {
       draft: PaletteColor;
+      primary: PaletteColor
     };
   }
 

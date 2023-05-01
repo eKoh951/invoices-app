@@ -6,12 +6,12 @@ export interface AccessTokenResult {
   accessToken?: string;
 }
 
-export async function getToken(req: NextApiRequest, res: NextApiResponse): Promise<AccessTokenResult> {
+export default async function handler(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   try {
     const { accessToken } = await getAccessToken(req, res);
-    return { accessToken }; // Devuelve un objeto con la propiedad accessToken
+    res.status(200).json({ accessToken }); // Devuelve un objeto JSON con la propiedad accessToken
   } catch (error) {
     console.error(error);
-    throw error; // Lanza el error para que pueda ser manejado por getServerSideProps
+    res.status(500).json({ message: error.message }); // Devuelve un objeto JSON con la propiedad message
   }
 }

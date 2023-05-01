@@ -1,11 +1,16 @@
 "use client";
-import { PaletteColor, PaletteColorOptions, createTheme } from "@mui/material";
+import { Palette, PaletteColor, PaletteColorOptions, PaletteMode, createTheme } from "@mui/material";
 // import SpartanB from "../fonts/Spartan-Bold-700.ttf";
 // import SpartanM from "../fonts/Spartan-Medium-500.ttf";
 
 declare module "@mui/material/styles" {
   interface Theme {
+    mode: {
+      dark: PaletteMode,
+      light: PaletteMode
+    }
     palette: {
+      primary: PaletteColor;
       draft: PaletteColor;
     };
   }
@@ -28,20 +33,23 @@ declare module "@mui/material/styles" {
 }
 
 export const lightTheme = createTheme({
-  palette: {
+  palette:  {
     mode: "light",
     background: {
-      default: "#F8F8FB",
+      default: "#fff",
+      paper: "#1E2139",
     },
     primary: {
       main: "#7C5DFA",
       light: "#9277FF",
+      dark: "#252945",
+      contrastText: "#373B53"
     },
-    secondary:{
-      main:"#7E88C3",
+    secondary: {
+      main: "#7E88C3",
       light: "#888EB0",
-      dark:"#0C0E16",
-      contrastText:"#F9FAFE"
+      dark: "#0C0E16",
+      contrastText: "#F9FAFE",
     },
     error: {
       main: "#EC5757",
@@ -62,7 +70,6 @@ export const lightTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["SpartanM", "SpartanB"].join(","),
     h1: {
       fontSize: "32px",
       fontWeight: "700",
@@ -92,6 +99,7 @@ export const lightTheme = createTheme({
       fontWeight: "500",
       lineHeight: "15px",
       letterSpacing: "-0.25px",
+      marginBottom: "10px"
     },
     body2: {
       fontSize: "11px",
@@ -113,10 +121,10 @@ export const lightTheme = createTheme({
       letterSpacing: "-3.75px",
     },
     h5: {
-      fontSize: "20px",
+      fontSize: "18px",
       fontWeight: "700",
-      lineHeight: "39px",
-      letterSpacing: "8px",
+      lineHeight: "32px",
+      letterSpacing: "-0.38px",
       color: "#888EB0",
     },
     button: {
@@ -126,16 +134,8 @@ export const lightTheme = createTheme({
       letterSpacing: "-0.25px",
       textTransform: "none",
     },
-    // Commenting this for now, it is causing a bug
-    // poster: {
-    //   color: "white",
-    // },
-    // fontFamily: "Spartan",
-    // fontWeightMedium: "500",
-    // fontWeightBold: "700",
-    // textTransform: "none",
   },
-    breakpoints: {
+  breakpoints: {
     values: {
       mobile: 600,
       tablet: 900,

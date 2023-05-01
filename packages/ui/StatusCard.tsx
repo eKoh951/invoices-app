@@ -16,11 +16,11 @@ const StatusSquare: React.FC<StatusSquareProps> = ({
   
   const getStatusStyle = (status: ReactNode) => {
     switch (status) {
-      case "Pending":
+      case "pending":
         return { backgroundColor: "warning.dark", color: "warning.main" };
-      case "Paid":
+      case "paid":
         return { backgroundColor: "success.dark", color: "success.main" };
-      case "Draft":
+      case "draft":
         return { backgroundColor: "draft.contrastText", color: "draft.main" };
       default:
         return {};

@@ -4,10 +4,12 @@ import { useTheme } from "@mui/material";
 
 interface LayoutProps {
   children?: React.ReactNode;
+  toggleTheme? : FocusEvent
 }
 
 const Layout = (props: LayoutProps) => {
   const { children } = props;
+
   const theme = useTheme();
 
   return (

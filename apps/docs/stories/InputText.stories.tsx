@@ -35,39 +35,7 @@ const Template = (args) => <TextInput {...args} />
 export const Text_Input = Template.bind({});
 Text_Input.args = {
  
-  sx : {
-
-
-    // input label when focused
-    "& label.Mui-focused": {
-      color: "purple.main"
-    },
-    // // focused color for input with variant='standard'
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "purple.main",
-    },  
-    // // focused color for input with variant='filled'
-    "& .MuiFilledInput-underline:after": {
-      borderBottomColor: "purple.main"
-    },
-    // focused color for input with variant='outlined'
-    "& .MuiOutlinedInput-root": {
-        backgroundColor : "componentBackground.main",
-        borderColor: "purple.main",
-
-      "&.Mui-focused fieldset": {
-        borderColor: "purple.main",
-        borderWidth : "1px"
-      },
-      '&:hover fieldset': {
-        borderColor: 'purple.main',
-      },
-      "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: "status.draft",
-        borderWidth: "1px"
-      }
-    },
-  }
+  
 };
  
   
