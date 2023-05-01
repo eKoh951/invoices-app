@@ -1,6 +1,5 @@
 "use client";
 import {
-  Box,
   Stack,
   Table,
   TableBody,
@@ -34,13 +33,6 @@ export enum InvoiceStatus {
   PAID = "paid",
 }
 
-export enum PaymentTermsOptions {
-  NET_1_DAY = 1,
-  NET_7_DAYS = 7,
-  NET_14_DAYS = 14,
-  NET_30_DAYS = 30,
-}
-
 export interface Invoice {
   invoiceId: string;
   ownerId: string;
@@ -49,7 +41,7 @@ export interface Invoice {
   billFrom: BillFrom;
   billTo: BillTo;
   date: string;
-  paymentTerms: PaymentTermsOptions;
+  //paymentTerms: PaymentTermsOptions;
   itemList: Item[];
   formattedDate: string;
   createdAt: string;
@@ -90,6 +82,10 @@ function formatDate(dateString: string | number | Date) {
 }
 
 export default function InvoiceDetails({ invoice }: Props) {
+  const goBack = () => {
+    router.back();
+  };
+
   const formattedDate = formatDate(invoice.createdAt);
   const totalAmount = invoice.itemList.reduce(
     (accumulator, item) => accumulator + item.quantity * item.price,
@@ -112,11 +108,11 @@ export default function InvoiceDetails({ invoice }: Props) {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const deleteInvoice = async (invoiceId: string) => {
-    const resToken = await fetch("api/getAccessToken");
+    const resToken = await fetch("http://localhost:3000/api/getAccessToken");
     const { accessToken } = await resToken.json();
     try {
       const res = await fetch(
-        `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+        `http://localhost:8000/api/v1/invoices/${invoiceId}`,
         {
           method: "DELETE",
           headers: {
@@ -124,6 +120,11 @@ export default function InvoiceDetails({ invoice }: Props) {
           },
         }
       );
+      console.log(res);
+
+      if (!res.ok) {
+        throw new Error(`Error deleting invoice: ${res.statusText}`);
+      }
 
       const data = await res.json();
       setSnackbarMessage(data.message);
@@ -139,11 +140,11 @@ export default function InvoiceDetails({ invoice }: Props) {
 
   // change status of the invoice to paid
   const markInvoiceAsPaid = async (invoiceId: string) => {
-    const resToken = await fetch("api/getAccessToken");
+    const resToken = await fetch("http://localhost:3000/api/getAccessToken");
     const { accessToken } = await resToken.json();
     try {
       const res = await fetch(
-        `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+        `http://localhost:8000/api/v1/invoices/${invoiceId}`,
         {
           method: "PATCH",
           headers: {
@@ -170,18 +171,20 @@ export default function InvoiceDetails({ invoice }: Props) {
   };
 
   const handleEditInvoice = async (invoiceId: string) => {
-    const resToken = await fetch("api/getAccessToken");
+    const resToken = await fetch("http://localhost:3000/api/getAccessToken");
     const { accessToken } = await resToken.json();
     const res = await fetch(
-      `https://localhost:8000/api/v1/invoices/${invoiceId}`,
+      `http://localhost:8000/api/v1/invoices/${invoiceId}`,
       {
         method: "PATCH",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
+        // Agrega el cuerpo de la solicitud aquí, según lo que desees actualizar en la factura
+        body: JSON.stringify({ someField: "newValue" }), // cambiar por formulary, ponerse de acuerdo con keke.
       }
     );
-    //router.push(`/edit-invoice/${invoiceId}`);
+    router.push(`/edit-invoice/${invoiceId}`);
   };
 
   const handleSnackbarClose = (event: any, reason: string) => {
@@ -194,9 +197,9 @@ export default function InvoiceDetails({ invoice }: Props) {
 
   return (
     <Container sx={{ maxWidth: "730px" }}>
-      <Grid direction="row">
+      <Grid container direction="row">
         <Button
-          // onClick={goBack}
+          onClick={goBack}
           //sx={{color: theme.palette.mode === 'dark' ? 'white' : 'black'}}
           sx={{ color: "white", ":hover": { color: "secondary.light" } }}
           startIcon={
@@ -218,12 +221,14 @@ export default function InvoiceDetails({ invoice }: Props) {
           item
           justifyContent="space-between"
           borderRadius={2}
-          padding="1.6rem"
+          padding="1rem"
           sx={{ backgroundColor: "background.paper" }}
         >
           <Grid container item tablet={4} alignItems="center">
             <Grid>
-              <Typography variant="body1">Status</Typography>
+              <Typography variant="body1" marginX={2} paddingTop={1}>
+                Status
+              </Typography>
             </Grid>
             <Grid>
               <StatusSquare
@@ -234,7 +239,7 @@ export default function InvoiceDetails({ invoice }: Props) {
             </Grid>
           </Grid>
 
-          <Grid item padding={1} alignItems="center" alignContent="center">
+          <Grid item alignItems="center" alignContent="center">
             <Stack
               spacing={2}
               direction="row"
@@ -403,19 +408,33 @@ export default function InvoiceDetails({ invoice }: Props) {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Item Name</TableCell>
-                    <TableCell align="center">Qty.</TableCell>
-                    <TableCell align="center">Price</TableCell>
-                    <TableCell align="center">Total</TableCell>
+                    <TableCell align="center" sx={{ borderBottom: "none" }}>
+                      Item Name
+                    </TableCell>
+                    <TableCell align="center" sx={{ borderBottom: "none" }}>
+                      Qty.
+                    </TableCell>
+                    <TableCell align="center" sx={{ borderBottom: "none" }}>
+                      Price
+                    </TableCell>
+                    <TableCell align="center" sx={{ borderBottom: "none" }}>
+                      Total
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {invoice.itemList.map((item, index) => (
                     <TableRow key={index}>
-                      <TableCell align="center">{item.name}</TableCell>
-                      <TableCell align="center">{item.quantity}</TableCell>
-                      <TableCell align="center">{item.price}</TableCell>
-                      <TableCell align="center">
+                      <TableCell align="center" sx={{ borderBottom: "none" }}>
+                        {item.name}
+                      </TableCell>
+                      <TableCell align="center" sx={{ borderBottom: "none" }}>
+                        {item.quantity}
+                      </TableCell>
+                      <TableCell align="center" sx={{ borderBottom: "none" }}>
+                        {item.price}
+                      </TableCell>
+                      <TableCell align="center" sx={{ borderBottom: "none" }}>
                         {item.quantity * item.price}
                       </TableCell>
                     </TableRow>
@@ -423,10 +442,14 @@ export default function InvoiceDetails({ invoice }: Props) {
                 </TableBody>
                 <TableFooter>
                   <TableRow sx={{ backgroundColor: "secondary.dark" }}>
-                    <TableCell align="center">Amount Due</TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell align="center">{totalAmount}</TableCell>
+                    <TableCell align="center" sx={{ borderBottom: "none" }}>
+                      Amount Due
+                    </TableCell>
+                    <TableCell sx={{ borderBottom: "none" }}></TableCell>
+                    <TableCell sx={{ borderBottom: "none" }}></TableCell>
+                    <TableCell align="center" sx={{ borderBottom: "none" }}>
+                      {totalAmount}
+                    </TableCell>
                   </TableRow>
                 </TableFooter>
               </Table>
