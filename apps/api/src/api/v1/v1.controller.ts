@@ -7,7 +7,6 @@ import {
   Patch,
   Delete,
   UseInterceptors,
-  CacheInterceptor,
   UploadedFile,
 } from '@nestjs/common';
 
@@ -34,7 +33,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { CurrentUser } from '../../core/decorators/current-user.decorator';
 
 @Controller({ version: '1' })
-@UseInterceptors(CacheInterceptor)
 export class V1Controller {
   constructor(
     private readonly usersService: UsersServiceV1,
