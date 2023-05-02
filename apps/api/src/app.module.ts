@@ -12,7 +12,6 @@ import { CurrentUserMiddleware } from './core/middlewares/current-user.middlewar
 import envConfig from './config/env.config';
 
 import { V1Module } from './api/v1/v1.module';
-import { APP_INTERCEPTOR } from '@nestjs/core';
 import { Auth0Utils } from './core/utils/auth0.utils';
 
 @Module({
@@ -30,10 +29,6 @@ import { Auth0Utils } from './core/utils/auth0.utils';
   ],
   providers: [
     Auth0Utils,
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: CacheInterceptor,
-    },
   ],
 })
 export class AppModule implements NestModule {
