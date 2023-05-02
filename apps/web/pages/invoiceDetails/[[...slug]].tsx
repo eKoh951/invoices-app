@@ -25,7 +25,7 @@ import Alert from "@mui/material/Alert";
 import { useRouter } from "next/router";
 import { GetServerSideProps } from "next";
 import { getSession } from "@auth0/nextjs-auth0";
-import { getToken, AccessTokenResult } from "../../pages/api/getAccessToken";
+import { getToken, AccessTokenResult } from "../../pages/api/token";
 
 export enum InvoiceStatus {
   DRAFT = "draft",
