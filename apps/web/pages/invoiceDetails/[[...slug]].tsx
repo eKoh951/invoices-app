@@ -231,11 +231,7 @@ export default function InvoiceDetails({ invoice }: Props) {
               </Typography>
             </Grid>
             <Grid>
-              <StatusSquare
-                sx={{ color: "warning.main", backgroundColor: "warning.dark" }}
-              >
-                {invoice.status}
-              </StatusSquare>
+              <StatusSquare>{invoice.status}</StatusSquare>
             </Grid>
           </Grid>
 
