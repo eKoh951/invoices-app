@@ -170,22 +170,10 @@ export default function InvoiceDetails({ invoice }: Props) {
     }
   };
 
-  const handleEditInvoice = async (invoiceId: string) => {
-    const resToken = await fetch("http://localhost:3000/api/getAccessToken");
-    const { accessToken } = await resToken.json();
-    const res = await fetch(
-      `http://localhost:8000/api/v1/invoices/${invoiceId}`,
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        // Agrega el cuerpo de la solicitud aquí, según lo que desees actualizar en la factura
-        body: JSON.stringify({ someField: "newValue" }), // cambiar por formulary, ponerse de acuerdo con keke.
-      }
-    );
-    router.push(`/edit-invoice/${invoiceId}`);
-  };
+  const handleEditInvoice = (invoiceId: string) => {
+
+    setShowEditForm(true);
+
 
   const handleSnackbarClose = (event: any, reason: string) => {
     if (reason === "clickaway") {

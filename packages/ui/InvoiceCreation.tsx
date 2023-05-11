@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button } from "./Button";
 import { TextFieldInput } from "./TextFieldSelect";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -9,80 +10,109 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { InvoiceFormulary } from "ui/Formulary";
 
 const availableStatus = ["Draft", "Pending", "Paid"];
 
-export const InvoiceCreation = () => (
-  <>
-    <Box
-      marginTop={3}
-      marginBottom={2}
-      sx={{
-        maxWidth: "730px",
-      }}
-    >
-      <Stack direction={"row"} justifyContent={"space-between"}>
-        <Stack>
-          <Typography variant="h1" marginBottom={1}>
-            Invoices
-          </Typography>
-          <Typography variant="body1">
-            There are (data.length) pending invoices
-          </Typography>
+export const InvoiceCreation = () => {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleNewInvoiceClick = () => {
+    setShowForm(true);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
+
+  return (
+    <>
+      <Box
+        marginTop={3}
+        marginBottom={2}
+        sx={{
+          maxWidth: "730px",
+        }}
+      >
+        <Stack direction={"row"} justifyContent={"space-between"}>
+          <Stack>
+            <Typography variant="h1" marginBottom={1}>
+              Invoices
+            </Typography>
+            <Typography variant="body1">
+              There are (data.length) pending invoices
+            </Typography>
+          </Stack>
+          <Stack
+            direction={"row"}
+            spacing={2}
+            minWidth={"300px"}
+            maxHeight={"48px"}
+            justifyContent="flex-end"
+          >
+            <TextFieldInput
+              label={"Filter by Status"}
+              variant={"outlined"}
+              sx={{
+                width: "45%",
+                boxShadow: "none",
+                "& .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+              }}
+            >
+              {availableStatus.map((status) => (
+                <MenuItem key={status}>
+                  <Checkbox
+                    sx={{
+                      "& .MuiMenuItem-root:hover": {
+                        backgroundColor: "inherit",
+                        color: "font.main",
+                      },
+                      "&.Mui-checked": {
+                        color: "purple.main",
+                      },
+                    }}
+                  />
+                  <Typography variant="h4">{status}</Typography>
+                </MenuItem>
+              ))}
+            </TextFieldInput>
+            <Button
+              onClick={handleNewInvoiceClick}
+              variant="contained"
+              startIcon={<AddCircleIcon />}
+              sx={{
+                color: "white",
+                ":hover": { bgcolor: "primary.light" },
+              }}
+            >
+              New Invoice
+            </Button>
+          </Stack>
         </Stack>
-        <Stack
-          direction={"row"}
-          spacing={2}
-          minWidth={"300px"}
-          maxHeight={"48px"}
-          justifyContent="flex-end"
+      </Box>
+      {showForm && (
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          zIndex="modal"
         >
-          <TextFieldInput
-            label={"Filter by Status"}
-            variant={"outlined"}
-            sx={{
-              width: "45%",
-              boxShadow: "none",
-              "& .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                border: "none",
-              },
-            }}
-          >
-            {availableStatus.map((status) => (
-              <MenuItem key={status}>
-                <Checkbox
-                  sx={{
-                    "& .MuiMenuItem-root:hover": {
-                      backgroundColor: "inherit",
-                      color: "font.main",
-                    },
-                    "&.Mui-checked": {
-                      color: "purple.main",
-                    },
-                  }}
-                />
-                <Typography variant="h4">{status}</Typography>
-              </MenuItem>
-            ))}
-          </TextFieldInput>
-          <Button
-            variant="contained"
-            startIcon={<AddCircleIcon />}
-            sx={{
-              color: "white",
-              ":hover": { bgcolor: "primary.light" },
-            }}
-          >
-            New Invoice
-          </Button>
-        </Stack>
-      </Stack>
-    </Box>
-  </>
-);
+          <InvoiceFormulary onClose={handleCloseForm} />
+        </Box>
+      )}
+    </>
+  );
+};
