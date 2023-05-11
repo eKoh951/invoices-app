@@ -13,6 +13,35 @@ import {
 import { InvoiceFormulary } from "ui/Formulary";
 
 const availableStatus = ["Draft", "Pending", "Paid"];
+interface InvoiceCreationProps {
+  pendingInvoiceCount: number;
+  onFilterChange: (selectedStatuses: string[]) => void;
+}
+
+export const InvoiceCreation = ({
+  pendingInvoiceCount,
+  onFilterChange,
+}: InvoiceCreationProps) => {
+  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
+
+  const handleFilterChange = (status: string) => {
+    const updatedStatuses = selectedStatuses.includes(status)
+      ? selectedStatuses.filter((s) => s !== status)
+      : [...selectedStatuses, status];
+
+    setSelectedStatuses(updatedStatuses);
+    onFilterChange(updatedStatuses);
+  };
+
+  const handleStatusChange = (status: string) => {
+    if (selectedStatuses.includes(status)) {
+      setSelectedStatuses(selectedStatuses.filter((s) => s !== status));
+      onFilterChange(selectedStatuses.filter((s) => s !== status));
+    } else {
+      setSelectedStatuses([...selectedStatuses, status]);
+      onFilterChange([...selectedStatuses, status]);
+    }
+  };
 
 export const InvoiceCreation = () => {
   const [showForm, setShowForm] = useState(false);
