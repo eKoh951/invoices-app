@@ -458,6 +458,7 @@ export default function InvoiceDetails({ invoice }: Props) {
     </Container>
   );
 }
+}
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { req, res, query } = context;
