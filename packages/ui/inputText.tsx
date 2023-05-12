@@ -1,6 +1,5 @@
 import { useTheme } from "@mui/material";
 import { TextField as MuiTextfield } from "@mui/material";
-import { TextFieldProps as MuiTextFieldProps } from "@mui/material";
 
 export const TextInput = ({ ...rest }) => {
   const theme = useTheme();

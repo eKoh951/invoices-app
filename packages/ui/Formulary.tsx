@@ -11,9 +11,9 @@ import {useTheme} from "@mui/material";
 
 
 
-export const InvoiceFormulary = () => {
+export const InvoiceFormulary = (props) => {
     const theme = useTheme()
-
+    const { onClose, invoice = null } = props;
  
     // Agregue useState para cada campo que desea guardar
     const [streetAddress, setStreetAddress] = useState("");
@@ -198,7 +198,7 @@ export const InvoiceFormulary = () => {
         </Stack>
         <Stack>
           <Typography variant="h5">ITEM LIST</Typography>
-          <Stack display={"flex"} direction={"row"} textAlign={"left"} spacing={"16px"} >
+          <Stack display={"flex"} direction={"row"} spacing={"16px"} >
             <Typography variant="body1"
             width={"214px"}
             >Item Name</Typography>
@@ -232,6 +232,7 @@ export const InvoiceFormulary = () => {
         flexDirection={"row"}
         >
         <Button
+        onClick={onClose}
          sx={{
           backgroundColor: "secondary.contrastText",
           color: "secondary.main"

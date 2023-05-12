@@ -1,8 +1,16 @@
+import { useState } from "react";
 import { Button } from "./Button";
 import { TextFieldInput } from "./TextFieldSelect";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { Box, Checkbox, MenuItem, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Box,
+  Checkbox,
+  Grid,
+  MenuItem,
+  Stack,
+  Typography,
+} from "@mui/material";
+import { InvoiceFormulary } from "ui/Formulary";
 
 const availableStatus = ["Draft", "Pending", "Paid"];
 interface InvoiceCreationProps {
@@ -10,29 +18,17 @@ interface InvoiceCreationProps {
   onFilterChange: (selectedStatuses: string[]) => void;
 }
 
-export const InvoiceCreation = ({
-  pendingInvoiceCount,
-  onFilterChange,
-}: InvoiceCreationProps) => {
-  const [selectedStatuses, setSelectedStatuses] = useState<string[]>([]);
 
-  const handleFilterChange = (status: string) => {
-    const updatedStatuses = selectedStatuses.includes(status)
-      ? selectedStatuses.filter((s) => s !== status)
-      : [...selectedStatuses, status];
 
-    setSelectedStatuses(updatedStatuses);
-    onFilterChange(updatedStatuses);
+export const InvoiceCreation = () => {
+  const [showForm, setShowForm] = useState(false);
+
+  const handleNewInvoiceClick = () => {
+    setShowForm(true);
   };
 
-  const handleStatusChange = (status: string) => {
-    if (selectedStatuses.includes(status)) {
-      setSelectedStatuses(selectedStatuses.filter((s) => s !== status));
-      onFilterChange(selectedStatuses.filter((s) => s !== status));
-    } else {
-      setSelectedStatuses([...selectedStatuses, status]);
-      onFilterChange([...selectedStatuses, status]);
-    }
+  const handleCloseForm = () => {
+    setShowForm(false);
   };
 
   return (
@@ -50,7 +46,7 @@ export const InvoiceCreation = ({
               Invoices
             </Typography>
             <Typography variant="body1">
-              There are {pendingInvoiceCount} pending invoices
+              There are (data.length) pending invoices
             </Typography>
           </Stack>
           <Stack
@@ -80,8 +76,6 @@ export const InvoiceCreation = ({
               {availableStatus.map((status) => (
                 <MenuItem key={status}>
                   <Checkbox
-                    checked={selectedStatuses.includes(status)}
-                    onChange={() => handleStatusChange(status)}
                     sx={{
                       "& .MuiMenuItem-root:hover": {
                         backgroundColor: "inherit",
@@ -97,6 +91,7 @@ export const InvoiceCreation = ({
               ))}
             </TextFieldInput>
             <Button
+              onClick={handleNewInvoiceClick}
               variant="contained"
               startIcon={<AddCircleIcon />}
               sx={{
@@ -109,6 +104,21 @@ export const InvoiceCreation = ({
           </Stack>
         </Stack>
       </Box>
+      {showForm && (
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          width="100%"
+          height="100%"
+          display="flex"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          zIndex="modal"
+        >
+          <InvoiceFormulary onClose={handleCloseForm} />
+        </Box>
+      )}
     </>
   );
 };
