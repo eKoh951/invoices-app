@@ -3,7 +3,6 @@ import {
   NestModule,
   MiddlewareConsumer,
   CacheModule,
-  CacheInterceptor,
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
