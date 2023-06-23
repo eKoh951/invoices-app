@@ -2,9 +2,9 @@ name: Automated Tests CI
 
 on:
   push:
-    branches: [master, staging]
+    branches: [main, staging]
   pull_request:
-    branches: [master, staging]
+    branches: [main, staging]
 
 jobs:
   automated_tests:
